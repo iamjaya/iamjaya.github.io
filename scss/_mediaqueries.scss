@@ -7,9 +7,9 @@ $viewport_xl: 	$item_width * 5 + $sidebar_width; /* 5 columns */
 $viewport_xxl: 	$item_width * 6 + $sidebar_width; /* 6 columns */
 
 @media screen and (min-width: $viewport_xs) {
-	html, 
-	body, 
-	.container, 
+	html,
+	body,
+	.container,
 	.main {
 		height: 100vh;
 	}
@@ -74,20 +74,20 @@ $viewport_xxl: 	$item_width * 6 + $sidebar_width; /* 6 columns */
 	}
 
 	.grid__item::before {
-		top: 5px;
+	/*	top: 5px;
 		right: 5px;
 		bottom: 5px;
 		left: 5px;
 		border: 1px solid rgba(74,74,74,0.075);
 		-webkit-transition: opacity 0.3s;
-		transition: opacity 0.3s;
+		transition: opacity 0.3s; */
 	}
 
-	.grid__item:hover::before,
+/*	.grid__item:hover::before,
 	.grid__item:focus::before {
 		border: 3px solid rgba(129,196,131,0.5);
 	}
-
+ */
 	.grid__item--loading.grid__item::before {
 		opacity: 0;
 	}

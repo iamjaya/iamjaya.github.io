@@ -4,11 +4,12 @@
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Copyright 2015, Codrops
  * http://www.codrops.com
  */
-(function() {
+function main() {
+  //function() {
 
 	var bodyEl = document.body,
 		docElem = window.document.documentElement,
@@ -58,7 +59,7 @@
 			client = docElem['clientHeight'];
 			inner = window['innerHeight'];
 		}
-		
+
 		return client < inner ? inner : client;
 	}
 	function scrollX() { return window.pageXOffset || docElem.scrollLeft; }
@@ -78,6 +79,8 @@
 				}
 				isAnimating = true;
 				// index of current item
+        //console.log(pos);
+      //  pos=0; // added by jai
 				current = pos;
 				// simulate loading time..
 				classie.add(item, 'grid__item--loading');
@@ -110,7 +113,7 @@
 		// hamburger menu button (mobile) and close cross
 		menuCtrl.addEventListener('click', function() {
 			if( !classie.has(sidebarEl, 'sidebar--open') ) {
-				classie.add(sidebarEl, 'sidebar--open');	
+				classie.add(sidebarEl, 'sidebar--open');
 			}
 		});
 
@@ -122,7 +125,7 @@
 	}
 
 	function loadContent(item) {
-		// add expanding element/placeholder 
+		// add expanding element/placeholder
 		var dummy = document.createElement('div');
 		dummy.className = 'placeholder';
 
@@ -130,12 +133,12 @@
 		dummy.style.WebkitTransform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop - 5) + 'px, 0px) scale3d(' + item.offsetWidth/gridItemsContainer.offsetWidth + ',' + item.offsetHeight/getViewport('y') + ',1)';
 		dummy.style.transform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop - 5) + 'px, 0px) scale3d(' + item.offsetWidth/gridItemsContainer.offsetWidth + ',' + item.offsetHeight/getViewport('y') + ',1)';
 
-		// add transition class 
+		// add transition class
 		classie.add(dummy, 'placeholder--trans-in');
 
 		// insert it after all the grid items
 		gridItemsContainer.appendChild(dummy);
-		
+
 		// body overlay
 		classie.add(bodyEl, 'view-single');
 
@@ -148,7 +151,10 @@
 		}, 25);
 
 		onEndTransition(dummy, function() {
-			// add transition class 
+//console.log(item.getAttribute("loadURL"))
+var loadURL=item.getAttribute("loadURL");
+      loadWholePage(loadURL);
+			// add transition class
 			classie.remove(dummy, 'placeholder--trans-in');
 			classie.add(dummy, 'placeholder--trans-out');
 			// position the content container
@@ -156,7 +162,16 @@
 			// show the main content container
 			classie.add(contentItemsContainer, 'content--show');
 			// show content item:
-			classie.add(contentItems[current], 'content__item--show');
+      // old one 	classie.add(contentItems[current], 'content__item--show');
+
+			classie.add(contentItems[0], 'content__item--show');
+
+
+
+
+    //  var script = (document.createElement('script'));
+      // script.text = ' //console.log(document.getElementById("#settings-object")); //console.log("test123");	githubEmbed("#settings-object", {	"owner": "finom",	"repo": "github-embed",	"ref": "gh-pages","embed": [{ "path": "demo.html"	}, {	"path": "README.md"	}] });';
+//document.body.appendChild(script);
 			// show close control
 			classie.add(closeCtrl, 'close-button--show');
 			// sets overflow hidden to the body and allows the switch to the content scroll
@@ -167,7 +182,9 @@
 	}
 
 	function hideContent() {
-		var gridItem = gridItems[current], contentItem = contentItems[current];
+    // old one 	var gridItem = gridItems[current], contentItem = contentItems[current];
+
+		var gridItem = gridItems[current], contentItem = contentItems[0];
 
 		classie.remove(contentItem, 'content__item--show');
 		classie.remove(contentItemsContainer, 'content--show');
@@ -191,7 +208,7 @@
 				lockScroll = false;
 				window.removeEventListener( 'scroll', noscroll );
 			});
-			
+
 			// reset current
 			current = -1;
 		}, 25);
@@ -208,4 +225,5 @@
 
 	init();
 
-})();
+// }
+}

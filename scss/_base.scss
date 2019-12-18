@@ -41,7 +41,7 @@ a {
 	text-decoration: none;
 }
 
-a:hover, 
+a:hover,
 a:focus {
 	color: #333;
 	outline: none;
@@ -315,13 +315,13 @@ button:focus {
 
 /* Grid item "border" */
 .grid__item::before {
-	position: absolute;
+/*	position: absolute;
 	content: '';
 	top: 0px;
 	right: 55px;
 	bottom: 0px;
 	left: 55px;
-	border-bottom: 1px solid rgba(74,74,74,0.075);
+	border-bottom: 1px solid rgba(74,74,74,0.075); */
 }
 
 .grid__item * {
@@ -799,4 +799,65 @@ button:focus {
 .close-button--show {
 	opacity: 1;
 	pointer-events: auto;
+}
+
+
+
+.threedbox{
+	/*display: flex; */
+    flex-direction: column;
+    position: relative;
+  /*  padding: 40px 30px; */
+	border-radius:unset !important;
+    background: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+    border-image: initial;}
+
+.threedbox-small::before {
+
+	 height: 5px !important;
+}
+.threedbox-small::after {
+
+	 width: 9px !important;
+}
+.threedbox::before {
+	content: "";
+    position: absolute;
+    transform: skew(-60deg);
+    transform-origin: right bottom;
+    height: 10px;
+    width: calc(100% + 2px);
+    bottom: calc(100% + 1px);
+    left: -1px;
+    pointer-events: none;
+    box-sizing: border-box;
+    border-width: 1px 1px;
+    border-style: solid solid none;
+    border-color: rgb(0, 0, 0) rgb(0, 0, 0);
+    border-image: initial;
+    border-left: 2px solid rgb(0, 0, 0);
+    border-bottom: none;
+    background: rgba(255, 165, 0, 0.43137254901960786);
+}
+.threedbox::after{
+	content: "";
+    position: absolute;
+    transform: skewY(-30deg);
+    transform-origin: left bottom;
+    height: calc(100% + 2px);
+    width: 18px;
+    top: -1px;
+    left: calc(100% + 1px);
+    pointer-events: none;
+    box-sizing: border-box;
+    border-width: 1px 1px 1px;
+    border-style: solid solid solid none;
+    border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0);
+    border-image: initial;
+    border-left: none;
+    background: rgba(255, 165, 0, 0.43137254901960786);
+
 }
