@@ -1,10 +1,32 @@
-[
-  {"article_title":"Node.js : First Web Application", "article_cat":"Basic Coding", "article_start_date":"17-Dec-2019", "article_loadURL":"content/nodejs/1.html", "icon":"nodejs"},
+[{
+    "article_title": "Node.js : First Web Application",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/nodejs/1.html",
+    "icon": "nodejs"
+  },
 
-  {"article_title":"Python: First Web Application", "article_cat":"Basic Coding", "article_start_date":"17-Dec-2019", "article_loadURL":"content/python/1.html", "icon":"python"},
+  {
+    "article_title": "Python: First Web Application",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/python/1.html",
+    "icon": "python"
+  },
 
-  {"article_title":"Scala: First Web Application", "article_cat":"Basic Coding", "article_start_date":"17-Dec-2019", "article_loadURL":"content/scala/1.html", "icon":"scala"}
-  ,
+  {
+    "article_title": "Scala: First Web Application",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/scala/1.html",
+    "icon": "scala"
+  },
 
-  {"article_title":"Spring: First Web Application", "article_cat":"Basic Coding", "article_start_date":"17-Dec-2019", "article_loadURL":"content/spring/1.html", "icon":"spring"}
+  {
+    "article_title": "Spring: First Web Application",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/spring/1.html",
+    "icon": "spring"
+  }
 ]
