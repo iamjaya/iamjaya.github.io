@@ -82,6 +82,32 @@ function loadHTML(url, fun, storage, param) {
       {
         storage.innerHTML = getBody(xhr.responseText);
         fun(storage, param);
+
+        var url_array=url.split('/');
+        var color_code=url_array[1];
+
+        var topic_title = document.getElementsByClassName('topic_title');
+
+        var i1;
+        for (i1 = 0; i1 < topic_title.length; i1++) {
+        topic_title[i1].classList.add(color_code);
+        }
+
+
+        var figure=document.getElementsByClassName('figure');
+
+        var i2;
+        for (i2 = 0; i2 < figure.length; i2++) {
+        figure[i2].classList.add(color_code+'_figure');
+        }
+
+        var figcaption=document.getElementsByTagName('figcaption');
+        var i3;
+        for (i3 = 0; i3 < figure.length; i3++) {
+        figcaption[i3].classList.add(color_code+'_figcaption');
+        }
+
+        console.log(color_code);
         var codeBlocks = document.getElementById('codeBlocks');
         var codeBlocks_array = codeBlocks.getAttribute('data').split(",");
         for (j = 0; j < codeBlocks_array.length; j++) {

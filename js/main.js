@@ -170,6 +170,7 @@ function main() {
     onEndTransition(dummy, function() {
       //console.log(item.getAttribute("loadURL"))
       var loadURL = item.getAttribute("loadURL");
+
       loadWholePage(loadURL);
       // add transition class
       classie.remove(dummy, 'placeholder--trans-in');
