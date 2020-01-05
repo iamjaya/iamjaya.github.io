@@ -31,11 +31,11 @@ Following categories of people can download this website for training there team
 
 ### Pre Requirements for installing this website
 =======
-2. Training institues 
+2. Training institues
 3. IT/Software Companies
 
 
-### Pre Requirements for installing this website 
+### Pre Requirements for installing this website
 >>>>>>> 92138bc6cf1e814bb02a7b2309281879f7e29f5b
 This website designed with pure HTML, CSS and JavaScript, so you can host this website in anytype of server no need to install any additional softwares just you can host this with Apache Server.
 
@@ -50,7 +50,7 @@ This website designed with pure HTML, CSS and JavaScript, so you can host this w
 <<<<<<< HEAD
 1. I develop the content for this site with technolgy article
 =======
-1. I develop the content for this site with technolgy article 
+1. I develop the content for this site with technolgy article
 >>>>>>> 92138bc6cf1e814bb02a7b2309281879f7e29f5b
 2. I develop applications which are using in the explanation of articles
 3. I develop video tutorials for articles of this website
@@ -66,6 +66,3 @@ I want to share my happiness of coding to the world with my technical stuff whic
 # All the Best for Happy Coding with no fear
 <<<<<<< HEAD
 =======
-
-
->>>>>>> 92138bc6cf1e814bb02a7b2309281879f7e29f5b
