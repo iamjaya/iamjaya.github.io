@@ -783,7 +783,7 @@ button:focus {
   top: 0;
   right: 0;
   font-size: 18px;
-  color: #ddd;
+  color: deeppink;
   cursor: pointer;
   pointer-events: none;
   padding: 20px 30px;
@@ -883,7 +883,9 @@ button:focus {
 
   /* 2 columns */
   .grid__item {
-    width: 50%;
+      width: 46%;
+      padding: 20px;
+
     border: none;
   }
 
@@ -910,7 +912,8 @@ button:focus {
 
   /* 3 columns */
   .grid__item {
-    width: 33.333%;
+    /* width: 33.333%; old one */
+    width: 46%;
   }
 }
 
@@ -940,6 +943,10 @@ button:focus {
 
 /* small screen changes for sidebar (it becomes an off-canvas menu) */
 @media screen and (max-width: 599px) {
+  .grid__item {
+      width: 94%;
+    }
+
   .sidebar {
     -webkit-transform: translate3d(-100%, 0, 0);
     transform: translate3d(-100%, 0, 0);
@@ -1063,10 +1070,7 @@ button:focus {
   background: rgba(223, 223, 223, 0.68);
 }
 
-.grid__item {
-  width: 46%;
-  padding: 20px;
-}
+
 
 .grid {
   padding-left: 2%;
