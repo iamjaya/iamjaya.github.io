@@ -252,7 +252,7 @@ function loadArticleGrids(response) {
   var actual_JSON = JSON.parse(response);
   var article_Itmes = "";
   actual_JSON.forEach(function(article) {
-    article_Itmes = article_Itmes + '<a class="grid__item threedbox" href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></a>';
+    article_Itmes = article_Itmes + '<a class="grid__item threedbox" href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category" style="display:none;">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date" style="display:none;"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></a>';
 
   });
 
