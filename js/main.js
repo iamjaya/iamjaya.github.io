@@ -8,8 +8,15 @@
  * Copyright 2015, Codrops
  * http://www.codrops.com
  */
+
+
+
+
+
+
 function main() {
   //function() {
+
 
   var bodyEl = document.body,
     docElem = window.document.documentElement,
@@ -101,6 +108,7 @@ function main() {
         classie.add(item, 'grid__item--loading');
         setTimeout(function() {
           classie.add(item, 'grid__item--animate');
+          
           // reveal/load content after the last element animates out (todo: wait for the last transition to finish)
           setTimeout(function() {
             loadContent(item);
@@ -172,6 +180,11 @@ function main() {
       var loadURL = item.getAttribute("loadURL");
       var authorID=item.getAttribute("authorID");
 
+    var shorcuts = document.getElementById("shorcuts");
+    shorcuts.style.display="block";
+    shorcuts.style.background=mainColor;
+    shorcuts.pseudoStyle("after","border-left-color",mainColor);
+
       loadWholePage(loadURL,authorID);
     //  loadAuthorsInfo(authorID, "authors");
       // add transition class
@@ -204,6 +217,7 @@ function main() {
   function hideContent() {
     // old one 	var gridItem = gridItems[current], contentItem = contentItems[current];
     document.getElementById('theSidebar').style.pointerEvents="unset";
+    document.getElementById('shorcuts').style.display="none";
 
     var gridItem = gridItems[current],
       contentItem = contentItems[0];

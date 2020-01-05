@@ -1,7 +1,35 @@
-var mainColor = "black";
+var mainColor = "deeppink";
 var authorImg = "";
 var author_display_name = "";
 var authorsFolder = "authors";
+
+
+var UID = {
+_current: 0,
+getNew: function(){
+	this._current++;
+	return this._current;
+}
+};
+
+HTMLElement.prototype.pseudoStyle = function(element,prop,value){
+var _this = this;
+var _sheetId = "pseudoStyles";
+var _head = document.head || document.getElementsByTagName('head')[0];
+var _sheet = document.getElementById(_sheetId) || document.createElement('style');
+_sheet.id = _sheetId;
+var className = "pseudoStyle" + UID.getNew();
+
+_this.className +=  " "+className;
+
+_sheet.innerHTML += "\n."+className+":"+element+"{"+prop+":"+value+"}";
+_head.appendChild(_sheet);
+
+console.log("test psuedo element");
+return this;
+};
+
+
 
 function loadJSON(json_file_url, callback, no_main) {
   //console.log(json_file_url);
@@ -80,6 +108,8 @@ function loadHTML(url, fun, storage, param, authorID) {
         style.type = 'text/css';
         style.innerHTML = '.github-embed-nav-link-shown { color: ' + mainColor + '  !important; }';
         document.getElementsByTagName('head')[0].appendChild(style);
+
+
         loadAuthorsInfo(authorID, authorsFolder);
         //	console.log(authorImg);
         document.getElementById('theSidebar').style.pointerEvents = "none";
@@ -222,7 +252,7 @@ function loadArticleGrids(response) {
   var actual_JSON = JSON.parse(response);
   var article_Itmes = "";
   actual_JSON.forEach(function(article) {
-    article_Itmes = article_Itmes + '<a class="grid__item threedbox" href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader"></div><span class="category">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></a>';
+    article_Itmes = article_Itmes + '<a class="grid__item threedbox" href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></a>';
 
   });
 
@@ -233,6 +263,12 @@ function loadArticleGrids(response) {
   for (ht1 = 0; ht1 < ht.length; ht1++) {
     ht[ht1].style.color = mainColor;
   }
+
+	var style_loader = document.getElementById('style_loader');
+
+	style_loader.innerHTML = '.loader::before { background: ' + mainColor + '  !important; }';
+//	document.getElementsByTagName('head')[0].appendChild(style);
+
 }
 
 
