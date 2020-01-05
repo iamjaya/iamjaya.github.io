@@ -35,6 +35,7 @@
 			</nav>
 			<div class="related">
 				<a class="menuItem" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName('data',this,'deeppink');">Home</a>
+				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('java',this,'#f89820')">Java</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('python',this,'#1677bd')">Python</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('spring',this,'#8bc34b')">Spring</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('nodejs',this,'#8fc84f')">Node.js</a>
@@ -54,34 +55,13 @@
 				<div id="articlesCard" style="display: flex;
     width: 100%;
     flex-wrap: wrap;"></div>
-				<!--	<a class="grid__item threedbox" href="#" loadURL="content/nodejs/1.html">
-						<h2 class="title title--preview">Node.js : First Web Application ( including Node.js server installation)</h2>
-						<div class="loader"></div>
-						<span class="category">First Steps</span>
-						<div class="meta meta--preview">
-							<img class="meta__avatar" width="50px" src="https://look4services.co.uk/images/nodejs.svg" alt="Node.js" />
-							<span class="meta__date"><i class="fa fa-calendar-o"></i> Starting on : 17-Dec-2019</span>
-							<span class="meta__reading-time"><i class="fa fa-clock-o"></i> Node.js</span>
-						</div>
-					</a>
 
-					<a class="grid__item threedbox" href="#" loadURL="content/nodejs/2.html">
-						<h2 class="title title--preview">First Program with Node.js</h2>
-						<div class="loader"></div>
-						<span class="category">First Steps</span>
-						<div class="meta meta--preview">
-							<img class="meta__avatar" width="80px" src="https://look4services.co.uk/images/nodejs.svg" alt="Node.js" />
-							<span class="meta__date"><i class="fa fa-calendar-o"></i> Starting on : 17-Dec-2019</span>
-							<span class="meta__reading-time"><i class="fa fa-clock-o"></i> Node.js</span>
-						</div>
-					</a>
- -->
 				<footer class="page-meta">
 					<span></span>
 				</footer>
 
 			</section>
-			<section class="content">
+			<section class="content" id="content">
 				<div class="scroll-wrap">
 					<article class="content__item article" id="displayContent">
 
@@ -96,9 +76,10 @@
 		var articles = JSON.parse(articles);
 		console.log(articles[0].article_title);
 	</script>
-	<script src="js/readURL.js"></script>
+
 	<script src="js/classie.js"></script>
 	<script src="js/main.js"></script>
+	<script src="js/readURL.js"></script>
 	<script>
 
 	</script>

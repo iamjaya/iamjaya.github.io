@@ -1078,6 +1078,8 @@ button:focus {
 
 .title {
   font-size: 1.4em;
+  display: block;
+  margin-top: 1em;
 }
 
 .grid__item--loading.grid__item::before {
@@ -1130,9 +1132,9 @@ button:focus {
 .article h2 {
   margin: 0.5em;
   font-size: 1.5em;
-  border-bottom: 2px solid #f5bca8;
+  /*  border-bottom: 2px solid #f5bca8; */
   padding-bottom: 0;
-  color: #f5bca8;
+  /* color: #f5bca8; */
   margin-bottom: 1em;
 }
 
@@ -1160,6 +1162,25 @@ button:focus {
 
 .python_figcaption {
   background: #1677bd !important;
+}
+
+.spring {
+  border-bottom: 2px solid #8bc34b;
+  color: #8bc34b !important;
+}
+.spring_block .github-embed-nav-link-shown{
+
+      color: #8bc34b;
+      border-bottom: 2px solid;
+      padding-bottom: 3px;
+
+}
+.spring_figure {
+  border: 2px solid #8bc34b !important;
+}
+
+.spring_figcaption {
+  background: #8bc34b !important;
 }
 
 .article p {
@@ -1242,4 +1263,16 @@ button:focus {
   }
 }
 
+/* cb - code block */
+cb {
+  border: unset !important;
+  /* 1px dotted;
+/*  padding: 0 8px;
+  border-radius: 8px;
+  background: rgba(170, 170, 170, 0.13); */
+}
+.height75 .github-embed-main {
+
+  height: 75% !important;
+}
 /*# sourceMappingURL=style1.css.map */

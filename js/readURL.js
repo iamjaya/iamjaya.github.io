@@ -1,17 +1,9 @@
-/**
-	responseHTML
-	(c) 2007-2008 xul.fr
-	Licence Mozilla 1.1
-*/
+var mainColor = "black";
+var authorImg = "";
+var author_display_name = "";
+var authorsFolder = "authors";
 
-
-/**
-	Searches for body, extracts and return the content
-	New version contributed by users
-*/
-
-
-function loadJSON(json_file_url, callback) {
+function loadJSON(json_file_url, callback, no_main) {
   //console.log(json_file_url);
   var xobj = new XMLHttpRequest();
   xobj.overrideMimeType("application/json");
@@ -20,8 +12,10 @@ function loadJSON(json_file_url, callback) {
     if (xobj.readyState == 4 && xobj.status == "200") {
       // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
       callback(xobj.responseText);
+      if (!!no_main || no_main === '') {} else {
+        main();
+      }
 
-      main();
     }
   };
   xobj.send(null);
@@ -32,15 +26,12 @@ function createXHR() {
   var request = false;
   try {
     request = new ActiveXObject('Msxml2.XMLHTTP');
-    //console.log('Msxml2.XMLHTTP');
   } catch (err2) {
     try {
       request = new ActiveXObject('Microsoft.XMLHTTP');
-      //console.log('Microsoft.XMLHTTP');
     } catch (err3) {
       try {
         request = new XMLHttpRequest();
-        //console.log('XMLHttpRequest.XMLHTTP');
       } catch (err1) {
         request = false;
       }
@@ -53,7 +44,6 @@ function getBody(content) {
   test = content.toLowerCase(); // to eliminate case sensitivity
   var x = test.indexOf("<body");
   if (x == -1) return "";
-
   x = test.indexOf(">", x);
   if (x == -1) return "";
 
@@ -72,7 +62,7 @@ function getBody(content) {
 		id of the tag that has to hold the content
 */
 
-function loadHTML(url, fun, storage, param) {
+function loadHTML(url, fun, storage, param, authorID) {
   var xhr = createXHR();
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
@@ -83,49 +73,70 @@ function loadHTML(url, fun, storage, param) {
         storage.innerHTML = getBody(xhr.responseText);
         fun(storage, param);
 
-        var url_array=url.split('/');
-        var color_code=url_array[1];
+        var url_array = url.split('/');
+        var color_code = url_array[1];
+
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = '.github-embed-nav-link-shown { color: ' + mainColor + '  !important; }';
+        document.getElementsByTagName('head')[0].appendChild(style);
+        loadAuthorsInfo(authorID, authorsFolder);
+        //	console.log(authorImg);
+        document.getElementById('theSidebar').style.pointerEvents = "none";
 
         var topic_title = document.getElementsByClassName('topic_title');
 
         var i1;
         for (i1 = 0; i1 < topic_title.length; i1++) {
-        topic_title[i1].classList.add(color_code);
+          topic_title[i1].style.color = mainColor;
+          topic_title[i1].style.borderBottom = "2px solid " + mainColor;
+
+          // classList.add(color_code);
         }
 
 
-        var figure=document.getElementsByClassName('figure');
+        var cb = document.getElementsByTagName('cb');
+
+        var cb1;
+
+        for (cb1 = 0; cb1 < cb.length; cb1++) {
+
+          cb[cb1].style.color = mainColor; //.add(color_code);
+
+        }
+
+        var figure = document.getElementsByClassName('figure');
 
         var i2;
         for (i2 = 0; i2 < figure.length; i2++) {
-        figure[i2].classList.add(color_code+'_figure');
+          figure[i2].classList.add(color_code + '_figure');
         }
 
-        var figcaption=document.getElementsByTagName('figcaption');
+        var figcaption = document.getElementsByTagName('figcaption');
         var i3;
         for (i3 = 0; i3 < figure.length; i3++) {
-        figcaption[i3].classList.add(color_code+'_figcaption');
+          figcaption[i3].classList.add(color_code + '_figcaption');
         }
+        //  var codeBlocks = document.getElementById('codeBlocks');
+        var codeBlocks_array = document.getElementsByClassName("codeBlock"); // codeBlocks.getAttribute('data').split(",");
 
-        console.log(color_code);
-        var codeBlocks = document.getElementById('codeBlocks');
-        var codeBlocks_array = codeBlocks.getAttribute('data').split(",");
         for (j = 0; j < codeBlocks_array.length; j++) {
-          var settings_obj = document.getElementById(codeBlocks_array[j]);
 
+
+          var cbID = "codeBlock_" + j;
+          //	console.log(cbID);
+          var settings_obj = codeBlocks_array[j]; // document.getElementById(codeBlocks_array[j]);
+          settings_obj.setAttribute("id", cbID);
           var owner = settings_obj.getAttribute('owner');
           var repo = settings_obj.getAttribute('repo');
           var ref = settings_obj.getAttribute('ref');
           var embeded = settings_obj.getAttribute('embeded');
           var array_embeded = embeded.split(",");
-
           var array_embeded_obj = new Array();
           for (i = 0; i < array_embeded.length; i++) {
-
             array_embeded_obj[i] = JSON.parse(array_embeded[i]);
-
           }
-          githubEmbed('#' + codeBlocks_array[j] + '', {
+          githubEmbed('#' + cbID + '', {
             "owner": owner,
             "repo": repo,
             "ref": ref,
@@ -133,6 +144,8 @@ function loadHTML(url, fun, storage, param) {
           }); // end of github-embedded
 
         } // for loop end for code blocks
+
+
       }
     }
   };
@@ -153,10 +166,10 @@ function processHTML(temp, target) {
 
 }
 
-function loadWholePage(url) {
+function loadWholePage(url, authorID) {
   var y = document.getElementById("displayContent");
   var x = document.getElementById("displayContent");
-  loadHTML(url, processHTML, x, y);
+  loadHTML(url, processHTML, x, y, authorID);
 }
 
 
@@ -180,11 +193,28 @@ function processByDOM(responseHTML, target) {
   target.innerHTML += message.dyn.value;
 }
 
-function accessByDOM(url) {
+function accessByDOM(url, authorID) {
   //var responseHTML = document.createElement("body");	// Bad for opera
   var responseHTML = document.getElementById("storage");
   var y = document.getElementById("displayed");
-  loadHTML(url, processByDOM, responseHTML, y);
+  loadHTML(url, processByDOM, responseHTML, y, authorID);
+}
+
+
+function loadAuthorsInfo(authorID, authorsFolder) {
+
+  loadJSON(authorsFolder + '/' + authorID + '.json', loadAuthorsInfoDisplayAsHTML, "no_main");
+}
+
+function loadAuthorsInfoDisplayAsHTML(response) {
+
+  var author_Itmes = JSON.parse(response);
+  author_Itmes.forEach(function(author) {
+    authorImg = author.authorImg;
+    author_display_name = author.author_display_name;
+  });
+  var authorHTMLInfo = '<img id="authorImg" class="meta__avatar" src="' + authorImg + ' alt="" /><span id="author_display_name" class="meta__author">' + author_display_name + '</span>';
+  document.getElementById('authorData').innerHTML = authorHTMLInfo;
 }
 
 function loadArticleGrids(response) {
@@ -192,18 +222,22 @@ function loadArticleGrids(response) {
   var actual_JSON = JSON.parse(response);
   var article_Itmes = "";
   actual_JSON.forEach(function(article) {
-      article_Itmes = article_Itmes + '<a class="grid__item threedbox" href="#" loadurl="' + article.article_loadURL + '"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader"></div><span class="category">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date"><i class="fa fa-calendar-o"></i> Starting on : ' + article.article_start_date + '</span><span class="meta__reading-time"><i class="fa fa-clock-o"></i> Node.js</span></div></a>';
-      //console.log(article_Itmes) ;
-    }
+    article_Itmes = article_Itmes + '<a class="grid__item threedbox" href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader"></div><span class="category">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></a>';
 
-  );
+  });
 
   document.getElementById('articlesCard').innerHTML = article_Itmes;
+
+  var ht = document.getElementsByTagName("ht");
+  var ht1;
+  for (ht1 = 0; ht1 < ht.length; ht1++) {
+    ht[ht1].style.color = mainColor;
+  }
 }
 
 
 function loadArticlesByTechName(techName, menuItem, colorOfTech) {
-
+  mainColor = colorOfTech;
   var menu = document.getElementsByClassName('menuItem');
 
   var i;
@@ -217,6 +251,10 @@ function loadArticlesByTechName(techName, menuItem, colorOfTech) {
   menuItem.style.fontSize = "1.5em";
   var pageTitle = document.getElementById('pageTitle');
   pageTitle.style.backgroundColor = colorOfTech;
+
+
+
+
   if (techName != "data") {
 
     pageTitle.innerHTML = techName;
@@ -233,7 +271,7 @@ function loadArticlesByTechName(techName, menuItem, colorOfTech) {
 }
 
 function init() {
-  //console.log("init from readURL");
+
   loadJSON('content/data.json', loadArticleGrids);
 }
 init();

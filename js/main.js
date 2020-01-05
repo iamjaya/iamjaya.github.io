@@ -170,8 +170,10 @@ function main() {
     onEndTransition(dummy, function() {
       //console.log(item.getAttribute("loadURL"))
       var loadURL = item.getAttribute("loadURL");
+      var authorID=item.getAttribute("authorID");
 
-      loadWholePage(loadURL);
+      loadWholePage(loadURL,authorID);
+    //  loadAuthorsInfo(authorID, "authors");
       // add transition class
       classie.remove(dummy, 'placeholder--trans-in');
       classie.add(dummy, 'placeholder--trans-out');
@@ -201,6 +203,7 @@ function main() {
 
   function hideContent() {
     // old one 	var gridItem = gridItems[current], contentItem = contentItems[current];
+    document.getElementById('theSidebar').style.pointerEvents="unset";
 
     var gridItem = gridItems[current],
       contentItem = contentItems[0];

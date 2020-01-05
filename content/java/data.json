@@ -3,23 +3,23 @@
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
     "article_loadURL": "content/spring/1.html",
-    "icon": "spring",
-    "authorID":"jai"
+    "icon": "java",
+"authorID":"jai"
   },
   {
     "article_title": "<ht>@Bean</ht> annotation in Spring Framework",
     "article_cat": "Basic Coding",
     "article_start_date": "04-Jan-2020",
     "article_loadURL": "content/spring/@bean.html",
-    "icon": "spring",
-    "authorID":"jai"
+    "icon": "java",
+"authorID":"jai"
   },
   {
     "article_title": "Shut down IOC container with <ht>registerShutdownHook()</ht> method",
     "article_cat": "Basic Coding",
     "article_start_date": "04-Jan-2020",
     "article_loadURL": "content/spring/registerShutdownHook.html",
-    "icon": "spring",
+    "icon": "java",
     "authorID":"jai"
   },
 
@@ -28,7 +28,7 @@
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
     "article_loadURL": "content/spring/2.html",
-    "icon": "spring",
+    "icon": "java",
     "authorID":"jai"
   },
 
@@ -37,7 +37,8 @@
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
     "article_loadURL": "content/scala/1.html",
-    "icon": "spring","authorID":"jai"
+    "icon": "java",
+    "authorID":"jai"
   },
 
   {
@@ -45,7 +46,7 @@
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
     "article_loadURL": "content/spring/1.html",
-    "icon": "spring",
+    "icon": "java",
     "authorID":"jai"
   }
 ]
