@@ -1,0 +1,51 @@
+[{
+    "article_title": "Spring Boot Introduction",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/spring/1.html",
+    "icon": "jmeter",
+    "authorID":"jai"
+  },
+  {
+    "article_title": "<ht>@Bean</ht> annotation in Spring Framework",
+    "article_cat": "Basic Coding",
+    "article_start_date": "04-Jan-2020",
+    "article_loadURL": "content/jmeter/@bean.html",
+    "icon": "jmeter",
+    "authorID":"jai"
+  },
+  {
+    "article_title": "Shut down IOC container with <ht>registerShutdownHook()</ht> method",
+    "article_cat": "Basic Coding",
+    "article_start_date": "04-Jan-2020",
+    "article_loadURL": "content/spring/registerShutdownHook.html",
+    "icon": "jmeter",
+    "authorID":"jai"
+  },
+
+  {
+    "article_title": "Spring: First Web Application 2.html",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/jmeter/2.html",
+    "icon": "jmeter",
+    "authorID":"jai"
+  },
+
+  {
+    "article_title": "Scala: First Web Application",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/scala/1.html",
+    "icon": "jmeter","authorID":"jai"
+  },
+
+  {
+    "article_title": "Spring: First Web Application",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/spring/1.html",
+    "icon": "jmeter",
+    "authorID":"jai"
+  }
+]

@@ -1,23 +1,7 @@
-/**
- * main.js
- * http://www.codrops.com
- *
- * Licensed under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- *
- * Copyright 2015, Codrops
- * http://www.codrops.com
- */
-
-
-
-
-
-
 function main() {
   //function() {
-
-
+//console.log("initiated");
+var h=0;
   var bodyEl = document.body,
     docElem = window.document.documentElement,
     support = {
@@ -90,6 +74,8 @@ function main() {
   function init() {
     initEvents();
   }
+main.initEvents=initEvents;
+
 
   function initEvents() {
     [].slice.call(gridItems).forEach(function(item, pos) {
@@ -101,14 +87,14 @@ function main() {
         }
         isAnimating = true;
         // index of current item
-        //console.log(pos);
+        ////console.log(pos);
         //  pos=0; // added by jai
         current = pos;
         // simulate loading time..
         classie.add(item, 'grid__item--loading');
         setTimeout(function() {
           classie.add(item, 'grid__item--animate');
-          
+
           // reveal/load content after the last element animates out (todo: wait for the last transition to finish)
           setTimeout(function() {
             loadContent(item);
@@ -116,12 +102,6 @@ function main() {
         }, 1000);
       });
     });
-
-    closeCtrl.addEventListener('click', function() {
-      // hide content
-      hideContent();
-    });
-
     // keyboard esc - hide content
     document.addEventListener('keydown', function(ev) {
       if (!isAnimating && current !== -1) {
@@ -131,9 +111,11 @@ function main() {
           if ("activeElement" in document)
             document.activeElement.blur();
           hideContent();
+          //console.log("by esc button");
         }
       }
     });
+
 
     // hamburger menu button (mobile) and close cross
     menuCtrl.addEventListener('click', function() {
@@ -171,12 +153,19 @@ function main() {
       // expands the placeholder
       dummy.style.WebkitTransform = 'translate3d(-5px, ' + (scrollY() - 5) + 'px, 0px)';
       dummy.style.transform = 'translate3d(-5px, ' + (scrollY() - 5) + 'px, 0px)';
+      // ading event to close button
+
+                    closeCtrl.addEventListener('click', function() {
+                      // hide content
+                      //console.log("by close button");
+                      hideContent();
+                    });
       // disallow scroll
       window.addEventListener('scroll', noscroll);
     }, 25);
 
     onEndTransition(dummy, function() {
-      //console.log(item.getAttribute("loadURL"))
+      ////console.log(item.getAttribute("loadURL"))
       var loadURL = item.getAttribute("loadURL");
       var authorID=item.getAttribute("authorID");
 
@@ -186,6 +175,8 @@ function main() {
     shorcuts.pseudoStyle("after","border-left-color",mainColor);
 
       loadWholePage(loadURL,authorID);
+
+
     //  loadAuthorsInfo(authorID, "authors");
       // add transition class
       classie.remove(dummy, 'placeholder--trans-in');
@@ -203,7 +194,7 @@ function main() {
 
 
       //  var script = (document.createElement('script'));
-      // script.text = ' //console.log(document.getElementById("#settings-object")); //console.log("test123");	githubEmbed("#settings-object", {	"owner": "finom",	"repo": "github-embed",	"ref": "gh-pages","embed": [{ "path": "demo.html"	}, {	"path": "README.md"	}] });';
+      // script.text = ' ////console.log(document.getElementById("#settings-object")); ////console.log("test123");	githubEmbed("#settings-object", {	"owner": "finom",	"repo": "github-embed",	"ref": "gh-pages","embed": [{ "path": "demo.html"	}, {	"path": "README.md"	}] });';
       //document.body.appendChild(script);
       // show close control
       classie.add(closeCtrl, 'close-button--show');
@@ -214,7 +205,18 @@ function main() {
     });
   }
 
+
+
+  function removeElement(elementId) {
+      // Removes an element from the document
+      var element = document.getElementById(elementId);
+      element.parentNode.removeChild(element);
+  }
+
   function hideContent() {
+    //var h=0;
+    h++;
+    //console.log("h"+h);
     // old one 	var gridItem = gridItems[current], contentItem = contentItems[current];
     document.getElementById('theSidebar').style.pointerEvents="unset";
     document.getElementById('shorcuts').style.display="none";
@@ -239,9 +241,17 @@ function main() {
         // reset content scroll..
         contentItem.parentNode.scrollTop = 0;
         gridItemsContainer.removeChild(dummy);
+        if(getConfig('browserwindow')){
+          contentItemsContainer.removeChild(document.getElementById('title_article_browser_look'));
+        // alert("deleted"+h);
+
+        }
         classie.remove(gridItem, 'grid__item--loading');
         classie.remove(gridItem, 'grid__item--animate');
         lockScroll = false;
+
+
+       closeCtrl.removeEventListener('click',hideContent);
         window.removeEventListener('scroll', noscroll);
       });
 

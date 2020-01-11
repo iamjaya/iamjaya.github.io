@@ -1,38 +1,51 @@
-var mainColor = "deeppink";
+
+var main_Loaded=false;
+var article_Content_area = document.getElementById("content");
+var article_title_obj;
+
+var mainColor = getConfig('mainColor');
 var authorImg = "";
 var author_display_name = "";
 var authorsFolder = "authors";
+var lazyloadImages; // = document.querySelectorAll("img.lazy");
+var lazyloadThrottleTimeout;
+var scroller = document.querySelector('#scroller');
 
+var article_title = "";
+var displayed = false;
+
+
+
+var classThreedBox = (getConfig('threeDboxStyle')) ? 'threedbox' : 'no3dbox graycolor';
+var figureCaptionBorder_style=(getConfig('figureCaptionBorder'))? 'borderStyle' : 'noBorderFigure';
 
 var UID = {
-_current: 0,
-getNew: function(){
-	this._current++;
-	return this._current;
-}
+  _current: 0,
+  getNew: function() {
+    this._current++;
+    return this._current;
+  }
 };
 
-HTMLElement.prototype.pseudoStyle = function(element,prop,value){
-var _this = this;
-var _sheetId = "pseudoStyles";
-var _head = document.head || document.getElementsByTagName('head')[0];
-var _sheet = document.getElementById(_sheetId) || document.createElement('style');
-_sheet.id = _sheetId;
-var className = "pseudoStyle" + UID.getNew();
+HTMLElement.prototype.pseudoStyle = function(element, prop, value) {
+  var _this = this;
+  var _sheetId = "pseudoStyles";
+  var _head = document.head || document.getElementsByTagName('head')[0];
+  var _sheet = document.getElementById(_sheetId) || document.createElement('style');
+  _sheet.id = _sheetId;
+  var className = "pseudoStyle" + UID.getNew();
 
-_this.className +=  " "+className;
+  _this.className += " " + className;
 
-_sheet.innerHTML += "\n."+className+":"+element+"{"+prop+":"+value+"}";
-_head.appendChild(_sheet);
-
-console.log("test psuedo element");
-return this;
+  _sheet.innerHTML += "\n." + className + ":" + element + "{" + prop + ":" + value + "}";
+  _head.appendChild(_sheet);
+  return this;
 };
 
 
 
 function loadJSON(json_file_url, callback, no_main) {
-  //console.log(json_file_url);
+  ////console.log(json_file_url);
   var xobj = new XMLHttpRequest();
   xobj.overrideMimeType("application/json");
   xobj.open('GET', json_file_url, true); // Replace 'my_data' with the path to your file
@@ -41,7 +54,10 @@ function loadJSON(json_file_url, callback, no_main) {
       // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
       callback(xobj.responseText);
       if (!!no_main || no_main === '') {} else {
+				if(!main_Loaded){
         main();
+		//		main_Loaded=true;
+			}
       }
 
     }
@@ -69,7 +85,7 @@ function createXHR() {
 }
 
 function getBody(content) {
-  test = content.toLowerCase(); // to eliminate case sensitivity
+/*  test = content.toLowerCase(); // to eliminate case sensitivity
   var x = test.indexOf("<body");
   if (x == -1) return "";
   x = test.indexOf(">", x);
@@ -79,7 +95,8 @@ function getBody(content) {
   if (y == -1) y = test.lastIndexOf("</html>");
   if (y == -1) y = content.length; // If no HTML then just grab everything till end
 
-  return content.slice(x + 1, y);
+  return content.slice(x + 1, y); */
+	return content;
 }
 
 /**
@@ -103,50 +120,36 @@ function loadHTML(url, fun, storage, param, authorID) {
 
         var url_array = url.split('/');
         var color_code = url_array[1];
-
+        article_title_obj = document.getElementById("article_title");
         var style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML = '.github-embed-nav-link-shown { color: ' + mainColor + '  !important; }';
         document.getElementsByTagName('head')[0].appendChild(style);
+        if (getConfig('displayAuthorInfo')) {
+          //console.log("Author Info activated");
+          displayAuthorData();
+					loadAuthorsInfo(authorID, authorsFolder);
 
 
-        loadAuthorsInfo(authorID, authorsFolder);
-        //	console.log(authorImg);
+        }
+
+
+        figureCaptionBorder_ctrl();
+addBrowserLook();
+
+        //	//console.log(authorImg);
         document.getElementById('theSidebar').style.pointerEvents = "none";
+articleTitleStyle(mainColor);
 
-        var topic_title = document.getElementsByClassName('topic_title');
+        contentCB(mainColor);
 
-        var i1;
-        for (i1 = 0; i1 < topic_title.length; i1++) {
-          topic_title[i1].style.color = mainColor;
-          topic_title[i1].style.borderBottom = "2px solid " + mainColor;
+        // figure block color coding
+				figureColorCode(color_code);
 
-          // classList.add(color_code);
-        }
+        // figure caption color code
 
+				figureCaptionColorCode(color_code);
 
-        var cb = document.getElementsByTagName('cb');
-
-        var cb1;
-
-        for (cb1 = 0; cb1 < cb.length; cb1++) {
-
-          cb[cb1].style.color = mainColor; //.add(color_code);
-
-        }
-
-        var figure = document.getElementsByClassName('figure');
-
-        var i2;
-        for (i2 = 0; i2 < figure.length; i2++) {
-          figure[i2].classList.add(color_code + '_figure');
-        }
-
-        var figcaption = document.getElementsByTagName('figcaption');
-        var i3;
-        for (i3 = 0; i3 < figure.length; i3++) {
-          figcaption[i3].classList.add(color_code + '_figcaption');
-        }
         //  var codeBlocks = document.getElementById('codeBlocks');
         var codeBlocks_array = document.getElementsByClassName("codeBlock"); // codeBlocks.getAttribute('data').split(",");
 
@@ -154,7 +157,7 @@ function loadHTML(url, fun, storage, param, authorID) {
 
 
           var cbID = "codeBlock_" + j;
-          //	console.log(cbID);
+          //	//console.log(cbID);
           var settings_obj = codeBlocks_array[j]; // document.getElementById(codeBlocks_array[j]);
           settings_obj.setAttribute("id", cbID);
           var owner = settings_obj.getAttribute('owner');
@@ -177,6 +180,8 @@ function loadHTML(url, fun, storage, param, authorID) {
 
 
       }
+
+			lazyLoadImages();
     }
   };
 
@@ -189,6 +194,173 @@ function loadHTML(url, fun, storage, param, authorID) {
 	Callback
 	Assign directly a tag
 */
+function threeDBoxStyle_activate(){
+
+if(getConfig('threeDboxStyle')){
+
+
+}
+
+}
+function articleTitleStyle(mainColor_final){
+
+
+	        var topic_title = document.getElementsByClassName('topic_title');
+
+	        var i1;
+	        for (i1 = 0; i1 < topic_title.length; i1++) {
+	          topic_title[i1].style.color = mainColor_final;
+	          topic_title[i1].style.borderBottom = "2px solid " + mainColor_final;
+
+	          // classList.add(color_code);
+	        }
+}
+function contentCB(mainColor_final)
+{
+
+	        var cb = document.getElementsByTagName('cb');
+
+	        var cb1;
+
+	        for (cb1 = 0; cb1 < cb.length; cb1++) {
+
+	          cb[cb1].style.color = mainColor_final; //.add(color_code);
+
+	        }
+
+}
+
+function figureCaptionColorCode(color_code_final){
+	var figcaption = document.getElementsByTagName('figcaption');
+	var i3;
+	for (i3 = 0; i3 < figcaption.length; i3++) {
+		figcaption[i3].classList.add(color_code_final + '_figcaption');
+	}
+}
+
+
+function figureColorCode(color_code_final){
+
+	var figure = document.getElementsByClassName('figure');
+
+	var i2;
+	for (i2 = 0; i2 < figure.length; i2++) {
+		figure[i2].classList.add(color_code_final + '_figure');
+	}
+
+}
+
+function figureCaptionBorder_ctrl(){
+
+
+		var figure = document.getElementsByClassName('figure');
+
+		var i2;
+		for (i2 = 0; i2 < figure.length; i2++) {
+			classie.add(figure[i2],figureCaptionBorder_style);
+		//	figure[i2].classList.add(color_code_final + '_figure');
+		}
+		var figcaption = document.getElementsByTagName('figcaption');
+		var i3;
+		for (i3 = 0; i3 < figcaption.length; i3++) {
+		//	figcaption[i3].classList.add(color_code_final + '_figcaption');
+
+		classie.add(figcaption[i3],'noBorderFigureCaption');
+		}
+
+
+}
+function displayAuthorData() {
+
+  var authorArea = document.createElement('div');
+  classie.add(authorArea, 'meta');
+  classie.add(authorArea, 'meta--full')
+  authorArea.setAttribute("ID", "authorData");
+  article_title_obj.after(authorArea);
+
+
+}
+
+
+function addBrowserLook(){
+	if (getConfig('browserwindow')) {
+
+ 	 var browserStyle = document.createElement('div');
+ 	 browserStyle.setAttribute("class", "browser-look");
+ 	 browserStyle.setAttribute("id", "title_article_browser_look");
+
+ 	 browserStyle.innerHTML = '<span class="control"></span><span class="control"></span><span class="control"></span>';
+ 	 // Prepend it
+ 	 article_Content_area.insertBefore(browserStyle, article_Content_area.firstChild);
+
+ 	 scroller.addEventListener("scroll", changeBrowserWindowTitle);
+  }
+
+}
+
+function changeBrowserWindowTitle() {
+  var scrollTop = scroller.scrollTop; //.pageYOffset;
+  //var article_title_obj = document.getElementById('article_title');
+  //	//console.log("eeee"+scrollTop);
+  if (!displayed) {
+    if ((article_title_obj.offsetTop < scrollTop)) {
+
+			      article_title = article_title_obj.innerHTML;
+
+      var title_article_browser_look = document.getElementById('title_article_browser_look');
+
+      title_article_browser_look.pseudoStyle("before", "content", "\'" + article_title + "\'");
+
+      displayed = true;
+    }
+  }
+  if (article_title_obj.offsetTop > scrollTop) {
+
+    document.getElementById('title_article_browser_look').pseudoStyle("before", "content", "\' \'");
+    displayed = false;
+
+  }
+
+
+}
+
+
+
+function lazyLoadImages(){
+
+
+	lazyloadImages = document.querySelectorAll("img.lazy");
+	lazyloadThrottleTimeout;
+	scroller.addEventListener("scroll", lazyload);
+	window.addEventListener("resize", lazyload);
+	window.addEventListener("orientationChange", lazyload);
+
+
+}
+function lazyload() {
+  if (lazyloadThrottleTimeout) {
+    clearTimeout(lazyloadThrottleTimeout);
+  }
+	lazyloadThrottleTimeout = setTimeout(function() {
+    var scrollTop = scroller.scrollTop; //.pageYOffset;
+    lazyloadImages.forEach(function(img) {
+      if (img.offsetTop < (window.innerHeight + scrollTop)) {
+        img.src = img.dataset.src;
+
+
+        img.classList.remove('lazy');
+        img.classList.add('lazy-loaded');
+      }
+    });
+    if (lazyloadImages.length == 0) {
+      scroller.removeEventListener("scroll", lazyload);
+      window.removeEventListener("resize", lazyload);
+      window.removeEventListener("orientationChange", lazyload);
+    }
+  }, 20);
+}
+
+
 
 
 function processHTML(temp, target) {
@@ -252,7 +424,7 @@ function loadArticleGrids(response) {
   var actual_JSON = JSON.parse(response);
   var article_Itmes = "";
   actual_JSON.forEach(function(article) {
-    article_Itmes = article_Itmes + '<a class="grid__item threedbox" href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category" style="display:none;">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date" style="display:none;"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></a>';
+  article_Itmes = article_Itmes + '<div class="grid__item " href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"><div class="'+classThreedBox+'"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category" style="display:none;">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date" style="display:none;"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></div></div>';
 
   });
 
@@ -264,10 +436,10 @@ function loadArticleGrids(response) {
     ht[ht1].style.color = mainColor;
   }
 
-	var style_loader = document.getElementById('style_loader');
+  var style_loader = document.getElementById('style_loader');
 
-	style_loader.innerHTML = '.loader::before { background: ' + mainColor + '  !important; }';
-//	document.getElementsByTagName('head')[0].appendChild(style);
+  style_loader.innerHTML = '.loader::before { background: ' + mainColor + '  !important; }';
+  //	document.getElementsByTagName('head')[0].appendChild(style);
 
 }
 
@@ -282,6 +454,7 @@ function loadArticlesByTechName(techName, menuItem, colorOfTech) {
     menu[i].style.fontWeight = "normal";
     menu[i].style.fontSize = "1em";
   }
+
   menuItem.style.color = colorOfTech;
   menuItem.style.fontWeight = "bold";
   menuItem.style.fontSize = "1.5em";
@@ -306,7 +479,11 @@ function loadArticlesByTechName(techName, menuItem, colorOfTech) {
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+
+
+
 function init() {
+
 
   loadJSON('content/data.json', loadArticleGrids);
 }

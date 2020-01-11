@@ -5,10 +5,10 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Jai@coding for happiness</title>
-	<meta name="description" content="Jai@Coding : Coding Examples, Software articles, Technology updates, API, Open source apps" />
-	<meta name="keywords" content="jai@coding, happy coding, coding for happiness, Coding examples, software artilces, Open source apps" />
-	<meta name="author" content="Codrops" />
+	<title>JSite - Website Code based on pure HTML, CSS, JavaScript and JSON</title>
+	<meta name="description" content="JSite : Coding Examples, Software articles, Technology updates, API, Open source apps" />
+	<meta name="keywords" content="jSite, happy coding, coding for happiness, Coding examples, software artilces, Open source apps" />
+	<meta name="author" content="JSite" />
 	<link rel="shortcut icon" href="../favicon.ico">
 	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
@@ -28,17 +28,18 @@
 		<div id="theSidebar" class="sidebar">
 			<button class="close-button fa fa-fw fa-close"></button>
 
-			<h1>Jai@Coding</h1>
+			<h1>JSite-Title</h1>
 			<nav class="">
-				<a class="current-demo" href="index.html">Demo 1</a>
-				<a href="index2.html">Demo 2</a>
+				<a class="current-demo" href="index.html">Template1</a>
+				<a href="index2.html"> Template2</a>
 			</nav>
 			<div class="related">
-				<a class="menuItem" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName('data',this,'deeppink');">Home</a>
+				<a class="menuItem" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName('data',this,'red');">Home</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('java',this,'#f89820')">Java</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('python',this,'#1677bd')">Python</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('spring',this,'#8bc34b')">Spring</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('nodejs',this,'#8fc84f')">Node.js</a>
+				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('jmeter',this,'#d22128')">JMeter</a>
 			</div>
 			<div id="shorcuts" class='shorcuts'>click <b style="
     border: 1px dotted;
@@ -67,7 +68,9 @@
 
 			</section>
 			<section class="content" id="content">
-				<div class="scroll-wrap">
+				<!-- browser window look start -->
+				<!-- browser window look end-->
+				<div class="scroll-wrap" id="scroller">
 					<article class="content__item article" id="displayContent">
 
 					</article>
@@ -77,17 +80,10 @@
 		</div>
 	</div><!-- /container -->
 
-	<script type="text/javascript" src="content/data.json">
-		var articles = JSON.parse(articles);
-		console.log(articles[0].article_title);
-	</script>
-
+	<script src="js/config.js"></script>
 	<script src="js/classie.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/readURL.js"></script>
-	<script>
-
-	</script>
 </body>
 
 </html>
