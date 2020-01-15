@@ -1,0 +1,19 @@
+<span class="category category--full">Spring Framework</span>
+<h1 class="title title--full" id="article_title">Injecting values into bean properties in Spring Framework</h1>
+<p>In some situations of application development process there is a need to set up ( inject) values into the bean properties. There are different ways of injection process. We can create XML file to inject value for properties of bean. or we can set
+  the value for property with <cb>@value</cb> annotation in a bean class.</p>
+<p>To use XML based configuration method we need to create .xml file to configure bean and then we need to intialize <cb>ClassPathXmlApplicationContext</cb> context by passing bean configured xml file.</p>
+
+<figure class="JSiteBlock code_inline">
+  <xmp>ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+    "applicationContext.xml");
+    MyService app = context.getBean(MyService.class);</xmp>
+  <Jcaption>Creating context with XML based configuration</Jcaption>
+</figure>
+
+<figure class="JSiteBlock code_inline">
+  <xmp>lassPathXmlApplicationContext(
+    "applicationContext.xml");
+    MyService app = context.getBean(MyService.class);</xmp>
+  <Jcaption> Add your code snippet short descprtion or caption</Jcaption>
+</figure>

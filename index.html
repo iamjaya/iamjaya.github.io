@@ -10,9 +10,15 @@
 	<meta name="keywords" content="jSite, happy coding, coding for happiness, Coding examples, software artilces, Open source apps" />
 	<meta name="author" content="JSite" />
 	<link rel="shortcut icon" href="../favicon.ico">
-	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="css/style1.css" />
+	<script src="js/config.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="themes/core/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="themes/core/fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="themes/core/css/core.css">
+	<script type="text/javascript">
+		document.write('<link rel="stylesheet" type="text/css" href="themes/' + getConfig('theme') + '/css/style.css">');
+	</script>
+
 	<script src="js/modernizr.custom.js"></script>
 	<link rel="stylesheet" type="text/css" href="plugins/git-embeded/github-embed.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.23.0/polyfill.min.js">
@@ -28,18 +34,26 @@
 		<div id="theSidebar" class="sidebar">
 			<button class="close-button fa fa-fw fa-close"></button>
 
-			<h1>JSite-Title</h1>
+			<h1 id="JSiteMainTitle">JSite-Title</h1>
 			<nav class="">
 				<a class="current-demo" href="index.html">Template1</a>
 				<a href="index2.html"> Template2</a>
 			</nav>
-			<div class="related">
-				<a class="menuItem" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName('data',this,'red');">Home</a>
+			<div class="search-w">
+				<form>
+					<input type="text" name="searchQuery" autocomplete="off" id="searchQuery" onInput="searchArticleCtrl('#dda131',this)" required class="search-box" placeholder="Enter search term" />
+					<button class="close-icon" type="reset"></button>
+				</form>
+			</div>
+			<div class="related" id="mainMenuID">
+				<!-- <a class="menuItem" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName('data',this,'red');">Home</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('java',this,'#f89820')">Java</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('python',this,'#1677bd')">Python</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('spring',this,'#8bc34b')">Spring</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('nodejs',this,'#8fc84f')">Node.js</a>
 				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('jmeter',this,'#d22128')">JMeter</a>
+				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('atom',this,'#dda131')">Atom IDE</a> -->
+
 			</div>
 			<div id="shorcuts" class='shorcuts'>click <b style="
     border: 1px dotted;
@@ -75,12 +89,20 @@
 
 					</article>
 				</div>
-				<button class="close-button"><i class="fa fa-close"></i><span>Close</span></button>
+				<button class="close-button" onclick="closeBtnCtrl()"><i class="fa fa-close"></i><span>Close</span></button>
 			</section>
 		</div>
 	</div><!-- /container -->
 
-	<script src="js/config.js"></script>
+	<script src="plugins/url/script.js" charset="utf-8"></script>
+
+	<script type="text/javascript">
+		var u = new Url();
+		console.log(u.toString());
+	</script>
+	<script src="https://cdn.jsdelivr.net/alasql/latest/alasql.min.js" charset="utf-8"></script>
+	<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+
 	<script src="js/classie.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/readURL.js"></script>

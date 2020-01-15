@@ -78,24 +78,18 @@ main.initEvents=initEvents;
 
 
   function initEvents() {
-  //  console.log("TOTAL GRID ITEMS:"+gridItems.length);
-    // console.log("Initials Cuttent at the time of initialization"+current);
     [].slice.call(gridItems).forEach(function(item, pos) {
       // grid item click event
       item.addEventListener('click', function(ev) {
         ev.preventDefault();
-        // if (isAnimating || current === pos) {
-        //   return false;
-        // }
+        if (isAnimating || current === pos) {
+          return false;
+        }
         isAnimating = true;
         // index of current item
         ////console.log(pos);
         //  pos=0; // added by jai
-      //  console.log("From initEvent Methods******");
-        // console.log("CUttrent start after clicking ithe item:"+current);
-        // console.log("possition:"+pos);
-      current = pos;
-      // console.log("Current values assigned with pos" + current);
+        current = pos;
         // simulate loading time..
         classie.add(item, 'grid__item--loading');
         setTimeout(function() {
@@ -123,16 +117,6 @@ main.initEvents=initEvents;
     });
 
 
-                        //closeCtrl.addEventListener('click', function() {
-                          // hide content
-                          //console.log("by close button");
-                      //    console.log("from add event lister **************************************");
-                      //    console.log(current+"before closing current value");
-                        //  hideContent();
-                        //  closeCtrl.removeEventListener('click',hideContent);
-
-                        // });
-
     // hamburger menu button (mobile) and close cross
     menuCtrl.addEventListener('click', function() {
       if (!classie.has(sidebarEl, 'sidebar--open')) {
@@ -147,49 +131,6 @@ main.initEvents=initEvents;
     });
   }
 
-
-  function loadURLDirect(itemURL){
-
-  // item.addEventListener('click', function(ev) {
-    //  ev.preventDefault();
-
-      if (isAnimating || current === pos) {
-        return false;
-      }
-      isAnimating = true;
-      // index of current item
-      ////console.log(pos);
-      //  pos=0; // added by jai
-      current = pos;
-      // simulate loading time..
-      classie.add(itemURL, 'grid__item--loading');
-      setTimeout(function() {
-        classie.add(item, 'grid__item--animate');
-
-        // reveal/load content after the last element animates out (todo: wait for the last transition to finish)
-        setTimeout(function() {
-          loadContent(itemURL);
-        }, 500);
-      }, 1000);
-  //  });
-  //});
-
-
-  // hamburger menu button (mobile) and close cross
-  menuCtrl.addEventListener('click', function() {
-    if (!classie.has(sidebarEl, 'sidebar--open')) {
-      classie.add(sidebarEl, 'sidebar--open');
-    }
-  });
-
-  menuCloseCtrl.addEventListener('click', function() {
-    if (classie.has(sidebarEl, 'sidebar--open')) {
-      classie.remove(sidebarEl, 'sidebar--open');
-    }
-  });
-
-  }
-
   function loadContent(item) {
     // add expanding element/placeholder
     var dummy = document.createElement('div');
@@ -197,7 +138,7 @@ main.initEvents=initEvents;
 
     // set the width/heigth and position
     dummy.style.WebkitTransform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop - 5) + 'px, 0px) scale3d(' + item.offsetWidth / gridItemsContainer.offsetWidth + ',' + item.offsetHeight / getViewport('y') + ',1)';
-     dummy.style.transform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop - 5) + 'px, 0px) scale3d(' + item.offsetWidth / gridItemsContainer.offsetWidth + ',' + item.offsetHeight / getViewport('y') + ',1)';
+    dummy.style.transform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop - 5) + 'px, 0px) scale3d(' + item.offsetWidth / gridItemsContainer.offsetWidth + ',' + item.offsetHeight / getViewport('y') + ',1)';
 
     // add transition class
     classie.add(dummy, 'placeholder--trans-in');
@@ -213,6 +154,12 @@ main.initEvents=initEvents;
       dummy.style.WebkitTransform = 'translate3d(-5px, ' + (scrollY() - 5) + 'px, 0px)';
       dummy.style.transform = 'translate3d(-5px, ' + (scrollY() - 5) + 'px, 0px)';
       // ading event to close button
+
+                    closeCtrl.addEventListener('click', function() {
+                      // hide content
+                      //console.log("by close button");
+                      hideContent();
+                    });
       // disallow scroll
       window.addEventListener('scroll', noscroll);
     }, 25);
@@ -221,12 +168,12 @@ main.initEvents=initEvents;
       ////console.log(item.getAttribute("loadURL"))
       var loadURL = item.getAttribute("loadURL");
       var authorID=item.getAttribute("authorID");
-//var i
+
     var shorcuts = document.getElementById("shorcuts");
     shorcuts.style.display="block";
     shorcuts.style.background=mainColor;
     shorcuts.pseudoStyle("after","border-left-color",mainColor);
-content_sub=item.getAttribute("cat");
+
       loadWholePage(loadURL,authorID);
 
 
@@ -267,21 +214,16 @@ content_sub=item.getAttribute("cat");
   }
 
   function hideContent() {
-    console.log("Enterinto HIde Method");
-  //  console.log("::::::::::::::::::::::::");
-  //  if(articleWindow){
-    articleWindow=false;
-  //  console.log(articleWindow+"closed");
     //var h=0;
     h++;
     //console.log("h"+h);
     // old one 	var gridItem = gridItems[current], contentItem = contentItems[current];
     document.getElementById('theSidebar').style.pointerEvents="unset";
     document.getElementById('shorcuts').style.display="none";
-     var gridItem = gridItems[current],
+
+    var gridItem = gridItems[current],
       contentItem = contentItems[0];
-//console.log(current+"current");
-//console.log("_____________________________________");
+
     classie.remove(contentItem, 'content__item--show');
     classie.remove(contentItemsContainer, 'content--show');
     classie.remove(closeCtrl, 'close-button--show');
@@ -298,9 +240,7 @@ content_sub=item.getAttribute("cat");
       onEndTransition(dummy, function() {
         // reset content scroll..
         contentItem.parentNode.scrollTop = 0;
-        if(dummy){
-          console.log(dummy.getAttribute('style'));
-        gridItemsContainer.removeChild(dummy); }
+        gridItemsContainer.removeChild(dummy);
         if(getConfig('browserwindow')){
           contentItemsContainer.removeChild(document.getElementById('title_article_browser_look'));
         // alert("deleted"+h);
@@ -311,16 +251,13 @@ content_sub=item.getAttribute("cat");
         lockScroll = false;
 
 
-        closeCtrl.removeEventListener('click',hideContent);
-
+       closeCtrl.removeEventListener('click',hideContent);
         window.removeEventListener('scroll', noscroll);
       });
 
       // reset current
-     current = -1;
+      current = -1;
     }, 25);
-
-  // }
   }
 
   function noscroll() {
@@ -331,12 +268,6 @@ content_sub=item.getAttribute("cat");
     }
     window.scrollTo(xscroll, yscroll);
   }
-
-
-  this.closeAction = function() {
-          hideContent();
-      };
-  //var closeAction=
 
   init();
 

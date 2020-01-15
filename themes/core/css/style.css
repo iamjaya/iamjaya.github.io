@@ -1,0 +1,14 @@
+
+.article h2 {
+  margin: 0.5em;
+  font-size: 1.3em;
+  /*  border-bottom: 2px solid #f5bca8; */
+  padding-bottom: 0;
+  /* color: #f5bca8; */
+  margin-bottom: 1em;
+}
+
+.title{
+font-size: 1em;
+
+}

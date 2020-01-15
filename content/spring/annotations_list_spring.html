@@ -1,0 +1,54 @@
+<span class="category category--full">Spring Framework</span>
+<h1 class="title title--full" id="article_title">BeanFacotry vs ApplicationContext in Spring Framework</h1>
+<p>Every Spring based application required configuration details. These configuration details are using by Spring container to make application development and production process easy.</p>
+<h2 class="topic_title">BeanFacotry introduction</h2>
+<p>BeanFacotry is a subset of ApplicationContext. BeanFacotry provides less functionalities compared with ApplicationContext.</p>
+<h2 class="topic_title">ApplicationContext : for providing configuration details to the Spring Container</h2>
+<p>ApplicationContext is providing more functionalities compared to BeanFacotry. ApplicationContext is useful for providing application configuration details to the Spring Container.</p>
+
+<div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master" embeded='{"path": "springBoot/%40Bean/AppConfig.java"}, {"path":"springBoot/@Bean/useage.java"}' style="height:600px;"></div>
+
+<h2 class="topic_title">Basic Maven Dependencies in Spring Boot Application</h2>
+<p>Spring Boot Dependencies are different than Spring Boot Dependencies. Spring Boot Dependencies are very easy to use with adding of less dependencies compared to Spring framework.</p>
+<p>Following code block gives you snippets of the code for dependencies to add in pom.xml file</p>
+
+<!--  <figure class="figure">
+    <img src="images/2.jpg" />
+    <figcaption>Hum... yummy! We want cupcakes!</figcaption>
+  </figure> -->
+<div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master" embeded='{"path": "springBoot/pom.xml" },{"path":"springFramework/pom.xml"}' style="height:400px;"></div>
+
+<h2 class="topic_title">initMethod and destroyMethod attributes of @Bean</h2>
+<p>
+  <cb>initMethod</cb> attribute of <cb>@Bean</cb> specifies the intitialization method of a bean class/object. <cb>destroyMethod</cb> attribute of <cb>@Bean</cb> is for specifying the destroy method of a bean.
+</p>
+<p>Initialization method can be executed at the time object retrieval and destroy method can be executed at the time of object deletion.
+</p>
+<p>In the following snippets of the code you can see how to specify Initialization method and destroy method by using <cb>initMethod</cb> and <cb> destroyMethod</cb>
+</p>
+<div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master" embeded='{"path": "springBoot/@Bean/init_and_destroy_atributes_of_a_bean.java" }' style="height:600px;"></div>
+<h2 class="topic_title">@Score of a @Bean</h2>
+<p>BY default all the beans initiated are singleton scope in Spring Framework</p>
+<p>There are different types of bean scopes</p>
+<p>
+  <cb>@Scope("singleton")</cb> by default every bean is Singleton in spring<br>
+  <cb>@Scope("prototype")</cb> this is a non singleton bean<br>
+  <cb>@Scope("session")</cb> <br>
+  <cb>@Scope("application")</cb> <br>
+  <cb>@Scope("websocket")</cb>
+</p>
+<div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master" embeded='{"path": "springBoot/@Bean/singleton_bean.java" },{"path": "springBoot/@Bean/prototye_bean.java" }' style="height:600px;"></div>
+
+<h2 class="topic_title">@Bean annotation with in @Component</h2>
+<p>We can create <cb>@Bean</cb> method in a <cb>@Component</cb> class too. But this process can not support inner-bean references concept</p>
+<p>We must use <cb>@ComponentScan("com.kitchen")</cb> within <cb>@Configuration</cb> class</p>
+<p>
+  In the bellow example <cb>AppConfig.java</cb> is a config class, Customer.java is <cb>@Component</cb> in which bean is created with <cb>@Bean</cb> and FoodItem.java is a bean.
+</p>
+<div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master" embeded='{"path": "springBoot/@Bean/bean-in-Component-class.java" }' style="height:600px;"></div>
+
+
+<h2 class="topic_title">Inner-Bean reference with @Bean annotation</h2>
+<p>Inner-Bean reference is possible only with <cb>@Configuration</cb> based <cb>@Bean</cb> methods, that means we must create/initiate bean with in <cb>@Configuration</cb> class. </p>
+<b>Inner-bean reference is not support if bean initiated with in <cb>@Component</cb> class.</b>
+<div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master" embeded='{"path": "springBoot/@Bean/bean-in-Component-class.java" }' style="height:600px;"></div>

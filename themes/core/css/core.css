@@ -62,7 +62,7 @@ button:focus {
   background: #f5f5f5;
   z-index: 1000;
   position: fixed;
-  width: 300px;
+  width: 250px; /* old one is 300px */
   max-width: 100%;
   height: 100%;
   height: 100vh;
@@ -652,10 +652,6 @@ button:focus {
   text-align: justify;
 }
 
-.content__item p:first-of-type {
-  font-size: 1.35em;
-}
-
 .content__item.content__item--show {
   height: auto;
   min-height: 100vh;
@@ -840,7 +836,7 @@ button:focus {
 
   .main {
     height: 100%;
-    margin-left: 300px;
+    margin-left: 250px; /* old one is 300px */
   }
 
   .content__item {
@@ -1141,27 +1137,9 @@ button:focus {
   /*  max-width: 50em; */
   margin: 0 auto;
   padding: 1em;
-  counter-reset: figures videos;
+  counter-reset: figures videos codeinline;
 }
 
-.article h2 {
-  margin: 0.5em;
-  font-size: 1.3em;
-  /*  border-bottom: 2px solid #f5bca8; */
-  padding-bottom: 0;
-  /* color: #f5bca8; */
-  margin-bottom: 1em;
-}
-.article h2:before{
-  content: "";
-    position: absolute;
-    z-index: -1;
-    background-color: #e2cef9;
-    width: 2.5em;
-    height: 2.5em;
-    border-radius: 50%;
-
-}
 .article p {
   margin-bottom: 1em;
   font-size: 1.1em;
@@ -1173,27 +1151,28 @@ button:focus {
 .article h2+figure+p {
   text-indent: 1em;
 }
-
+/*
 .article p:first-of-type:first-line {
   font-weight: 700;
 }
+*/
 
-.figure {
+.JSiteBlock {
   padding: 0.9em;
   border: 2px solid black;
   background: #fff;
   margin: 0 auto 1em;
 }
 
-.figure img {
+.JSiteBlock img {
   margin: 0 auto;
   display: block;
   max-width: 100%;
 }
 
-.figure figcaption {
+.JSiteBlock Jcaption {
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 2px;
   font-size: 0.8em;
   padding: .5em;
@@ -1201,23 +1180,39 @@ button:focus {
   color: #fff;
   background: black;
   counter-increment: figures;
+  display: block;
 }
 
-.figure figcaption:before {
+.JSiteBlock Jcaption:before {
   content: 'Fig. 'counter(figures) ' - ';
+  font-size: 1.3em;
+    border-bottom: 1px dotted;
+
 }
 
-.figure_video figcaption{
+.JSite_video Jcaption{
 
   counter-increment: videos !important;
 
 }
-.figure_video figcaption::before{
+.JSite_video Jcaption::before{
 
     content: 'Video. 'counter(videos) ' - ' !important;
 }
 
-.figure-left {
+
+.code_inline Jcaption{
+
+  counter-increment: codeinline !important;
+
+}
+.code_inline Jcaption::before{
+
+    content: 'Code_Snippet. 'counter(codeinline) ' - ' !important;
+}
+
+
+.JSite-left {
   float: left;
   margin: 0 1.5em .5em 0;
   width: -webkit-min-content;
@@ -1225,7 +1220,7 @@ button:focus {
   width: min-content;
 }
 
-.figure-right {
+.JSite-right {
   float: right;
   margin: 0 0 .5em 1.5em;
   width: -webkit-min-content;
@@ -1233,21 +1228,21 @@ button:focus {
   width: min-content;
 }
 
-.figure-right img,
-.figure-left img {
+.JSite-right img,
+.JSite-left img {
   max-width: 300px;
 }
 
 @media (max-width: 767px) {
 
-  .figure-left,
-  .figure-right {
+  .JSite-left,
+  .JSite-right {
     float: none;
     margin: 0 0 1em 0;
     width: 100%;
   }
 
-  .figure img {
+  .JSiteBlock img {
     max-width: 100%;
   }
 }
@@ -1418,13 +1413,13 @@ height: auto !important;
   border-radius: 8px;
 
 }
-.noBorderFigure {
+.noBorderJSiteBlock {
 
 border: none !important;
 
 }
 
-.figure figcaption.noBorderFigureCaption{
+.JSiteBlock Jcaption.noBorderJcaption{
 
   background: white !important;
   color: black !important;
@@ -1443,4 +1438,306 @@ border: none !important;
 	width: 100%;
 	height: 100%;
 }
+
+.quotes{
+
+
+    background-color: #26272b;
+    color: #9fa2a7;
+    font-size: .8em;
+    line-height: 1.75;
+    padding: 15px 25px;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+    cursor: default;
+    border-left: 4px solid;
+
+}
+
+.quotes p:before {
+    content: "“";
+    font-family: Georgia;
+    font-size: 40px;
+    line-height: 0;
+    display: inline-block;
+    display: -webkit-inline-box;
+}
+
+.quotes .topic {
+    display: inline;
+    font-style: italic;
+    float: right;
+}
+
+.quotes .topic:before {
+    content: '- ';
+}
+
+
+
+.orderList{
+
+  margin: 2rem 0px;
+}
+.orderList ol {
+  color: #ccc;
+ list-style-type: none;
+ counter-reset: my-awesome-counter;
+}
+.orderList h3, .curveList h3{
+
+    align-content: center;
+    text-align: center;
+    border-bottom: 1px solid gray;
+    font-size: initial;
+  }
+
+.orderList ol li {
+  position: relative;
+  margin-bottom: 20px;
+   counter-increment: my-awesome-counter;
+   display: flex;
+}
+
+xmp {
+
+
+    border: 1px solid;
+    padding: 20px 10px;
+    border-radius: 4px;
+    border-color: #8bc34b;
+    background: #cfeaaf57;
+}
+
+.orderList ol li::before {
+  content: counter(my-awesome-counter) ".";
+  font-weight: bold;
+  }
+
+.bigNumber{
+
+  font-size: 2.5rem;
+  margin-right: 0.5rem;
+  line-height: 1;
+
+}
+
+.mediumSizeNumber{
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+line-height: 1;
+
+}
+.orderList ol li p.text
+{
+  padding-left: 10px;
+  color: #555;
+  font-size: initial;
+
+}
+.orderList ol li p.text:first-of-type {
+    font-size: initial;
+    margin: 0px;
+    font-weight: normal;
+}
+.orderList ol li p.text:first-of-type:first-line{
+font-weight: normal;
+
+}
+/*
+.noFirstOfType > p:first-of-type {
+    font-size: initial;
+    margin: 0px;
+    font-weight: normal;
+}
+.noFirstOfType > p:first-of-type:first-line{
+font-weight: normal;
+
+}
+*/
+
+.curveList{
+  width: 300px;
+  margin: auto;
+}
+
+.curveList > p {
+  border-top: 2px dashed;
+  margin:0; padding: 30px;
+  counter-increment: section;
+  position: relative;
+  text-align: left;
+}
+
+
+
+.curveList > p:nth-child(even):before {
+  /* content: counter(section);
+  right: 100%;
+  margin-right: -20px;
+  position: absolute;
+  border-radius: 50%;
+  padding: 10px;
+  height: 20px;
+  width: 20px;
+  background-color: blue;
+  text-align:center;
+  color: white;
+  font-size: 110%; */
+  content: counter(section);
+      right: 100%;
+      margin-right: -20px;
+      position: absolute;
+      border-radius: 50%;
+      padding: 0px;
+      height: 40px;
+      width: 40px;
+      background-color: blue;
+      text-align: center;
+      color: white;
+      font-size: 1.5em;
+}
+
+.curveList > p:nth-child(odd):before {
+  /* content: counter(section);
+  left: 100%;
+  margin-left: -20px;
+  position: absolute;
+  border-radius: 50%;
+  padding: 10px;
+  height: 20px;
+  width: 20px;
+  background-color: blue;
+  text-align:center;
+  color: white;
+  font-size: 110%; */
+  content: counter(section);
+left: 100%;
+margin-left: -20px;
+position: absolute;
+border-radius: 50%;
+/* padding: 10px; */
+height: 40px;
+width: 40px;
+background-color: blue;
+text-align: center;
+color: white;
+font-size: 1.5em;
+}
+
+
+
+.curveList > p:nth-child(even) {
+  border-left: 2px dashed;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  margin-right: 30px;
+  padding-right: 0;
+}
+
+.curveList > p:nth-child(odd) {
+  border-right: 2px dashed;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  margin-left: 30px;
+  padding-left: 0;
+}
+
+.curveList > p:first-child {
+  border-top: 0;
+  border-top-right-radius:0;
+  border-top-left-radius:0;
+}
+
+.curveList > p:last-child {
+  border-bottom-right-radius:0;
+  border-bottom-left-radius:0;
+}
+
+.matching_b_bo{
+.border-color: unset;
+
+}
+
+
+
+.search-box,.close-icon,.search-wrapper {
+	position: relative;
+	padding: 4px 8px 2px;
+}
+.search-wrapper {
+	width: 500px;
+	margin: auto;
+	margin-top: 50px;
+}
+.search-w{
+  border-top: 1px dotted;
+padding-top: 14px;
+}
+.search-box {
+	width: 89%;
+	border: 1px solid #ccc;
+  outline: 0;
+  border-radius: 4px;
+}
+.search-box:focus {
+	box-shadow: 0 0 15px 5px #b0e0ee;
+	border: 2px solid #bebede;
+}
+.close-icon {
+	border:1px solid transparent;
+	background-color: transparent;
+	display: inline-block;
+	vertical-align: middle;
+  outline: 0;
+  cursor: pointer;
+}
+.close-icon:after {
+	content: "X";
+	display: block;
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	background-color: #FA9595;
+	z-index:1;
+	right: 30px;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	padding: 2px;
+	border-radius: 50%;
+	text-align: center;
+	color: white;
+	font-weight: normal;
+	font-size: 12px;
+	box-shadow: 0 0 2px #E50F0F;
+	cursor: pointer;
+}
+.search-box:not(:valid) ~ .close-icon {
+	display: none;
+}
+
+
+
+/* make keyframes that tell the start state and the end state of our object */
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.fade-in {
+  opacity:0;  /* make things invisible upon start */
+  -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+  -moz-animation:fadeIn ease-in 1;
+  animation:fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1s;
+  -moz-animation-duration:1s;
+  animation-duration:1s;
+}
+
+
 /*# sourceMappingURL=style1.css.map */

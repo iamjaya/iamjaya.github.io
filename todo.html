@@ -1,7 +1,22 @@
 <!DOCTYPE html>
 <html>
+
 <body>
-<h1>ToDo works</h1>
-<p>Following are the list of works i wanna do</p>
+  <h1>ToDo works</h1>
+  <p>Following are the list of works i wanna do</p>
+  <script src="https://cdn.jsdelivr.net/alasql/latest/alasql.min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    // alasql(['SELECT * FROM JSON("a.json")',
+    //          'SELECT * FROM JSON("b.json")',
+    //          'SELECT * FROM JSON("c.json")'].then(function(res) {
+    //           var a = res[0], b = res[1], b = res[2];
+    //  });
+    alasql(['SELECT * FROM JSON("content/spring/data.json")',
+      'SELECT * FROM JSON("content/atom/data.json")'
+    ]).then(function(res) {
+      console.log(res);
+    });
+  </script>
 </body>
+
 </html>
