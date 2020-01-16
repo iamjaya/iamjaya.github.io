@@ -1208,7 +1208,7 @@ button:focus {
 }
 .code_inline Jcaption::before{
 
-    content: 'Code_Snippet. 'counter(codeinline) ' - ' !important;
+    content: 'Snippet. 'counter(codeinline) ' - ' !important;
 }
 
 

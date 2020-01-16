@@ -147,58 +147,70 @@ main.initEvents=initEvents;
     });
   }
 
+  //
+  // function loadURLDirect(itemURL){
+  //
+  // // item.addEventListener('click', function(ev) {
+  //   //  ev.preventDefault();
+  //
+  //     if (isAnimating || current === pos) {
+  //       return false;
+  //     }
+  //     isAnimating = true;
+  //     // index of current item
+  //     ////console.log(pos);
+  //     //  pos=0; // added by jai
+  //     current = pos;
+  //     // simulate loading time..
+  //     classie.add(itemURL, 'grid__item--loading');
+  //     setTimeout(function() {
+  //       classie.add(item, 'grid__item--animate');
+  //
+  //       // reveal/load content after the last element animates out (todo: wait for the last transition to finish)
+  //       setTimeout(function() {
+  //         loadContent(itemURL);
+  //       }, 500);
+  //     }, 1000);
+  // //  });
+  // //});
+  //
+  //
+  // // hamburger menu button (mobile) and close cross
+  // menuCtrl.addEventListener('click', function() {
+  //   if (!classie.has(sidebarEl, 'sidebar--open')) {
+  //     classie.add(sidebarEl, 'sidebar--open');
+  //   }
+  // });
+  //
+  // menuCloseCtrl.addEventListener('click', function() {
+  //   if (classie.has(sidebarEl, 'sidebar--open')) {
+  //     classie.remove(sidebarEl, 'sidebar--open');
+  //   }
+  // });
+  //
+  // }
 
-  function loadURLDirect(itemURL){
-
-  // item.addEventListener('click', function(ev) {
-    //  ev.preventDefault();
-
-      if (isAnimating || current === pos) {
-        return false;
-      }
-      isAnimating = true;
-      // index of current item
-      ////console.log(pos);
-      //  pos=0; // added by jai
-      current = pos;
-      // simulate loading time..
-      classie.add(itemURL, 'grid__item--loading');
-      setTimeout(function() {
-        classie.add(item, 'grid__item--animate');
-
-        // reveal/load content after the last element animates out (todo: wait for the last transition to finish)
-        setTimeout(function() {
-          loadContent(itemURL);
-        }, 500);
-      }, 1000);
-  //  });
-  //});
 
 
-  // hamburger menu button (mobile) and close cross
-  menuCtrl.addEventListener('click', function() {
-    if (!classie.has(sidebarEl, 'sidebar--open')) {
-      classie.add(sidebarEl, 'sidebar--open');
+  function loadContent(item,loadByID) {
+var directLoadByAid=false;
+    if(isDefinedOrNot_True_False(loadByID)){
+      console.log("yes defiened by article id");
+directLoadByAid=true;
+    } else {
+
+
+console.log("not defiened by article id");
     }
-  });
-
-  menuCloseCtrl.addEventListener('click', function() {
-    if (classie.has(sidebarEl, 'sidebar--open')) {
-      classie.remove(sidebarEl, 'sidebar--open');
-    }
-  });
-
-  }
-
-  function loadContent(item) {
     // add expanding element/placeholder
     var dummy = document.createElement('div');
     dummy.className = 'placeholder';
 
     // set the width/heigth and position
+    if(!directLoadByAid) {
     dummy.style.WebkitTransform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop - 5) + 'px, 0px) scale3d(' + item.offsetWidth / gridItemsContainer.offsetWidth + ',' + item.offsetHeight / getViewport('y') + ',1)';
      dummy.style.transform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop - 5) + 'px, 0px) scale3d(' + item.offsetWidth / gridItemsContainer.offsetWidth + ',' + item.offsetHeight / getViewport('y') + ',1)';
-
+}
     // add transition class
     classie.add(dummy, 'placeholder--trans-in');
 
@@ -267,7 +279,7 @@ content_sub=item.getAttribute("cat");
   }
 
   function hideContent() {
-    console.log("Enterinto HIde Method");
+  //  console.log("Enterinto HIde Method");
   //  console.log("::::::::::::::::::::::::");
   //  if(articleWindow){
     articleWindow=false;
@@ -334,8 +346,25 @@ content_sub=item.getAttribute("cat");
 
 
   this.closeAction = function() {
-          hideContent();
+
+    if(isLoadedFromDirect_By_AID){
+
+
+        var referrer =location.origin;// document.referrer;
+        console.log("jklmn"+referrer);
+        window.location=referrer;
+    } else{
+          hideContent();}
       };
+
+      this.loadArticleByID=function(item){
+console.log("Initiated loadArticleByID");
+console.log("ima jai" + item.getAttribute('loadURL'));
+loadContent(item,"yesdirectLoadByAID");
+      };
+      this.initiateMain=function(){
+        init();
+      }
   //var closeAction=
 
   init();

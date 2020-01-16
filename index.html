@@ -94,9 +94,15 @@
 		</div>
 	</div><!-- /container -->
 
+	<script src="plugins/base64/script.js" charset="utf-8">
+	</script>
 	<script src="plugins/url/script.js" charset="utf-8"></script>
 
 	<script type="text/javascript">
+		console.log(Base64.encode('http://127.0.0.1:3000/?cat=spring')); // ZGFua29nYWk=
+		console.log(Base64.decode('aHR0cDovLzEyNy4wLjAuMTozMDAwLz9jYXQ9c3ByaW5n')); // dankogai);
+		Base64.encode('小飼弾'); // 5bCP6aO85by+
+		Base64.encodeURI('小飼弾'); // 5bCP6aO85by-
 		var u = new Url();
 		console.log(u.toString());
 	</script>

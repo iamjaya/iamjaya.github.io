@@ -20,6 +20,7 @@ var pageTitle = document.getElementById('pageTitle');
 var classThreedBox = (getConfig('threeDboxStyle')) ? 'threedbox' : 'no3dbox graycolor';
 var figureCaptionBorder_style=(getConfig('figureCaptionBorder'))? 'borderStyle' : 'noBorderJSiteBlock';
 var mainCtrl;
+var isLoadedFromDirect_By_AID=false;
 var UID = {
   _current: 0,
   getNew: function() {
@@ -53,26 +54,33 @@ for(a=0;a<catQueue.length;a++){
 
 }
 function createMainMenu_ctrl(){
-  var menus='<a class="menuItem" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName(\'data\',this,\'red\');">Home</a>';
+
+
+  var menus='<a class="menuItem" id="home" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName(\'home\');">Home</a>';
+  menu.sort();
 //  console.log(menus);
 	//<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('atom',this,'#dda131')">Atom IDE</a>
   for (var i = 0; i < menu.length; i++) {
-menus=menus+'	<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName(\''+menu[i]+'\',this,\'#dda131\')">'+menu[i]+'</a>';
+    var menuD = menu[i].split('|');
+    var menu_displayLabel=menuD[1],menuStatus=menuD[2],menuID_ctrl=menuD[0];
+    if(menuStatus=='true'){
+  menus=menus+'	<a class="menuItem" id="'+menuID_ctrl+'"href="javascript:void(0);" onclick="loadArticlesByTechName(\''+menuID_ctrl+'\')">'+menu_displayLabel+'</a>';
+}
   }
   document.getElementById('mainMenuID').innerHTML=menus;
-  console.log(menus);
+//  console.log(menus);
 }
 
 function searchArticle(queryString, callback){
 
 console.log(menu);
 getSearchQuery(menu);
-  alasql(['SELECT * FROM JSON("content/spring/data.json") WHERE article_title LIKE "%'+queryString+'%"',
-    'SELECT * FROM JSON("content/atom/data.json")'
+  alasql(['SELECT * , ROWNUM() as rn FROM JSON("content/spring/data.json") WHERE article_title LIKE "%'+queryString+'%"',
+    'SELECT * , ROWNUM() as rn FROM JSON("content/atom/data.json")'
   ]).then(function(res) {
     article_Itmes="";
     callback(res);
-    console.log(res.length);
+    console.log(res);
     mainCtrl = new main();
 
   });
@@ -154,8 +162,8 @@ function loadHTML(url, fun, storage, param, authorID) {
         fun(storage, param);
 articleWindow=true;
 
-        var url_array = url.split('/');
-        var color_code = url_array[1];
+        //var url_array = url.split('/');
+        // var color_code = url_array[1];
         article_title_obj = document.getElementById("article_title");
         var style = document.createElement('style');
         style.type = 'text/css';
@@ -182,11 +190,11 @@ articleWindow=true;
         contentCB(mainColor);
 
 
-				figureColorCode(color_code);
+				figureColorCode(mainColor);
 
 
 
-				figureCaptionColorCode(color_code);
+				figureCaptionColorCode(mainColor);
 
 
         var codeBlocks_array = document.getElementsByClassName("codeBlock"); // codeBlocks.getAttribute('data').split(",");
@@ -513,6 +521,20 @@ loadArticleGrids(inn,"search");
 
 
 }
+
+function isDefinedOrNot_True_False(em){
+
+  if(typeof em !== 'undefined')  {
+return true;
+   //console.log('a exists!');
+    // actual_JSON =response;
+ } else {
+//console.log(response.length);
+  // actual_JSON = JSON.parse(response);
+
+return false;
+ }
+}
 function loadArticleGrids(response,isSearch) {
    //console.log(response);
    var actual_JSON ;
@@ -529,7 +551,9 @@ function loadArticleGrids(response,isSearch) {
   //console.log((actual_JSON.length));
 
   actual_JSON.forEach(function(article) {
-  article_Itmes = article_Itmes + '<div class="grid__item fade-in" cat="'+article.icon+'"href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"><div class="'+classThreedBox+'"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category" style="display:none;">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date" style="display:none;"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></div></div>';
+
+    var articelID_cat_authorinfo=Base64.encode(article.icon+'@jsite@'+article.article_loadURL+'@jsite@'+article.authorID);
+  article_Itmes = article_Itmes + '<div id="'+articelID_cat_authorinfo+'" unid="'+Base64.decode(articelID_cat_authorinfo)+'" class="grid__item fade-in" cat="'+article.icon+'"href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"><div class="'+classThreedBox+'"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category" style="display:none;">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date" style="display:none;"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></div></div>';
 //  content_sub=
 
   });
@@ -602,26 +626,25 @@ function setPageTitle(ptitle){
 
 }
 
-function loadArticlesByTechName(techName, menuItem, colorOfTech) {
+function loadArticlesByTechName(techName) {
 
-  mainColor = (getConfig('multiColor')) ? colorOfTech : mainColor;
-  menuChanges(menuItem);
-
-
-
-
-  if (techName != "data") {
+var menuItem=getElementById(techName);
+  mainColor = (getConfig('multiColor')) ? getMenuColor(techName) : mainColor;
+  if (techName != "home") {
 setPageTitle(techName);
     loadJSON('content/' + techName + '/data.json', loadArticleGrids);
 
   } else {
-
+mainColor=getConfig('mainColor');
   setPageTitle("Home");
     loadJSON('content/data.json', loadArticleGrids);
   }
+  menuChanges(menuItem);
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
+
+
 
 function getElementById(eid){return document.getElementById(eid);}
 
@@ -637,9 +660,91 @@ if(jtitle.length!=0){
 
 }
 
+
+function getCatFromURL(){
+
+
+}
+
+function getDefinedOrNot(em){
+if (typeof em != "undefined")
+  {
+return true;
+    //console.log("defined"+em);
+  }
+
+else{
+return false;
+  //console.log("not defined" + em);
+}
+}
+
+function getAid_cat_authorID_from_Decode_String(t){
+
+var t_i=t.split('@jsite@');
+console.log(t_i.length);
+for (var i = 0; i < t_i.length; i++) {
+  console.log(t_i[i])
+}
+return t_i;
+
+
+}
+
 function init() {
-createMainMenu_ctrl();
-addJSiteMainName();
+
+  var referrer =location.origin;// document.referrer;
+  console.log("jklmn"+referrer);
+  createMainMenu_ctrl();
+  addJSiteMainName();
+
+  var u = new Url();
+  console.log(u.toString());
+  var cat_from_url=u.query.cat;
+  console.log(u.query.cat);
+
+
+  var article_id_from_url=u.query.aid;
+
+
+  if(  getDefinedOrNot(article_id_from_url)){
+//  loadArticlesByTechName(cat_from_url);
+isLoadedFromDirect_By_AID=true;
+var ar_id, au_id,cat_t;
+var decodedArticleID=Base64.decode(article_id_from_url);
+//console.log(decodedArticleID);
+var t_i=getAid_cat_authorID_from_Decode_String(decodedArticleID);
+cat_t=t_i[0];
+ar_id=t_i[1];
+au_id=t_i[2];
+var item = document.createElement('div');
+item.setAttribute('loadURL',ar_id);
+item.setAttribute('authorID',au_id);
+mainCtrl=new main();
+
+mainCtrl.loadArticleByID(item);
+
+//main();
+//loadWholePage(ar_id,au_id);
+
+  } else {
+
+
+  //loadJSON('content/data.json', loadArticleGrids); }
+
+
+
+
+if(  getDefinedOrNot(cat_from_url)){
+loadArticlesByTechName(cat_from_url);
+
+} else {
+
+
   loadJSON('content/data.json', loadArticleGrids);
+}
+}
+
+
 }
 init();
