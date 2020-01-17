@@ -8,6 +8,8 @@ var config = {
   threeDboxStyle:false,
   figureCaptionBorder:false,
   multiColor:true,
+  fullWindowArticleView:true,
+  desktopModel:true,
   //menu:['menuID|Menu Label|categoryColor|Status','menuID2|Menu Label2|categoryColor2|Status2',]
 //  menu: ['python','spring','java','atom','nodejs','jmeter']
   menu: ['python|Python|true','spring|Spring|true','java|Java|true','atom|Atom IDE|true','nodejs|Node.js|true','jmeter|JMeter|false']

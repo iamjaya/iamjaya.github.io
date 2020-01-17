@@ -72,7 +72,7 @@ button:focus {
 }
 
 .sidebar h1 {
-  margin: 0.75em 0 0;
+  margin: 0.05em 0 0;
   font-size: 2em;
   line-height: 1;
   font-family: "Playfair Display", serif;
@@ -780,7 +780,7 @@ button:focus {
 }
 
 /* close button (for content and sidebar) */
-.close-button {
+.close-button,.max-button,.min-button {
   position: absolute;
   border: none;
   background: none;
@@ -1133,7 +1133,7 @@ button:focus {
 }
 
 .article {
-  width: 96%;
+  width: 100%;
   /*  max-width: 50em; */
   margin: 0 auto;
   padding: 1em;
@@ -1399,9 +1399,37 @@ height: auto !important;
 {
   padding: 2px;
   margin-right: 10px;
-  top:-3px;
+  top:3px;
+  width: 24px;
+height: 24px;
 }
 
+.max-button{
+  padding: 2px;
+  margin-right: 34px;
+  top:3px;
+  width: 24px;
+  height: 24px;
+
+
+}
+.min-button{
+  padding: 2px;
+margin-right: 60px;
+top: 3px;
+width: 24px;
+height: 24px;
+}
+.max-button img, .min-button img, .close-button img {
+margin: 0px auto;
+display: block;
+  width: 18px
+}
+.max-button:hover, .min-button:hover, .close-button:hover {
+
+background: #e1e1e1;
+border-radius: 50%;
+}
 
 .hljs{
 
@@ -1739,5 +1767,287 @@ padding-top: 14px;
   animation-duration:1s;
 }
 
+.wideSection{
 
+  margin-left: 0px !important;
+  z-index: 2000;
+  -webkit-transition:all 1.0s ease-in-out;
+  -moz-transition:all 1.0s ease-in-out;
+  -o-transition:all 1.0s ease-in-out;
+  transition:all 1.0s ease-in-out;
+}
+
+.miniSection{
+  -webkit-transition: all 1.0s ease;
+  -moz-transition: all 1.0s ease;
+  -o-transition: all 1.0s ease;
+  -ms-transition: all 1.0s ease;
+  transition: all 1.0s ease;
+
+}
+
+.windowToolbar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+    padding: 4px;
+    height: 34px;
+  z-index: 2000;
+  background-color: #efefef;
+  text-align: center;
+
+}
+
+
+
+.tabTool{
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  padding: 6px 20px;
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid #bbb;
+  overflow: visible;
+  font: bold 13px arial, helvetica, sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #555;
+  width: 100px;
+  overflow: hidden;
+text-overflow: ellipsis;
+  background-color: #ddd;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,1)), to(rgba(255,255,255,0)));
+  background-image: -webkit-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+  background-image: -moz-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+  background-image: -ms-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+  background-image: -o-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+  background-image: linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+
+  -webkit-transition: background-color .2s ease-out;
+  -moz-transition: background-color .2s ease-out;
+  -ms-transition: background-color .2s ease-out;
+  -o-transition: background-color .2s ease-out;
+  transition: background-color .2s ease-out;
+  background-clip: padding-box; /* Fix bleeding */
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+  text-shadow: 0 1px 0 rgba(255,255,255, .9);
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.tabTool:hover{
+  background-color: #eee;
+  color: #555;
+}
+
+.tabTool:active{
+  background: #e9e9e9;
+  position: relative;
+  top: 1px;
+  text-shadow: none;
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+}
+
+.tabTool[disabled], .tabTool[disabled]:hover, .tabTool[disabled]:active{
+  border-color: #eaeaea;
+  background: #fafafa;
+  cursor: default;
+  position: static;
+  color: #999;
+  /* Usually, !important should be avoided but here it's really needed :) */
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Smaller tabTools styles */
+
+.tabTool.small{
+  padding: 4px 12px;
+}
+
+/* Larger tabTools styles */
+
+.tabTool.large{
+  padding: 12px 30px;
+  text-transform: uppercase;
+}
+
+.tabTool.large:active{
+  top: 2px;
+}
+
+/* Colored tabTools styles */
+
+.tabTool.green, .tabTool.red, .tabTool.blue {
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.3)), to(rgba(255,255,255,0)));
+  background-image: -webkit-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+  background-image: -moz-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+  background-image: -ms-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+  background-image: -o-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+  background-image: linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+}
+
+/* */
+
+.tabTool.green{
+  background-color: #57a957;
+  border-color: #57a957;
+}
+
+.tabTool.green:hover{
+  background-color: #62c462;
+}
+
+.tabTool.green:active{
+  background: #57a957;
+}
+
+/* */
+
+.tabTool.red{
+  background-color: #ca3535;
+  border-color: #c43c35;
+}
+
+.tabTool.red:hover{
+  background-color: #ee5f5b;
+}
+
+.tabTool.red:active{
+  background: #c43c35;
+}
+
+/* */
+
+.tabTool.blue{
+  background-color: #269CE9;
+  border-color: #269CE9;
+}
+
+.tabTool.blue:hover{
+  background-color: #70B9E8;
+}
+
+.tabTool.blue:active{
+  background: #269CE9;
+}
+
+/* */
+
+.green[disabled], .green[disabled]:hover, .green[disabled]:active{
+  border-color: #57A957;
+  background: #57A957;
+  color: #D2FFD2;
+}
+
+.red[disabled], .red[disabled]:hover, .red[disabled]:active{
+  border-color: #C43C35;
+  background: #C43C35;
+  color: #FFD3D3;
+}
+
+.blue[disabled], .blue[disabled]:hover, .blue[disabled]:active{
+  border-color: #269CE9;
+  background: #269CE9;
+  color: #93D5FF;
+}
+
+/* Group tabTools */
+
+.tabTool-group,
+.tabTool-group li{
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+
+.tabTool-group{
+  font-size: 0; /* Inline block elements gap - fix */
+  margin: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, .1);
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  padding: 0px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+}
+
+.tabTool-group li{
+  margin-right: -1px; /* Overlap each right tabTool border */
+}
+
+.tabTool-group .tabTool{
+  font-size: 13px; /* Set the font size, different from inherited 0 */
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+
+.tabTool-group .tabTool:active{
+  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+}
+
+.tabTool-group li:first-child .tabTool{
+  -moz-border-radius: 3px 0 0 3px;
+  -webkit-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+.tabTool-group li:first-child .tabTool:active{
+  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+}
+
+.tabTool-group li:last-child .tabTool{
+  -moz-border-radius: 0 3px 3px 0;
+  -webkit-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.tabTool-group li:last-child .tabTool:active{
+  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+}
+
+#displayContent .articleFullView { display: none; }
+#displayContent .articleFullView:first-child { display: block; }
+.hide {
+
+  display: none !important;
+}
+
+/* overlay styles, all needed */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 10;
+}
 /*# sourceMappingURL=style1.css.map */
