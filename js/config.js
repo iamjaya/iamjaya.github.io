@@ -4,10 +4,10 @@ var config = {
   theme:'moon',
   browserwindow: true,
   displayAuthorInfo: true,
-  mainColor: "deeppink",
+  mainColor: "#2fad06",
   threeDboxStyle:false,
   figureCaptionBorder:false,
-  multiColor:true,
+  multiColor:false,
   fullWindowArticleView:true,
   desktopModel:true,
   //menu:['menuID|Menu Label|categoryColor|Status','menuID2|Menu Label2|categoryColor2|Status2',]

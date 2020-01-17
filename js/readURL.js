@@ -484,6 +484,7 @@ function searchArticleCtrl(category_name, menuItem) {
     }
 }
 function menuChanges(menuItem) {
+  console.log(mainColor+"mainColor");
     var menu = document.getElementsByClassName('menuItem');
     var i;
     for (i = 0; i < menu.length; i++) {
@@ -502,6 +503,7 @@ function setPageTitle(ptitle) {
 function loadArticlesByTechName(techName) {
     var menuItem = getElementById(techName);
     mainColor = (getConfig('multiColor')) ? getMenuColor(techName) : mainColor;
+
     if (techName != "home") {
         setPageTitle(menuItem.innerHTML);
         loadJSON('content/' + techName + '/data.json', loadArticleGrids);
@@ -555,8 +557,11 @@ function get_Menu_Item_and_Color_code_from_articleID(aaid) {
 function hideLoadedArticles_but_view_current_by_article_ID(idValue) {
     var c = document.querySelectorAll('.articleFullView');
     var mic = get_Menu_Item_and_Color_code_from_articleID(idValue);
-    mainColor = mic['menuColor'];
+  //  mainColor = ;
+    mainColor = (getConfig('multiColor')) ? mic['menuColor'] : mainColor;
+    
     loadColoring();
+
     //  console.log("jaya"+mic['menuItem']);
     menuChanges(getElementById(mic['menuItem']));
     //  console.log(mainColor);
@@ -661,6 +666,12 @@ function init() {
         if (getDefinedOrNot(cat_from_url)) {
             loadArticlesByTechName(cat_from_url);
         } else {
+          mainColor = getConfig('mainColor');
+          console.log(mainColor+"mmmm");
+          var menuItem = getElementById("home");
+
+         menuChanges(menuItem);
+
             loadJSON('content/data.json', loadArticleGrids);
         }
     }
