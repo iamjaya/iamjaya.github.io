@@ -1,8 +1,6 @@
-
-var main_Loaded=false;
+var main_Loaded = false;
 var article_Content_area = document.getElementById("content");
 var article_title_obj;
-
 var mainColor = getConfig('mainColor');
 var authorImg = "";
 var author_display_name = "";
@@ -10,940 +8,661 @@ var authorsFolder = "authors";
 var lazyloadImages; // = document.querySelectorAll("img.lazy");
 var lazyloadThrottleTimeout;
 var scroller = document.querySelector('#scroller');
-var fromTab=false;
+var fromTab = false;
 var article_title = "";
 var displayed = false;
 var content_sub;
-var articleWindow=false;
+var articleWindow = false;
 var article_Itmes = "";
 var pageTitle = document.getElementById('pageTitle');
 var classThreedBox = (getConfig('threeDboxStyle')) ? 'threedbox' : 'no3dbox graycolor';
-var figureCaptionBorder_style=(getConfig('figureCaptionBorder'))? 'borderStyle' : 'noBorderJSiteBlock';
+var figureCaptionBorder_style = (getConfig('figureCaptionBorder')) ? 'borderStyle' : 'noBorderJSiteBlock';
 var mainCtrl;
-var isLoadedFromDirect_By_AID=false;
+var isLoadedFromDirect_By_AID = false;
 var articleId_current_opened_full_view;
-var openedArticles=[];
-var tabToolBottom=document.getElementById('tabToolBottom');
+var openedArticles = [];
+var tabToolBottom = document.getElementById('tabToolBottom');
 var title_preview;
-var overlay=document.querySelectorAll('.overlay');
-
+var overlay = document.querySelectorAll('.overlay');
+var directLoadByAid = false;
 var UID = {
-  _current: 0,
-  getNew: function() {
-    this._current++;
-    return this._current;
-  }
+    _current: 0,
+    getNew: function() {
+        this._current++;
+        return this._current;
+    }
 };
-var menu=getConfig('menu');
-
+var menu = getConfig('menu');
 HTMLElement.prototype.pseudoStyle = function(element, prop, value) {
-  var _this = this;
-  var _sheetId = "pseudoStyles";
-  var _head = document.head || document.getElementsByTagName('head')[0];
-  var _sheet = document.getElementById(_sheetId) || document.createElement('style');
-  _sheet.id = _sheetId;
-  var className = "pseudoStyle" + UID.getNew();
-
-  _this.className += " " + className;
-
-  _sheet.innerHTML += "\n." + className + ":" + element + "{" + prop + ":" + value + "}";
-  _head.appendChild(_sheet);
-  return this;
+    var _this = this;
+    var _sheetId = "pseudoStyles";
+    var _head = document.head || document.getElementsByTagName('head')[0];
+    var _sheet = document.getElementById(_sheetId) || document.createElement('style');
+    _sheet.id = _sheetId;
+    var className = "pseudoStyle" + UID.getNew();
+    _this.className += " " + className;
+    _sheet.innerHTML += "\n." + className + ":" + element + "{" + prop + ":" + value + "}";
+    _head.appendChild(_sheet);
+    return this;
 };
-
-function getSearchQuery(catQueue){
-
-for(a=0;a<catQueue.length;a++){
-
-  console.log(catQueue[a]);
-}
-
-}
-function createMainMenu_ctrl(){
-
-
-  var menus='<a class="menuItem" id="home" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName(\'home\');">Home</a>';
-  menu.sort();
-//  console.log(menus);
-	//<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('atom',this,'#dda131')">Atom IDE</a>
-  for (var i = 0; i < menu.length; i++) {
-    var menuD = menu[i].split('|');
-    var menu_displayLabel=menuD[1],menuStatus=menuD[2],menuID_ctrl=menuD[0];
-    if(menuStatus=='true'){
-  menus=menus+'	<a class="menuItem" id="'+menuID_ctrl+'"href="javascript:void(0);" onclick="loadArticlesByTechName(\''+menuID_ctrl+'\')">'+menu_displayLabel+'</a>';
-}
-  }
-  document.getElementById('mainMenuID').innerHTML=menus;
-//  console.log(menus);
-}
-
-function searchArticle(queryString, callback){
-
-console.log(menu);
-getSearchQuery(menu);
-  alasql(['SELECT * , ROWNUM() as rn FROM JSON("content/spring/data.json") WHERE article_title LIKE "%'+queryString+'%"',
-    'SELECT * , ROWNUM() as rn FROM JSON("content/atom/data.json")'
-  ]).then(function(res) {
-    article_Itmes="";
-    callback(res);
-    console.log(res);
-    mainCtrl = new main();
-
-  });
-}
-
-function loadJSON(json_file_url, callback, no_main) {
-
-  var xobj = new XMLHttpRequest();
-  xobj.overrideMimeType("application/json");
-  xobj.open('GET', json_file_url, true); // Replace 'my_data' with the path to your file
-  xobj.onreadystatechange = function() {
-    if (xobj.readyState == 4 && xobj.status == "200") {
-      // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-article_Itmes="";
-      callback(xobj.responseText);
-      if (!!no_main || no_main === '') {} else {
-				if(!main_Loaded){
-        mainCtrl = new main();
-		//		main_Loaded=true;
-			}
-      }
-
+function getSearchQuery(catQueue) {
+    for (a = 0; a < catQueue.length; a++) {
+        console.log(catQueue[a]);
     }
-  };
-  xobj.send(null);
 }
-
-
-function createXHR() {
-  var request = false;
-  try {
-    request = new ActiveXObject('Msxml2.XMLHTTP');
-  } catch (err2) {
-    try {
-      request = new ActiveXObject('Microsoft.XMLHTTP');
-    } catch (err3) {
-      try {
-        request = new XMLHttpRequest();
-      } catch (err1) {
-        request = false;
-      }
-    }
-  }
-  return request;
-}
-
-function getBody(content) {
-/*  test = content.toLowerCase(); // to eliminate case sensitivity
-  var x = test.indexOf("<body");
-  if (x == -1) return "";
-  x = test.indexOf(">", x);
-  if (x == -1) return "";
-
-  var y = test.lastIndexOf("</body>");
-  if (y == -1) y = test.lastIndexOf("</html>");
-  if (y == -1) y = content.length; // If no HTML then just grab everything till end
-
-  return content.slice(x + 1, y); */
-	return content;
-}
-
-/**
-	Loads a HTML page
-	Put the content of the body tag into the current page.
-	Arguments:
-		url of the other HTML page to load
-		id of the tag that has to hold the content
-*/
-
-function loadHTML(url, fun, storage, param, authorID) {
-  var xhr = createXHR();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4) {
-
-
-      //if(xhr.status == 200)
-      {
-addOverlay();
-        var articleFullView=document.createElement('div');
-        articleFullView.setAttribute("class","articleFullView");
-        articleFullView.setAttribute("id",articleId_current_opened_full_view);
-        if(!chechTabToolItemExistOrNot(articleId_current_opened_full_view)){
-          addToolTab_ctrl();
-
-
+function createMainMenu_ctrl() {
+    var menus = '<a class="menuItem" id="home" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName(\'home\');">Home</a>';
+    menu.sort();
+    //  console.log(menus);
+    //<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('atom',this,'#dda131')">Atom IDE</a>
+    for (var i = 0; i < menu.length; i++) {
+        var menuD = menu[i].split('|');
+        var menu_displayLabel = menuD[1],
+            menuStatus = menuD[2],
+            menuID_ctrl = menuD[0];
+        if (menuStatus == 'true') {
+            menus = menus + '   <a class="menuItem" id="' + menuID_ctrl + '"href="javascript:void(0);" onclick="loadArticlesByTechName(\'' + menuID_ctrl + '\')">' + menu_displayLabel + '</a>';
         }
-        if(!isArtcileFullViewLoadedOrNot(articleId_current_opened_full_view))
-        {
-
-          openedArticles.push(articleId_current_opened_full_view);
-        //  console.log("exxxxx"+articleId_current_opened_full_view);
-        articleFullView.innerHTML=getBody(xhr.responseText);
-        storage.insertBefore(articleFullView, storage.firstChild);
-
-         fun(storage, param);
-
-  //  loadColoring();
-
-        var codeBlocks_array = document.getElementsByClassName("codeBlock"); // codeBlocks.getAttribute('data').split(",");
-
-        for (j = 0; j < codeBlocks_array.length; j++) {
-
-
-          var cbID = "codeBlock_" + j;
-
-          var settings_obj = codeBlocks_array[j]; // document.getElementById(codeBlocks_array[j]);
-          settings_obj.setAttribute("id", cbID);
-          var owner = settings_obj.getAttribute('owner');
-          var repo = settings_obj.getAttribute('repo');
-          var ref = settings_obj.getAttribute('ref');
-          var embeded = settings_obj.getAttribute('embeded');
-          var array_embeded = embeded.split(",");
-          var array_embeded_obj = new Array();
-          for (i = 0; i < array_embeded.length; i++) {
-            array_embeded_obj[i] = JSON.parse(array_embeded[i]);
-          }
-          githubEmbed('#' + cbID + '', {
-            "owner": owner,
-            "repo": repo,
-            "ref": ref,
-            "embed": array_embeded_obj
-          }); // end of github-embedded
-
-        } // for loop end for code blocks
-
-
-
-
-
-        			lazyLoadImages();
-
-      } // after this
-
-      articleWindow=true;
-
-      //var url_array = url.split('/');
-      // var color_code = url_array[1];
-
-
-    hideLoadedArticles_but_view_current_by_article_ID(articleId_current_opened_full_view);
-  //  article_title_obj = document.querySelector("#"+articleId_current_opened_full_view+" .title--full");
-
-
-
-  //if(!fromTab) {
-  if(!getElementById("authorDivID"+articleId_current_opened_full_view)){
-
-    if (getConfig('displayAuthorInfo')) {
-
-      displayAuthorData();
-      loadAuthorsInfo(authorID, authorsFolder);
-
-
-     }
-
-   }
-  addBrowserLook();
-  fromTab=false;
-  console.log("openedArticles");
-  console.log(openedArticles);
-  //  console.log(articleId_current_opened_full_view+"tripcore");
-    //storage.innerHTML=getBody(xhr.responseText);
-
     }
-
-  }
-  };
-
-  xhr.open("GET", url, true);
-  xhr.send(null);
-
+    document.getElementById('mainMenuID').innerHTML = menus;
+    //  console.log(menus);
 }
-
+function searchArticle(queryString, callback) {
+    console.log(menu);
+    getSearchQuery(menu);
+    alasql(['SELECT * , ROWNUM() as rn FROM JSON("content/spring/data.json") WHERE article_title LIKE "%' + queryString + '%"',
+        'SELECT * , ROWNUM() as rn FROM JSON("content/atom/data.json")'
+    ]).then(function(res) {
+        article_Itmes = "";
+        callback(res);
+        console.log(res);
+        mainCtrl = new main();
+    });
+}
+function loadJSON(json_file_url, callback, no_main) {
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', json_file_url, true); // Replace 'my_data' with the path to your file
+    xobj.onreadystatechange = function() {
+        if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            article_Itmes = "";
+            callback(xobj.responseText);
+            if (!!no_main || no_main === '') {} else {
+                if (!main_Loaded) {
+                    mainCtrl = new main();
+                    //      main_Loaded=true;
+                }
+            }
+        }
+    };
+    xobj.send(null);
+}
+function createXHR() {
+    var request = false;
+    try {
+        request = new ActiveXObject('Msxml2.XMLHTTP');
+    } catch (err2) {
+        try {
+            request = new ActiveXObject('Microsoft.XMLHTTP');
+        } catch (err3) {
+            try {
+                request = new XMLHttpRequest();
+            } catch (err1) {
+                request = false;
+            }
+        }
+    }
+    return request;
+}
+function getBody(content) {
+    /*  test = content.toLowerCase(); // to eliminate case sensitivity
+      var x = test.indexOf("<body");
+      if (x == -1) return "";
+      x = test.indexOf(">", x);
+      if (x == -1) return "";
+      var y = test.lastIndexOf("</body>");
+      if (y == -1) y = test.lastIndexOf("</html>");
+      if (y == -1) y = content.length; // If no HTML then just grab everything till end
+      return content.slice(x + 1, y); */
+    return content;
+}
 /**
-	Callback
-	Assign directly a tag
+    Loads a HTML page
+    Put the content of the body tag into the current page.
+    Arguments:
+        url of the other HTML page to load
+        id of the tag that has to hold the content
 */
-function threeDBoxStyle_activate(){
-
-if(getConfig('threeDboxStyle')){
-
-
+function loadHTML(url, fun, storage, param, authorID) {
+    var xhr = createXHR();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            //if(xhr.status == 200)
+            {
+                addOverlay();
+                var articleFullView = document.createElement('div');
+                articleFullView.setAttribute("class", "articleFullView");
+                articleFullView.setAttribute("id", articleId_current_opened_full_view);
+                if (!chechTabToolItemExistOrNot(articleId_current_opened_full_view) && !directLoadByAid) {
+                    addToolTab_ctrl();
+                }
+                if (!isArtcileFullViewLoadedOrNot(articleId_current_opened_full_view)) {
+                    openedArticles.push(articleId_current_opened_full_view);
+                    //  console.log("exxxxx"+articleId_current_opened_full_view);
+                    articleFullView.innerHTML = getBody(xhr.responseText);
+                    storage.insertBefore(articleFullView, storage.firstChild);
+                    fun(storage, param);
+                    //  loadColoring();
+                    var codeBlocks_array = document.getElementsByClassName("codeBlock"); // codeBlocks.getAttribute('data').split(",");
+                    for (j = 0; j < codeBlocks_array.length; j++) {
+                        var cbID = "codeBlock_" + j;
+                        var settings_obj = codeBlocks_array[j]; // document.getElementById(codeBlocks_array[j]);
+                        settings_obj.setAttribute("id", cbID);
+                        var owner = settings_obj.getAttribute('owner');
+                        var repo = settings_obj.getAttribute('repo');
+                        var ref = settings_obj.getAttribute('ref');
+                        var embeded = settings_obj.getAttribute('embeded');
+                        var array_embeded = embeded.split(",");
+                        var array_embeded_obj = new Array();
+                        for (i = 0; i < array_embeded.length; i++) {
+                            array_embeded_obj[i] = JSON.parse(array_embeded[i]);
+                        }
+                        githubEmbed('#' + cbID + '', {
+                            "owner": owner,
+                            "repo": repo,
+                            "ref": ref,
+                            "embed": array_embeded_obj
+                        }); // end of github-embedded
+                    } // for loop end for code blocks
+                    lazyLoadImages();
+                } // after this
+                articleWindow = true;
+                //var url_array = url.split('/');
+                // var color_code = url_array[1];
+                hideLoadedArticles_but_view_current_by_article_ID(articleId_current_opened_full_view);
+                //  article_title_obj = document.querySelector("#"+articleId_current_opened_full_view+" .title--full");
+                //if(!fromTab) {
+                if (!getElementById("authorDivID" + articleId_current_opened_full_view)) {
+                    if (getConfig('displayAuthorInfo')) {
+                        displayAuthorData();
+                        loadAuthorsInfo(authorID, authorsFolder);
+                    }
+                }
+                addBrowserLook();
+                fromTab = false;
+                console.log("openedArticles");
+                console.log(openedArticles);
+                //  console.log(articleId_current_opened_full_view+"tripcore");
+                //storage.innerHTML=getBody(xhr.responseText);
+            }
+        }
+    };
+    xhr.open("GET", url, true);
+    xhr.send(null);
 }
-
+/**
+    Callback
+    Assign directly a tag
+*/
+function threeDBoxStyle_activate() {
+    if (getConfig('threeDboxStyle')) {
+    }
 }
-
-function matching_b_bo_ctrl(mainColor_final)
-{
-
-
-  	        var matching_b_bo = document.querySelectorAll('.matching_b_bo > p');
-
-  	        var i1;
-  	        for (i1 = 0; i1 < matching_b_bo.length; i1++) {
-            //  console.log("mainColor_final");
-  	       //   matching_b_bo[i1].style.backgroundColor = mainColor_final;
-
-  	         matching_b_bo[i1].style.borderColor = mainColor_final+" !important";
-
-                   matching_b_bo[i1].pseudoStyle("before", "background-color", mainColor_final+" !important");
-
-  	          // classList.add(color_code);
-  	        }
-
+function matching_b_bo_ctrl(mainColor_final) {
+    var matching_b_bo = document.querySelectorAll('.matching_b_bo > p');
+    var i1;
+    for (i1 = 0; i1 < matching_b_bo.length; i1++) {
+        //  console.log("mainColor_final");
+        //   matching_b_bo[i1].style.backgroundColor = mainColor_final;
+        matching_b_bo[i1].style.borderColor = mainColor_final + " !important";
+        matching_b_bo[i1].pseudoStyle("before", "background-color", mainColor_final + " !important");
+        // classList.add(color_code);
+    }
 }
-
-function articleTitleStyle(mainColor_final){
-
-
-	        var topic_title = document.getElementsByClassName('topic_title');
-
-	        var i1;
-	        for (i1 = 0; i1 < topic_title.length; i1++) {
-	          topic_title[i1].style.color = mainColor_final;
-	         topic_title[i1].style.borderBottom = "2px solid " + mainColor_final;
-
-	          // classList.add(color_code);
-	        }
+function articleTitleStyle(mainColor_final) {
+    var topic_title = document.getElementsByClassName('topic_title');
+    var i1;
+    for (i1 = 0; i1 < topic_title.length; i1++) {
+        topic_title[i1].style.color = mainColor_final;
+        topic_title[i1].style.borderBottom = "2px solid " + mainColor_final;
+        // classList.add(color_code);
+    }
 }
-
-function styleQuotes(mainColor_final){
-
-
-  	        var quotes = document.getElementsByClassName('quotes');
-
-  	        var i1;
-  	        for (i1 = 0; i1 < quotes.length; i1++) {
-  	          quotes[i1].style.color = mainColor_final;
-  	         quotes[i1].style.borderLeftColor = mainColor_final;
-
-  	          // classList.add(color_code);
-  	        }
-
+function styleQuotes(mainColor_final) {
+    var quotes = document.getElementsByClassName('quotes');
+    var i1;
+    for (i1 = 0; i1 < quotes.length; i1++) {
+        quotes[i1].style.color = mainColor_final;
+        quotes[i1].style.borderLeftColor = mainColor_final;
+        // classList.add(color_code);
+    }
 }
-function contentCB(mainColor_final)
-{
-
-	        var cb = document.getElementsByTagName('cb');
-
-	        var cb1;
-
-	        for (cb1 = 0; cb1 < cb.length; cb1++) {
-
-	          cb[cb1].style.color = mainColor_final; //.add(color_code);
-
-	        }
-
+function contentCB(mainColor_final) {
+    var cb = document.getElementsByTagName('cb');
+    var cb1;
+    for (cb1 = 0; cb1 < cb.length; cb1++) {
+        cb[cb1].style.color = mainColor_final; //.add(color_code);
+    }
 }
-
-function figureCaptionColorCode(color_code_final){
-	var figcaption = document.getElementsByTagName('figcaption');
-	var i3;
-	for (i3 = 0; i3 < figcaption.length; i3++) {
-		figcaption[i3].classList.add(color_code_final + '_figcaption');
-	}
+function figureCaptionColorCode(color_code_final) {
+    var figcaption = document.getElementsByTagName('figcaption');
+    var i3;
+    for (i3 = 0; i3 < figcaption.length; i3++) {
+        figcaption[i3].classList.add(color_code_final + '_figcaption');
+    }
 }
-
-
-function figureColorCode(color_code_final){
-
-	var figure = document.getElementsByClassName('figure');
-
-	var i2;
-	for (i2 = 0; i2 < figure.length; i2++) {
-		figure[i2].classList.add(color_code_final + '_figure');
-	}
-
+function figureColorCode(color_code_final) {
+    var figure = document.getElementsByClassName('figure');
+    var i2;
+    for (i2 = 0; i2 < figure.length; i2++) {
+        figure[i2].classList.add(color_code_final + '_figure');
+    }
 }
-
-function figureCaptionBorder_ctrl(){
-
-
-		var JSiteBlock = document.getElementsByClassName('JSiteBlock');
-
-		var i2;
-		for (i2 = 0; i2 < JSiteBlock.length; i2++) {
-			classie.add(JSiteBlock[i2],figureCaptionBorder_style);
-		//	figure[i2].classList.add(color_code_final + '_figure');
-		}
-		var figcaption = document.getElementsByTagName('Jcaption');
-		var i3;
-		for (i3 = 0; i3 < figcaption.length; i3++) {
-		//	figcaption[i3].classList.add(color_code_final + '_figcaption');
-
-		classie.add(figcaption[i3],'noBorderJcaption');
-		}
-
-
+function figureCaptionBorder_ctrl() {
+    var JSiteBlock = document.getElementsByClassName('JSiteBlock');
+    var i2;
+    for (i2 = 0; i2 < JSiteBlock.length; i2++) {
+        classie.add(JSiteBlock[i2], figureCaptionBorder_style);
+        //  figure[i2].classList.add(color_code_final + '_figure');
+    }
+    var figcaption = document.getElementsByTagName('Jcaption');
+    var i3;
+    for (i3 = 0; i3 < figcaption.length; i3++) {
+        //  figcaption[i3].classList.add(color_code_final + '_figcaption');
+        classie.add(figcaption[i3], 'noBorderJcaption');
+    }
 }
 function displayAuthorData() {
-
-  var authorArea = document.createElement('div');
-  classie.add(authorArea, 'meta');
-  authorArea.setAttribute("id","authorDivID"+articleId_current_opened_full_view);
-  classie.add(authorArea, 'meta--full')
-  //authorArea.setAttribute("ID", "authorData");
-  article_title_obj.after(authorArea);
-
-
+    var authorArea = document.createElement('div');
+    classie.add(authorArea, 'meta');
+    authorArea.setAttribute("id", "authorDivID" + articleId_current_opened_full_view);
+    classie.add(authorArea, 'meta--full')
+        //authorArea.setAttribute("ID", "authorData");
+    article_title_obj.after(authorArea);
 }
-
-
-function addBrowserLook(){
-	if (getConfig('browserwindow')) {
-    var browserStyle ;
-if(!getElementById('title_article_browser_look')){
- 	  browserStyle = document.createElement('div');
- 	 browserStyle.setAttribute("class", "browser-look");
- 	 browserStyle.setAttribute("id", "title_article_browser_look");
-
- 	// browserStyle.innerHTML = '<span class="control"></span><span class="control"></span><span class="control"></span>';
- 	 // Prepend it
- 	 article_Content_area.insertBefore(browserStyle, article_Content_area.firstChild);
-} else {
-
-   browserStyle =getElementById('title_article_browser_look');
-}
- 	 scroller.addEventListener("scroll", changeBrowserWindowTitle);}
-
-
-}
-
-function changeBrowserWindowTitle() {
-  var scrollTop = scroller.scrollTop; //.pageYOffset;
-  //var article_title_obj = document.getElementById('article_title');
-
-  if (!displayed) {
-    if ((article_title_obj.offsetTop < scrollTop)) {
-
-			      article_title = article_title_obj.innerHTML;
-
-      var title_article_browser_look = document.getElementById('title_article_browser_look');
-
-      title_article_browser_look.pseudoStyle("before", "content", "\'" + article_title + "\'");
-
-      displayed = true;
+function addBrowserLook() {
+    if (getConfig('browserwindow')) {
+        var browserStyle;
+        if (!getElementById('title_article_browser_look')) {
+            browserStyle = document.createElement('div');
+            browserStyle.setAttribute("class", "browser-look");
+            browserStyle.setAttribute("id", "title_article_browser_look");
+            // browserStyle.innerHTML = '<span class="control"></span><span class="control"></span><span class="control"></span>';
+            // Prepend it
+            article_Content_area.insertBefore(browserStyle, article_Content_area.firstChild);
+        } else {
+            browserStyle = getElementById('title_article_browser_look');
+        }
+        scroller.addEventListener("scroll", changeBrowserWindowTitle);
     }
-  }
-  if (article_title_obj.offsetTop > scrollTop) {
-if(articleWindow){
-    document.getElementById('title_article_browser_look').pseudoStyle("before", "content", "\' \'");
-    displayed = false;
 }
-  }
-
-
+function changeBrowserWindowTitle() {
+    var scrollTop = scroller.scrollTop; //.pageYOffset;
+    //var article_title_obj = document.getElementById('article_title');
+    if (!displayed) {
+        if ((article_title_obj.offsetTop < scrollTop)) {
+            article_title = article_title_obj.innerHTML;
+            var title_article_browser_look = document.getElementById('title_article_browser_look');
+            title_article_browser_look.pseudoStyle("before", "content", "\'" + article_title + "\'");
+            displayed = true;
+        }
+    }
+    if (article_title_obj.offsetTop > scrollTop) {
+        if (articleWindow) {
+            document.getElementById('title_article_browser_look').pseudoStyle("before", "content", "\' \'");
+            displayed = false;
+        }
+    }
 }
-
-
-
-function lazyLoadImages(){
-
-
-	lazyloadImages = document.querySelectorAll("img.lazy");
-	lazyloadThrottleTimeout;
-	scroller.addEventListener("scroll", lazyload);
-	window.addEventListener("resize", lazyload);
-	window.addEventListener("orientationChange", lazyload);
-
-
+function lazyLoadImages() {
+    lazyloadImages = document.querySelectorAll("img.lazy");
+    lazyloadThrottleTimeout;
+    scroller.addEventListener("scroll", lazyload);
+    window.addEventListener("resize", lazyload);
+    window.addEventListener("orientationChange", lazyload);
 }
 function lazyload() {
-  if (lazyloadThrottleTimeout) {
-    clearTimeout(lazyloadThrottleTimeout);
-  }
-	lazyloadThrottleTimeout = setTimeout(function() {
-    var scrollTop = scroller.scrollTop; //.pageYOffset;
-    lazyloadImages.forEach(function(img) {
-      if (img.offsetTop < (window.innerHeight + scrollTop)) {
-        img.src = img.dataset.src;
-
-
-        img.classList.remove('lazy');
-        img.classList.add('lazy-loaded');
-      }
-    });
-    if (lazyloadImages.length == 0) {
-      scroller.removeEventListener("scroll", lazyload);
-      window.removeEventListener("resize", lazyload);
-      window.removeEventListener("orientationChange", lazyload);
+    if (lazyloadThrottleTimeout) {
+        clearTimeout(lazyloadThrottleTimeout);
     }
-  }, 20);
+    lazyloadThrottleTimeout = setTimeout(function() {
+        var scrollTop = scroller.scrollTop; //.pageYOffset;
+        lazyloadImages.forEach(function(img) {
+            if (img.offsetTop < (window.innerHeight + scrollTop)) {
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                img.classList.add('lazy-loaded');
+            }
+        });
+        if (lazyloadImages.length == 0) {
+            scroller.removeEventListener("scroll", lazyload);
+            window.removeEventListener("resize", lazyload);
+            window.removeEventListener("orientationChange", lazyload);
+        }
+    }, 20);
 }
-
-
-
-
 function processHTML(temp, target) {
-  target.innerHTML = temp.innerHTML;
-
+    target.innerHTML = temp.innerHTML;
 }
-
 function loadWholePage(url, authorID) {
-  var y = document.getElementById("displayContent");
-  var x = document.getElementById("displayContent");
-  loadHTML(url, processHTML, x, y, authorID);
-
+    var y = document.getElementById("displayContent");
+    var x = document.getElementById("displayContent");
+    loadHTML(url, processHTML, x, y, authorID);
 }
-
-function closeBtnCtrl(){
-
-  mainCtrl.closeAction();
-
+function closeBtnCtrl() {
+    mainCtrl.closeAction();
 }
-
-function maximizeCtrl()
-{
-
-  mainCtrl.maxAction();
+function maximizeCtrl() {
+    mainCtrl.maxAction();
 }
-
-
-function minimizeCtrl()
-{
-  mainCtrl.minAction();
+function minimizeCtrl() {
+    mainCtrl.minAction();
 }
-
-function mimimize_Ctrl(em){
-
-  mainCtrl.mimimize_Ctrl_descktop(em);
+function mimimize_Ctrl(em) {
+    mainCtrl.mimimize_Ctrl_descktop(em);
 }
 /**
-	Create responseHTML
-	for acces by DOM's methods
+    Create responseHTML
+    for acces by DOM's methods
 */
-
 function processByDOM(responseHTML, target) {
-  target.innerHTML = "Extracted by id:<br />";
-
-  // does not work with Chrome/Safari
-  //var message = responseHTML.getElementsByTagName("div").namedItem("two").innerHTML;
-  var message = responseHTML.getElementsByTagName("div").item(1).innerHTML;
-
-  target.innerHTML += message;
-
-  target.innerHTML += "<br />Extracted by name:<br />";
-
-  message = responseHTML.getElementsByTagName("form").item(0);
-  target.innerHTML += message.dyn.value;
+    target.innerHTML = "Extracted by id:<br />";
+    // does not work with Chrome/Safari
+    //var message = responseHTML.getElementsByTagName("div").namedItem("two").innerHTML;
+    var message = responseHTML.getElementsByTagName("div").item(1).innerHTML;
+    target.innerHTML += message;
+    target.innerHTML += "<br />Extracted by name:<br />";
+    message = responseHTML.getElementsByTagName("form").item(0);
+    target.innerHTML += message.dyn.value;
 }
-
 function accessByDOM(url, authorID) {
-  //var responseHTML = document.createElement("body");	// Bad for opera
-  var responseHTML = document.getElementById("storage");
-  var y = document.getElementById("displayed");
-  loadHTML(url, processByDOM, responseHTML, y, authorID);
+    //var responseHTML = document.createElement("body");    // Bad for opera
+    var responseHTML = document.getElementById("storage");
+    var y = document.getElementById("displayed");
+    loadHTML(url, processByDOM, responseHTML, y, authorID);
 }
-
-
 function loadAuthorsInfo(authorID, authorsFolder) {
-
-  loadJSON(authorsFolder + '/' + authorID + '.json', loadAuthorsInfoDisplayAsHTML, "no_main");
+    loadJSON(authorsFolder + '/' + authorID + '.json', loadAuthorsInfoDisplayAsHTML, "no_main");
 }
-
 function loadAuthorsInfoDisplayAsHTML(response) {
-
-  var author_Itmes = JSON.parse(response);
-  author_Itmes.forEach(function(author) {
-    authorImg = author.authorImg;
-    author_display_name = author.author_display_name;
-  });
-  var authorHTMLInfo = '<img id="authorImg" class="meta__avatar" src="' + authorImg + ' alt="" /><span id="author_display_name" class="meta__author">' + author_display_name + '</span>';
-  document.getElementById("authorDivID"+articleId_current_opened_full_view).innerHTML = authorHTMLInfo;
+    var author_Itmes = JSON.parse(response);
+    author_Itmes.forEach(function(author) {
+        authorImg = author.authorImg;
+        author_display_name = author.author_display_name;
+    });
+    var authorHTMLInfo = '<img id="authorImg" class="meta__avatar" src="' + authorImg + ' alt="" /><span id="author_display_name" class="meta__author">' + author_display_name + '</span>';
+    document.getElementById("authorDivID" + articleId_current_opened_full_view).innerHTML = authorHTMLInfo;
 }
-
-function loadSearchResult(res){
-  //console.log(res.toString());
-  for(a=0;a<res.length;a++){
-//console.log(res.length);
-//console.log(res[a].length);
-var inn=res[a];
-//console.log();
-loadArticleGrids(inn,"search");
-
-  }
-
-
+function loadSearchResult(res) {
+    //console.log(res.toString());
+    for (a = 0; a < res.length; a++) {
+        //console.log(res.length);
+        //console.log(res[a].length);
+        var inn = res[a];
+        //console.log();
+        loadArticleGrids(inn, "search");
+    }
 }
-
-function isDefinedOrNot_True_False(em){
-
-  if(typeof em !== 'undefined')  {
-return true;
-   //console.log('a exists!');
-    // actual_JSON =response;
- } else {
-//console.log(response.length);
-  // actual_JSON = JSON.parse(response);
-
-return false;
- }
+function isDefinedOrNot_True_False(em) {
+    if (typeof em !== 'undefined') {
+        return true;
+        //console.log('a exists!');
+        // actual_JSON =response;
+    } else {
+        //console.log(response.length);
+        // actual_JSON = JSON.parse(response);
+        return false;
+    }
 }
-
-function isArtcileFullViewLoadedOrNot(articleId){
-  var el=getElementById(articleId);
-  if (typeof(el) != 'undefined' && el != null)
-  {
-    // exists.
-    console.log("Exist"+articleId);
-    return true;
-  }
-  else {
-console.log("notExist"+articleId);
-    return false;
-  }
-
+function isArtcileFullViewLoadedOrNot(articleId) {
+    var el = getElementById(articleId);
+    if (typeof(el) != 'undefined' && el != null) {
+        // exists.
+        console.log("Exist" + articleId);
+        return true;
+    } else {
+        console.log("notExist" + articleId);
+        return false;
+    }
 }
-function loadArticleGrids(response,isSearch) {
-   //console.log(response);
-   var actual_JSON ;
-   // Parse JSON string into object
-   if(typeof isSearch !== 'undefined')  {
- 		//console.log('a exists!');
-      actual_JSON =response;
- 	} else {
-//console.log(response.length);
-    actual_JSON = JSON.parse(response);
-  }
-   //console.log(actual_JSON);
-  // console.log(actual_JSON);
-  //console.log((actual_JSON.length));
-
-  actual_JSON.forEach(function(article) {
-
-    var articelID_cat_authorinfo=Base64.encode(article.icon+'@jsite@'+article.article_loadURL+'@jsite@'+article.authorID);
-  article_Itmes = article_Itmes + '<div id="aid_'+articelID_cat_authorinfo+'"   articleId="'+articelID_cat_authorinfo+'" unid="'+Base64.decode(articelID_cat_authorinfo)+'" class="grid__item fade-in" cat="'+article.icon+'"href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"><div class="'+classThreedBox+'"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category" style="display:none;">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date" style="display:none;"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></div></div>';
-//  content_sub=
-
-  });
-
-  document.getElementById('articlesCard').innerHTML = article_Itmes;
-
-  var ht = document.querySelectorAll(".container ht");
-  var ht1;
-  for (ht1 = 0; ht1 < ht.length; ht1++) {
-    ht[ht1].style.color = mainColor;
-  }
-
-  var style_loader = document.getElementById('style_loader');
-
-  style_loader.innerHTML = '.loader::before { background: ' + mainColor + '  !important; }';
-  //	document.getElementsByTagName('head')[0].appendChild(style);
-
+function loadArticleGrids(response, isSearch) {
+    //console.log(response);
+    var actual_JSON;
+    // Parse JSON string into object
+    if (typeof isSearch !== 'undefined') {
+        //console.log('a exists!');
+        actual_JSON = response;
+    } else {
+        //console.log(response.length);
+        actual_JSON = JSON.parse(response);
+    }
+    //console.log(actual_JSON);
+    // console.log(actual_JSON);
+    //console.log((actual_JSON.length));
+    actual_JSON.forEach(function(article) {
+        var articelID_cat_authorinfo = Base64.encode(article.icon + '@jsite@' + article.article_loadURL + '@jsite@' + article.authorID);
+        article_Itmes = article_Itmes + '<div id="aid_' + articelID_cat_authorinfo + '"   articleId="' + articelID_cat_authorinfo + '" unid="' + Base64.decode(articelID_cat_authorinfo) + '" class="grid__item fade-in" cat="' + article.icon + '"href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"><div class="' + classThreedBox + '"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category" style="display:none;">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date" style="display:none;"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></div></div>';
+        //  content_sub=
+    });
+    document.getElementById('articlesCard').innerHTML = article_Itmes;
+    var ht = document.querySelectorAll(".container ht");
+    var ht1;
+    for (ht1 = 0; ht1 < ht.length; ht1++) {
+        ht[ht1].style.color = mainColor;
+    }
+    var style_loader = document.getElementById('style_loader');
+    style_loader.innerHTML = '.loader::before { background: ' + mainColor + '  !important; }';
+    //  document.getElementsByTagName('head')[0].appendChild(style);
 }
-
-function themeStyles(themeName)
-{
-if(themeName==='logo'){
-
-  var image='url(content/'+content_sub +'/icon.png) no-repeat left';
-  //  var style_loader = document.getElementById('style_loader');
-
-    article_title_obj.style.background= image;
-
+function themeStyles(themeName) {
+    if (themeName === 'logo') {
+        var image = 'url(content/' + content_sub + '/icon.png) no-repeat left';
+        //  var style_loader = document.getElementById('style_loader');
+        article_title_obj.style.background = image;
+    }
 }
-
+function addOverlay() {
+    for (var i = 0; i < overlay.length; i++) {
+        overlay[i].style.display = "block";
+    }
 }
-
-
-function addOverlay(){
-
-for (var i = 0; i < overlay.length; i++) {
-  overlay[i].style.display="block";
+function removeOverlay() {
+    //var e=document.querySelectorAll('.overlay');
+    for (var i = 0; i < overlay.length; i++) {
+        overlay[i].style.display = "none";
+    }
 }
-
+function searchArticleCtrl(category_name, menuItem) {
+    //mainColor=category_name;
+    //menuItem=this;
+    //menuChanges(menuItem);
+    var q = document.getElementById('searchQuery').value;
+    if (q.length > 3) {
+        setPageTitle("Search Result");
+        searchArticle(q, loadSearchResult);
+    }
 }
-
-function removeOverlay(){
-
-
-  //var e=document.querySelectorAll('.overlay');
-  for (var i = 0; i < overlay.length; i++) {
-    overlay[i].style.display="none";
-  }
-
+function menuChanges(menuItem) {
+    var menu = document.getElementsByClassName('menuItem');
+    var i;
+    for (i = 0; i < menu.length; i++) {
+        menu[i].style.color = "black";
+        menu[i].style.fontWeight = "normal";
+        menu[i].style.fontSize = "1em";
+    }
+    menuItem.style.color = mainColor;
+    menuItem.style.fontWeight = "bold";
+    menuItem.style.fontSize = "1.5em";
+    pageTitle.style.backgroundColor = mainColor;
 }
-
-function searchArticleCtrl(category_name,menuItem){
-
-//mainColor=category_name;
-//menuItem=this;
-//menuChanges(menuItem);
-var q=document.getElementById('searchQuery').value;
-if(q.length>3){
-  setPageTitle("Search Result");
-searchArticle(q,loadSearchResult);
+function setPageTitle(ptitle) {
+    pageTitle.innerHTML = ptitle;
 }
-
-}
-
-
-function menuChanges(menuItem){
-
-  var menu = document.getElementsByClassName('menuItem');
-
-  var i;
-  for (i = 0; i < menu.length; i++) {
-    menu[i].style.color = "black";
-    menu[i].style.fontWeight = "normal";
-    menu[i].style.fontSize = "1em";
-  }
-
-  menuItem.style.color = mainColor;
-  menuItem.style.fontWeight = "bold";
-  menuItem.style.fontSize = "1.5em";
-
-  pageTitle.style.backgroundColor = mainColor;
-
-
-}
-
-function setPageTitle(ptitle){
-
-      pageTitle.innerHTML = ptitle;
-
-
-}
-
 function loadArticlesByTechName(techName) {
-
-var menuItem=getElementById(techName);
-  mainColor = (getConfig('multiColor')) ? getMenuColor(techName) : mainColor;
-  if (techName != "home") {
-setPageTitle(techName);
-    loadJSON('content/' + techName + '/data.json', loadArticleGrids);
-
-  } else {
-mainColor=getConfig('mainColor');
-  setPageTitle("Home");
-    loadJSON('content/data.json', loadArticleGrids);
-  }
-  menuChanges(menuItem);
-  document.body.scrollTop = 0; // For Safari
-  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    var menuItem = getElementById(techName);
+    mainColor = (getConfig('multiColor')) ? getMenuColor(techName) : mainColor;
+    if (techName != "home") {
+        setPageTitle(menuItem.innerHTML);
+        loadJSON('content/' + techName + '/data.json', loadArticleGrids);
+    } else {
+        mainColor = getConfig('mainColor');
+        setPageTitle("Home");
+        loadJSON('content/data.json', loadArticleGrids);
+    }
+    menuChanges(menuItem);
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
-
-
-
-function getElementById(eid){return document.getElementById(eid);}
-
-function addJSiteMainName()
-{
-  if(typeof getConfig('siteTitle') !== 'undefined'){
-    var jtitle=getConfig('siteTitle');
-if(jtitle.length!=0){
-    getElementById('JSiteMainTitle').innerHTML=jtitle;
-  }
-  }
-
-
+function getElementById(eid) {
+    return document.getElementById(eid);
 }
-
-
-function getCatFromURL(){
-
-
+function addJSiteMainName() {
+    if (typeof getConfig('siteTitle') !== 'undefined') {
+        var jtitle = getConfig('siteTitle');
+        if (jtitle.length != 0) {
+            getElementById('JSiteMainTitle').innerHTML = jtitle;
+        }
+    }
 }
-
-function getDefinedOrNot(em){
-if (typeof em != "undefined")
-  {
-return true;
-    //console.log("defined"+em);
-  }
-
-else{
-return false;
-  //console.log("not defined" + em);
+function getCatFromURL() {
 }
+function getDefinedOrNot(em) {
+    if (typeof em != "undefined") {
+        return true;
+        //console.log("defined"+em);
+    } else {
+        return false;
+        //console.log("not defined" + em);
+    }
 }
-
-function getAid_cat_authorID_from_Decode_String(t){
-
-var t_i=t.split('@jsite@');
-//console.log(t_i.length);
-for (var i = 0; i < t_i.length; i++) {
-  console.log(t_i[i])
+function getAid_cat_authorID_from_Decode_String(t) {
+    var t_i = t.split('@jsite@');
+    //console.log(t_i.length);
+    for (var i = 0; i < t_i.length; i++) {
+        console.log(t_i[i])
+    }
+    return t_i;
 }
-return t_i;
-
-
+function get_Menu_Item_and_Color_code_from_articleID(aaid) {
+    var aaid1 = Base64.decode(aaid);
+    var ds = getAid_cat_authorID_from_Decode_String(aaid1);
+    return {
+        menuColor: getMenuColor(ds[0]),
+        menuItem: ds[0]
+    };
 }
-
-function get_Menu_Item_and_Color_code_from_articleID(aaid){
-var aaid1=Base64.decode(aaid);
-var ds=getAid_cat_authorID_from_Decode_String(aaid1);
-  return { menuColor:getMenuColor(ds[0]), menuItem:ds[0]};
-}
-
-function hideLoadedArticles_but_view_current_by_article_ID(idValue){
-
-
-  var c= document.querySelectorAll('.articleFullView');
-var mic=get_Menu_Item_and_Color_code_from_articleID(idValue);
-  mainColor=mic['menuColor'];
-
-  loadColoring();
-//  console.log("jaya"+mic['menuItem']);
- menuChanges(getElementById(mic['menuItem']));
-//  console.log(mainColor);
-//  console.log("ccccc"+c.length);
-  for (var i = 0; i < c.length; i++) {
-
-    var ce=c[i];
- var aaid=ce.getAttribute("id");
- if(idValue===aaid){
-  // console.log("aaid"+aaid);
-article_title_obj=ce.querySelector(".title--full")
-//console.log("title   _"+ article_title_obj.innerHTML);
-   ce.style.display="block";
-} else {
-//  console.log("Notaaid"+aaid);
-
-  ce.style.display="none";
-}
+function hideLoadedArticles_but_view_current_by_article_ID(idValue) {
+    var c = document.querySelectorAll('.articleFullView');
+    var mic = get_Menu_Item_and_Color_code_from_articleID(idValue);
+    mainColor = mic['menuColor'];
+    loadColoring();
+    //  console.log("jaya"+mic['menuItem']);
+    menuChanges(getElementById(mic['menuItem']));
+    //  console.log(mainColor);
+    //  console.log("ccccc"+c.length);
+    for (var i = 0; i < c.length; i++) {
+        var ce = c[i];
+        var aaid = ce.getAttribute("id");
+        if (idValue === aaid) {
+            // console.log("aaid"+aaid);
+            article_title_obj = ce.querySelector(".title--full")
+                //console.log("title   _"+ article_title_obj.innerHTML);
+            ce.style.display = "block";
+        } else {
+            //  console.log("Notaaid"+aaid);
+            ce.style.display = "none";
+        }
     }
     // set back to false
-
-
 }
-
-  function removeElement(elementId) {
-      // Removes an element from the document
-      var element = document.getElementById(elementId);
-      element.parentNode.removeChild(element);
-  }
-
-
-function addToolTab_ctrl(){
-
-  var tabLi=document.createElement('li');
-  tabLi.setAttribute('id','TabToolID_'+articleId_current_opened_full_view);
-var bLi= document.createElement("b");
-bLi.setAttribute("id",'tabTool_aid_'+articleId_current_opened_full_view);
-bLi.setAttribute('onclick', "loadByArticleID(\'"+articleId_current_opened_full_view+"\')");
-bLi.setAttribute('class','small tabTool');
-bLi.innerHTML=title_preview;
-tabLi.appendChild(bLi);
-tabToolBottom.appendChild(tabLi);
+function removeElement(elementId) {
+    // Removes an element from the document
+    var element = document.getElementById(elementId);
+    element.parentNode.removeChild(element);
 }
-
-
-function removeToolTab_ctrl(aaid){
-console.log("cccccc_"+aaid);
-  removeElement("TabToolID_"+aaid);
+function addToolTab_ctrl() {
+    var tabLi = document.createElement('li');
+    tabLi.setAttribute('id', 'TabToolID_' + articleId_current_opened_full_view);
+    var bLi = document.createElement("b");
+    bLi.setAttribute("id", 'tabTool_aid_' + articleId_current_opened_full_view);
+    bLi.setAttribute('onclick', "loadByArticleID(\'" + articleId_current_opened_full_view + "\')");
+    bLi.setAttribute('class', 'small tabTool');
+    bLi.innerHTML = title_preview;
+    tabLi.appendChild(bLi);
+    tabToolBottom.appendChild(tabLi);
 }
-
-function chechTabToolItemExistOrNot(aaid){
-
-if(getElementById('TabToolID_'+aaid)){
-return true;
-}else{
-
-  return false;
+function removeToolTab_ctrl(aaid) {
+    console.log("cccccc_" + aaid);
+    removeElement("TabToolID_" + aaid);
 }
-
+function chechTabToolItemExistOrNot(aaid) {
+    if (getElementById('TabToolID_' + aaid)) {
+        return true;
+    } else {
+        return false;
+    }
 }
-
-function loadColoring()
-{
-  var style = document.createElement('style');
-  style.type = 'text/css';
-  style.innerHTML = '.github-embed-nav-link-shown { color: ' + mainColor + '  !important; }';
-  document.getElementsByTagName('head')[0].appendChild(style);
-
-          figureCaptionBorder_ctrl();
-
-         matching_b_bo_ctrl(mainColor);
-
-          document.getElementById('theSidebar').style.pointerEvents = "none";
-           articleTitleStyle(mainColor);
-           styleQuotes(mainColor);
-           themeStyles(getConfig('theme'));
-
-          contentCB(mainColor);
-
-
-  				figureColorCode(mainColor);
-
-
-
-  				figureCaptionColorCode(mainColor);
-
-
+function loadColoring() {
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = '.github-embed-nav-link-shown { color: ' + mainColor + '  !important; }';
+    document.getElementsByTagName('head')[0].appendChild(style);
+    figureCaptionBorder_ctrl();
+    matching_b_bo_ctrl(mainColor);
+    document.getElementById('theSidebar').style.pointerEvents = "none";
+    articleTitleStyle(mainColor);
+    styleQuotes(mainColor);
+    themeStyles(getConfig('theme'));
+    contentCB(mainColor);
+    figureColorCode(mainColor);
+    figureCaptionColorCode(mainColor);
 }
-
 function loadByArticleID(article_id) {
- fromTab=true;
-
- innerLoadArticleByAID(article_id,"tabTool");
-
+    fromTab = true;
+    innerLoadArticleByAID(article_id, "tabTool");
 }
-
-function innerLoadArticleByAID(article_id_from_url,source){
-
-
-  var ar_id, au_id,cat_t;
-  var decodedArticleID=Base64.decode(article_id_from_url);
-  console.log(decodedArticleID);
-  var t_i=getAid_cat_authorID_from_Decode_String(decodedArticleID);
-  cat_t=t_i[0];
-  mainColor=getMenuColor(cat_t);
-  ar_id=t_i[1];
-  au_id=t_i[2];
-  var item = document.createElement('div');
-  item.setAttribute('loadURL',ar_id);
-  item.setAttribute('authorID',au_id);
-  item.setAttribute('articleId',article_id_from_url);
-    item.setAttribute('class',source);
-//  mainCtrl=new main();
-
-  mainCtrl.loadArticleByID(item);
-
+function innerLoadArticleByAID(article_id_from_url, source) {
+    var ar_id, au_id, cat_t;
+    var decodedArticleID = Base64.decode(article_id_from_url);
+    console.log(decodedArticleID);
+    var t_i = getAid_cat_authorID_from_Decode_String(decodedArticleID);
+    cat_t = t_i[0];
+    mainColor = getMenuColor(cat_t);
+    ar_id = t_i[1];
+    au_id = t_i[2];
+    var item = document.createElement('div');
+    item.setAttribute('loadURL', ar_id);
+    item.setAttribute('authorID', au_id);
+    item.setAttribute('articleId', article_id_from_url);
+    item.setAttribute('class', source);
+    //  mainCtrl=new main();
+    mainCtrl.loadArticleByID(item);
 }
 function init() {
-
-  var referrer =location.origin;// document.referrer;
-  //console.log("jklmn"+referrer);
-  createMainMenu_ctrl();
-  addJSiteMainName();
-
-  var u = new Url();
-  //console.log(u.toString());authorHTMLInfo
-  var cat_from_url=u.query.cat;
-  //console.log(u.query.cat);
-
-
-  var article_id_from_url=u.query.aid;
-
-
-  if(  getDefinedOrNot(article_id_from_url)){
-//  loadArticlesByTechName(cat_from_url);
-isLoadedFromDirect_By_AID=true;
-mainCtrl=new main();
-
-innerLoadArticleByAID(article_id_from_url,'directURL');
-//main();
-//loadWholePage(ar_id,au_id);
-
-  } else {
-
-
-  //loadJSON('content/data.json', loadArticleGrids); }
-
-
-
-
-if(  getDefinedOrNot(cat_from_url)){
-loadArticlesByTechName(cat_from_url);
-
-} else {
-
-
-  loadJSON('content/data.json', loadArticleGrids);
-}
-}
-
-
+    var referrer = location.origin; // document.referrer;
+    //console.log("jklmn"+referrer);
+    createMainMenu_ctrl();
+    addJSiteMainName();
+    var u = new Url();
+    //console.log(u.toString());authorHTMLInfo
+    var cat_from_url = u.query.cat;
+    //console.log(u.query.cat);
+    var article_id_from_url = u.query.aid;
+    if (getDefinedOrNot(article_id_from_url)) {
+        //  loadArticlesByTechName(cat_from_url);
+        isLoadedFromDirect_By_AID = true;
+        mainCtrl = new main();
+        innerLoadArticleByAID(article_id_from_url, 'directURL');
+        //main();
+        //loadWholePage(ar_id,au_id);
+    } else {
+        //loadJSON('content/data.json', loadArticleGrids); }
+        if (getDefinedOrNot(cat_from_url)) {
+            loadArticlesByTechName(cat_from_url);
+        } else {
+            loadJSON('content/data.json', loadArticleGrids);
+        }
+    }
 }
 init();

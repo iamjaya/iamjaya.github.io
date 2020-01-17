@@ -1,6 +1,6 @@
 var config = {
 
-  siteTitle:'Jai@Coding',
+  siteTitle:'J@i',
   theme:'moon',
   browserwindow: true,
   displayAuthorInfo: true,
