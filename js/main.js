@@ -404,6 +404,12 @@ removeOverlay();
 
 this.mimimize_Ctrl_descktop=function(em){
   hideContent();
+  classie.remove(gridEl,"wideSection");
+
+  maxCtrl.innerHTML='<img src="images/icons/max.png"/>';
+  maxCtrl.setAttribute('title',"maximize");
+
+  maxCtrl.setAttribute('onClick','maximizeCtrl()');
 
 }
 
@@ -429,6 +435,12 @@ maxCtrl.setAttribute('title',"maximize");
 maxCtrl.setAttribute('onClick','maximizeCtrl()');
 }
   this.closeAction = function() {
+    classie.remove(gridEl,"wideSection");
+
+    maxCtrl.innerHTML='<img src="images/icons/max.png"/>';
+    maxCtrl.setAttribute('title',"maximize");
+
+    maxCtrl.setAttribute('onClick','maximizeCtrl()');
 
     if(isLoadedFromDirect_By_AID){
 
