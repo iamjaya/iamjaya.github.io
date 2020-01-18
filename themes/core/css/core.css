@@ -989,7 +989,7 @@ button:focus {
 .article p {
     margin-bottom: 1em;
     font-size: 1.1em;
-    line-height: 1.6;
+  /*  line-height: 1.6; */
     text-align: justify;
 }
 .article h2 + p,
@@ -1072,11 +1072,17 @@ button:focus {
 }
 /* cb - code block */
 cb {
+  cursor: pointer;
+  transition: all 0.3s ease;
+
     border: unset !important;
     /* 1px dotted;
 /*  padding: 0 8px;
   border-radius: 8px;
   background: rgba(170, 170, 170, 0.13); */
+}
+cb:hover{
+  border-bottom:2px dotted !important;
 }
 .height75 .github-embed-main {
     height: 75% !important;
@@ -1228,7 +1234,8 @@ img[data-src] {
 }
 .no3dbox {
     border: 2px solid #c6cacd;
-    border-radius: 8px;
+    border-radius: 4px;
+    padding: 0px 4px;
 }
 .noBorderJSiteBlock {
     border: none !important;
@@ -1299,12 +1306,35 @@ img[data-src] {
     counter-increment: my-awesome-counter;
     display: flex;
 }
-xmp {
+pre.ch {
     border: 1px solid;
-    padding: 20px 10px;
+
     border-radius: 4px;
     border-color: #8bc34b;
     background: #cfeaaf57;
+
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    padding: 0 1em 0 0;
+}
+pre.ch code {
+
+  padding: 20px 40px;
+}
+pre.ch:before{
+  grid-column: 1;
+      margin-right: 1em;
+      padding: 0.125ch;
+      padding-left: 0.05ch;
+      transform: rotate(180deg);
+      content: attr(lang);
+      writing-mode: vertical-lr;
+      text-align: center;
+      text-transform: uppercase;
+      font: bold 90% Open Sans, sans-serif;
+      background: #8bc34b;
+      color: black;
+
 }
 .orderList ol li::before {
     content: counter(my-awesome-counter) ".";
@@ -1782,6 +1812,131 @@ font-weight: normal;
     z-index: 10;
 }
 #JSiteMainTitle {
+}
+.grid__item:hover .no3dbox{
+
+  border-color: black;
+}
+
+
+
+.Tooltips {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20000;
+}
+.Tooltips:hover p {
+  visibility: visible;
+  opacity: 1;
+}
+.Tooltips:hover p.OnTop {
+  -webkit-transform: translate(-50%, -100%);
+          transform: translate(-50%, -100%);
+}
+.Tooltips:hover p.OnBottom {
+  -webkit-transform: translate(-50%, 100%);
+          transform: translate(-50%, 100%);
+}
+.Tooltips:hover p.OnLeft {
+  -webkit-transform: translate(-100%, -50%);
+          transform: translate(-100%, -50%);
+}
+.Tooltips:hover p.OnRight {
+  -webkit-transform: translate(100%, -50%);
+          transform: translate(100%, -50%);
+}
+.Tooltips p {
+  min-width: 100px;
+  opacity: 0;
+  display: inline-block;
+  visibility: hidden;
+  position: absolute;
+  text-align: left;
+  width: 200px;
+  background: #67C8EA;
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.2;
+  padding: 10px;
+  border-radius: 3px;
+  white-space: normal;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-out;
+}
+.Tooltips p.OnTop {
+  top: -20px;
+  left: 50%;
+  -webkit-transform: translate(-50%, -150%);
+          transform: translate(-50%, -150%);
+}
+.Tooltips p.OnTop:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 8px solid #67C8EA;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  bottom: -8px;
+  margin-left: -8px;
+  left: 50%;
+}
+.Tooltips p.OnBottom {
+  bottom: -15px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 150%);
+          transform: translate(-50%, 150%);
+}
+.Tooltips p.OnBottom:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-bottom: 8px solid #67C8EA;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  top: -8px;
+  margin-left: -8px;
+  left: 50%;
+}
+.Tooltips p.OnLeft {
+  left: -15px;
+  top: -15px;
+  -webkit-transform: translate(-150%, -50%);
+          transform: translate(-150%, -50%);
+}
+.Tooltips p.OnLeft:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 8px solid #67C8EA;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  top: 50%;
+  margin-top: -8px;
+  right: -8px;
+}
+.Tooltips p.OnRight {
+  right: -8px;
+  top: -1px;
+  -webkit-transform: translate(150%, -50%);
+          transform: translate(150%, -50%);
+}
+.Tooltips p.OnRight:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-right: 8px solid #67C8EA;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  top: 50%;
+  margin-top: -8px;
+  left: -8px;
 }
 
 /*# sourceMappingURL=style1.css.map */

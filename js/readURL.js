@@ -26,6 +26,7 @@ var title_preview;
 var overlay = document.querySelectorAll('.overlay');
 var directLoadByAid = false;
 var homeDataLoad=getConfig("homeDataLoad");
+var ds; // for stroing descripted catname | status | and url
 var UID = {
     _current: 0,
     getNew: function() {
@@ -48,13 +49,13 @@ HTMLElement.prototype.pseudoStyle = function(element, prop, value) {
 };
 function getSearchQuery(catQueue) {
     for (a = 0; a < catQueue.length; a++) {
-        console.log(catQueue[a]);
+        // console.log(catQueue[a]);
     }
 }
 function createMainMenu_ctrl() {
     var menus = '<a class="menuItem" id="home" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName(\'home\');">Home</a>';
     menu.sort();
-    //  console.log(menus);
+    //  // console.log(menus);
     //<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('atom',this,'#dda131')">Atom IDE</a>
     for (var i = 0; i < menu.length; i++) {
         var menuD = menu[i].split('|');
@@ -66,17 +67,17 @@ function createMainMenu_ctrl() {
         }
     }
     document.getElementById('mainMenuID').innerHTML = menus;
-    //  console.log(menus);
+    //  // console.log(menus);
 }
 function searchArticle(queryString, callback) {
-    console.log(menu);
+    // console.log(menu);
     getSearchQuery(menu);
     alasql(['SELECT * , ROWNUM() as rn FROM JSON("content/spring/data.json") WHERE article_title LIKE "%' + queryString + '%"',
         'SELECT * , ROWNUM() as rn FROM JSON("content/atom/data.json")'
     ]).then(function(res) {
         article_Itmes = "";
         callback(res);
-        console.log(res);
+        // console.log(res);
         mainCtrl = new main();
     });
 }
@@ -177,7 +178,7 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID){
       }
       if (!isArtcileFullViewLoadedOrNot(articleId_current_opened_full_view)) {
           openedArticles.push(articleId_current_opened_full_view);
-          //  console.log("exxxxx"+articleId_current_opened_full_view);
+          //  // console.log("exxxxx"+articleId_current_opened_full_view);
           articleFullView.innerHTML = getBody(responseText);
           storage.insertBefore(articleFullView, storage.firstChild);
           fun(storage, param);
@@ -219,9 +220,9 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID){
       }
       addBrowserLook();
       fromTab = false;
-      console.log("openedArticles");
-      console.log(openedArticles);
-      //  console.log(articleId_current_opened_full_view+"tripcore");
+      // console.log("openedArticles");
+      // console.log(openedArticles);
+      //  // console.log(articleId_current_opened_full_view+"tripcore");
       //storage.innerHTML=getBody(xhr.responseText);
   }
 
@@ -238,7 +239,7 @@ function matching_b_bo_ctrl(mainColor_final) {
     var matching_b_bo = document.querySelectorAll('.matching_b_bo > p');
     var i1;
     for (i1 = 0; i1 < matching_b_bo.length; i1++) {
-        //  console.log("mainColor_final");
+        //  // console.log("mainColor_final");
         //   matching_b_bo[i1].style.backgroundColor = mainColor_final;
         matching_b_bo[i1].style.borderColor = mainColor_final + " !important";
         matching_b_bo[i1].pseudoStyle("before", "background-color", mainColor_final + " !important");
@@ -264,6 +265,8 @@ function styleQuotes(mainColor_final) {
     }
 }
 function contentCB(mainColor_final) {
+loadToolTips();
+
     var cb = document.getElementsByTagName('cb');
     var cb1;
     for (cb1 = 0; cb1 < cb.length; cb1++) {
@@ -420,22 +423,22 @@ function loadAuthorsInfoDisplayAsHTML(response) {
     document.getElementById("authorDivID" + articleId_current_opened_full_view).innerHTML = authorHTMLInfo;
 }
 function loadSearchResult(res) {
-    //console.log(res.toString());
+    //// console.log(res.toString());
     for (a = 0; a < res.length; a++) {
-        //console.log(res.length);
-        //console.log(res[a].length);
+        //// console.log(res.length);
+        //// console.log(res[a].length);
         var inn = res[a];
-        //console.log();
+        //// console.log();
         loadArticleGrids(inn, "search");
     }
 }
 function isDefinedOrNot_True_False(em) {
     if (typeof em !== 'undefined') {
         return true;
-        //console.log('a exists!');
+        //// console.log('a exists!');
         // actual_JSON =response;
     } else {
-        //console.log(response.length);
+        //// console.log(response.length);
         // actual_JSON = JSON.parse(response);
         return false;
     }
@@ -444,27 +447,27 @@ function isArtcileFullViewLoadedOrNot(articleId) {
     var el = getElementById(articleId);
     if (typeof(el) != 'undefined' && el != null) {
         // exists.
-        console.log("Exist" + articleId);
+        // console.log("Exist" + articleId);
         return true;
     } else {
-        console.log("notExist" + articleId);
+        // console.log("notExist" + articleId);
         return false;
     }
 }
 function loadArticleGrids(response, isSearch) {
-    //console.log(response);
+    //// console.log(response);
     var actual_JSON;
     // Parse JSON string into object
     if (typeof isSearch !== 'undefined') {
-        //console.log('a exists!');
+        //// console.log('a exists!');
         actual_JSON = response;
     } else {
-        //console.log(response.length);
+        //// console.log(response.length);
         actual_JSON = JSON.parse(response);
     }
-    //console.log(actual_JSON);
-    // console.log(actual_JSON);
-    //console.log((actual_JSON.length));
+    //// console.log(actual_JSON);
+    // // console.log(actual_JSON);
+    //// console.log((actual_JSON.length));
     actual_JSON.forEach(function(article) {
         var articelID_cat_authorinfo = Base64.encode(article.icon + '@jsite@' + article.article_loadURL + '@jsite@' + article.authorID);
         article_Itmes = article_Itmes + '<div id="aid_' + articelID_cat_authorinfo + '"   articleId="' + articelID_cat_authorinfo + '" unid="' + Base64.decode(articelID_cat_authorinfo) + '" class="grid__item fade-in" cat="' + article.icon + '"href="#" authorID="' + article.authorID + '" loadurl="' + article.article_loadURL + '"><div class="' + classThreedBox + '"> <h2 class="title title--preview"> ' + article.article_title + '</h2><div class="loader" ></div><span class="category" style="display:none;">' + article.article_cat + '</span><div class="meta meta--preview"><img class="meta__avatar" width="50px" src="content/' + article.icon + '/icon.png" alt="Node.js"><span class="meta__date" style="display:none;"><i class="fa fa-calendar-o"></i>' + article.article_start_date + '</span><span class="meta__reading-time" style="display:none;"> Node.js | MySQL | Redis Cache | Amazon AWS</span></div></div></div>';
@@ -509,7 +512,7 @@ function searchArticleCtrl(category_name, menuItem) {
     }
 }
 function menuChanges(menuItem) {
-  console.log(mainColor+"mainColor");
+  // console.log(mainColor+"mainColor");
     var menu = document.getElementsByClassName('menuItem');
     var i;
     for (i = 0; i < menu.length; i++) {
@@ -557,23 +560,23 @@ function getCatFromURL() {
 function getDefinedOrNot(em) {
     if (typeof em != "undefined") {
         return true;
-        //console.log("defined"+em);
+        //// console.log("defined"+em);
     } else {
         return false;
-        //console.log("not defined" + em);
+        //// console.log("not defined" + em);
     }
 }
 function getAid_cat_authorID_from_Decode_String(t) {
     var t_i = t.split('@jsite@');
-    //console.log(t_i.length);
+    //// console.log(t_i.length);
     for (var i = 0; i < t_i.length; i++) {
-        console.log(t_i[i])
+        // console.log(t_i[i])
     }
     return t_i;
 }
 function get_Menu_Item_and_Color_code_from_articleID(aaid) {
     var aaid1 = Base64.decode(aaid);
-    var ds = getAid_cat_authorID_from_Decode_String(aaid1);
+    ds = getAid_cat_authorID_from_Decode_String(aaid1);
     return {
         menuColor: getMenuColor(ds[0]),
         menuItem: ds[0]
@@ -587,20 +590,20 @@ function hideLoadedArticles_but_view_current_by_article_ID(idValue) {
 
     loadColoring();
 
-    //  console.log("jaya"+mic['menuItem']);
+    //  // console.log("jaya"+mic['menuItem']);
     menuChanges(getElementById(mic['menuItem']));
-    //  console.log(mainColor);
-    //  console.log("ccccc"+c.length);
+    //  // console.log(mainColor);
+    //  // console.log("ccccc"+c.length);
     for (var i = 0; i < c.length; i++) {
         var ce = c[i];
         var aaid = ce.getAttribute("id");
         if (idValue === aaid) {
-            // console.log("aaid"+aaid);
+            // // console.log("aaid"+aaid);
             article_title_obj = ce.querySelector(".title--full")
-                //console.log("title   _"+ article_title_obj.innerHTML);
+                //// console.log("title   _"+ article_title_obj.innerHTML);
             ce.style.display = "block";
         } else {
-            //  console.log("Notaaid"+aaid);
+            //  // console.log("Notaaid"+aaid);
             ce.style.display = "none";
         }
     }
@@ -623,7 +626,7 @@ function addToolTab_ctrl() {
     tabToolBottom.appendChild(tabLi);
 }
 function removeToolTab_ctrl(aaid) {
-    console.log("cccccc_" + aaid);
+    // console.log("cccccc_" + aaid);
     removeElement("TabToolID_" + aaid);
 }
 function chechTabToolItemExistOrNot(aaid) {
@@ -652,10 +655,10 @@ function loadByArticleID(article_id) {
     fromTab = true;
     innerLoadArticleByAID(article_id, "tabTool");
 }
-function innerLoadArticleByAID(article_id_from_url, source) {
+function innerLoadArticleByAID(article_id, source) {
     var ar_id, au_id, cat_t;
-    var decodedArticleID = Base64.decode(article_id_from_url);
-    console.log(decodedArticleID);
+    var decodedArticleID = Base64.decode(article_id);
+    // console.log(decodedArticleID);
     var t_i = getAid_cat_authorID_from_Decode_String(decodedArticleID);
     cat_t = t_i[0];
     mainColor = getMenuColor(cat_t);
@@ -664,20 +667,65 @@ function innerLoadArticleByAID(article_id_from_url, source) {
     var item = document.createElement('div');
     item.setAttribute('loadURL', ar_id);
     item.setAttribute('authorID', au_id);
-    item.setAttribute('articleId', article_id_from_url);
+    item.setAttribute('articleId', article_id);
     item.setAttribute('class', source);
     //  mainCtrl=new main();
     mainCtrl.loadArticleByID(item);
 }
+
+
+function loadToolTips(){
+
+  // Initialize
+     var Tooltips = document.querySelectorAll('cb');
+     var toolTipsSourse="content/"+ds[0]+"shorts.json";
+     // Track all tooltips trigger
+     for (var i = 0; i < Tooltips.length; i++) {
+
+       // Event Handler
+       Tooltips[i].addEventListener("mouseenter", function(ev) {
+         ev.preventDefault();
+         this.style.position = "relative";
+var tag=this;
+var tagData=(tag.innerHTML.charAt(0)=='@') ? tag.innerHTML.slice(1) : tag.innerHTML;
+//// console.log(ta);
+         alasql(['SELECT '+tagData+' as tagData   FROM JSON("content/spring/shorts.json")']).then(function(res) {
+var r=res[0];
+var tagDesc=r[0].tagData;
+if(tagDesc){
+
+//// console.log(r[0].tagData);
+var theSidebar_width=document.getElementById("theSidebar").offsetWidth;
+// console.log("theSidebar_width"+theSidebar_width);
+var leftSide_tag=tag.offsetLeft;
+// console.log("leftSide_tag"+leftSide_tag);
+var rect = tag.getBoundingClientRect();
+// console.log(rect.top, rect.right, rect.bottom, rect.left);
+//var rightSide_tag=rect.right
+var posi= (leftSide_tag<100) ? "OnRight" : "OnTop";
+// console.log(posi);
+           tag.innerHTML =tag.innerHTML + "<div class='Tooltips'><p class='"+posi+"'>" + tagDesc+ "</p></div>"; }
+
+         });
+       });
+       Tooltips[i].addEventListener("mouseleave", function(ev) {
+          ev.preventDefault();
+        //  this.removeAttribute("style");
+          this.innerHTML = this.innerHTML.replace(/<div[^]*?<\/div>/, '');;
+        });
+
+     }
+
+}
 function init() {
     var referrer = location.origin; // document.referrer;
-    //console.log("jklmn"+referrer);
+    //// console.log("jklmn"+referrer);
     createMainMenu_ctrl();
     addJSiteMainName();
     var u = new Url();
-    //console.log(u.toString());authorHTMLInfo
+    //// console.log(u.toString());authorHTMLInfo
     var cat_from_url = u.query.cat;
-    //console.log(u.query.cat);
+    //// console.log(u.query.cat);
     var article_id_from_url = u.query.aid;
     if (getDefinedOrNot(article_id_from_url)) {
         //  loadArticlesByTechName(cat_from_url);
@@ -692,7 +740,7 @@ function init() {
             loadArticlesByTechName(cat_from_url);
         } else {
           mainColor = getConfig('mainColor');
-          console.log(mainColor+"mmmm");
+          // console.log(mainColor+"mmmm");
           var menuItem = getElementById("home");
 
          menuChanges(menuItem);

@@ -219,10 +219,12 @@ function main() {
             articleId_current_opened_full_view = item.getAttribute("articleId");
             //  isArtcileFullViewLoadedOrNot(articleId_current_opened_full_view);
             //var i
+
+/*
             var shorcuts = document.getElementById("shorcuts");
             shorcuts.style.display = "block";
             shorcuts.style.background = mainColor;
-            shorcuts.pseudoStyle("after", "border-left-color", mainColor);
+            shorcuts.pseudoStyle("after", "border-left-color", mainColor); */
             content_sub = item.getAttribute("cat");
             loadWholePage(loadURL, authorID);
             //  loadAuthorsInfo(authorID, "authors");
@@ -283,7 +285,7 @@ function main() {
         //console.log("h"+h);
         // old one  var gridItem = gridItems[current], contentItem = contentItems[current];
         document.getElementById('theSidebar').style.pointerEvents = "unset";
-        document.getElementById('shorcuts').style.display = "none";
+    //    document.getElementById('shorcuts').style.display = "none";
         var flag = "aid_";
         var cuttentCloseClassFrom = "fromGrid";
         if (classie.has(closeCtrl, 'fromTabTool')) {
