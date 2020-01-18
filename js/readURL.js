@@ -661,7 +661,9 @@ function innerLoadArticleByAID(article_id, source) {
     // console.log(decodedArticleID);
     var t_i = getAid_cat_authorID_from_Decode_String(decodedArticleID);
     cat_t = t_i[0];
-    mainColor = getMenuColor(cat_t);
+    mainColor = (getConfig('multiColor')) ? getMenuColor(cat_t) : mainColor;
+
+  //  mainColor = getMenuColor(cat_t);
     ar_id = t_i[1];
     au_id = t_i[2];
     var item = document.createElement('div');
