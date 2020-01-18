@@ -1,6 +1,7 @@
 var config = {
 
   siteTitle:'J@i',
+  titleTag:'J@i : Coding, Speach and Write',
   theme:'moon',
   browserwindow: true,
   displayAuthorInfo: true,
@@ -12,7 +13,9 @@ var config = {
   desktopModel:true,
   //menu:['menuID|Menu Label|categoryColor|Status','menuID2|Menu Label2|categoryColor2|Status2',]
 //  menu: ['python','spring','java','atom','nodejs','jmeter']
-  menu: ['python|Python|true','spring|Spring|true','java|Java|true','atom|Atom IDE|true','nodejs|Node.js|true','jmeter|JMeter|false']
+  menu: ['python|Python|false','spring|Spring|true','java|Java|false','atom|Atom IDE|true','nodejs|Node.js|false','jmeter|JMeter|false'],
+//default one is home
+  homeDataLoad:"spring"
 
 };
 

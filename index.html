@@ -2,16 +2,17 @@
 <html lang="en" class="no-js">
 
 <head>
+	<script src="js/config.js"></script>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>JSite - Website Code based on pure HTML, CSS, JavaScript and JSON</title>
+	<script type="text/javascript">
+		document.write('<title>' + getConfig("titleTag") + '</title>');
+	</script>
 	<meta name="description" content="JSite : Coding Examples, Software articles, Technology updates, API, Open source apps" />
 	<meta name="keywords" content="jSite, happy coding, coding for happiness, Coding examples, software artilces, Open source apps" />
 	<meta name="author" content="JSite" />
-	<link rel="shortcut icon" href="../favicon.ico">
-	<script src="js/config.js"></script>
-
+	<link rel="shortcut icon" href="images/icons/favicon.png">
 	<link rel="stylesheet" type="text/css" href="themes/core/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" href="themes/core/fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="themes/core/css/core.css">
@@ -22,7 +23,7 @@
 	<script src="js/modernizr.custom.js"></script>
 	<link rel="stylesheet" type="text/css" href="plugins/git-embeded/github-embed.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.23.0/polyfill.min.js">
-		console.log("articles[0].article_title");
+		//	console.log("articles[0].article_title");
 	</script>
 	<script src="plugins/git-embeded/github-embed.min.js"></script>
 	<style type="text/css" id="style_loader"></style>
@@ -33,11 +34,16 @@
 		<button id="menu-toggle" class="menu-toggle"><span>Menu</span></button>
 		<div id="theSidebar" class="sidebar">
 			<button class="close-button fa fa-fw fa-close"></button>
-
-			<h1 id="JSiteMainTitle">JSite-Title</h1>
+			<h1 style="    background: url(./images/icons/favicon.png) no-repeat left;
+    /* text-align: left; */
+    background-size: 28px 28px !important;
+    padding-left: 3%;
+    background-position: center;
+    background-position-x: 26%;
+" id="JSiteMainTitle">JSite-Title</h1>
 			<nav class="">
-				<a class="current-demo" href="index.html">Template1</a>
-				<a href="index2.html"> Template2</a>
+				<a class="current-demo" href="index.html">Forum</a> |
+				<a href="index2.html">github</a>
 			</nav>
 			<div class="search-w">
 				<form>
@@ -46,17 +52,7 @@
 				</form>
 			</div>
 			<div class="overlay" style="display:none;"></div>
-			<div class="related" id="mainMenuID">
-
-				<!-- <a class="menuItem" style="color:deeppink;font-weight:bold;font-size:1.5em;" href="javascript:void(0);" onclick="loadArticlesByTechName('data',this,'red');">Home</a>
-				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('java',this,'#f89820')">Java</a>
-				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('python',this,'#1677bd')">Python</a>
-				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('spring',this,'#8bc34b')">Spring</a>
-				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('nodejs',this,'#8fc84f')">Node.js</a>
-				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('jmeter',this,'#d22128')">JMeter</a>
-				<a class="menuItem" href="javascript:void(0);" onclick="loadArticlesByTechName('atom',this,'#dda131')">Atom IDE</a> -->
-
-			</div>
+			<div class="related" id="mainMenuID"></div>
 			<div id="shorcuts" class='shorcuts'>click <b style="
     border: 1px dotted;
     padding: 0px 10px;
@@ -118,14 +114,6 @@
 	</script>
 	<script src="plugins/url/script.js" charset="utf-8"></script>
 
-	<script type="text/javascript">
-		console.log(Base64.encode('http://127.0.0.1:3000/?cat=spring')); // ZGFua29nYWk=
-		console.log(Base64.decode('aHR0cDovLzEyNy4wLjAuMTozMDAwLz9jYXQ9c3ByaW5n')); // dankogai);
-		Base64.encode('小飼弾'); // 5bCP6aO85by+
-		Base64.encodeURI('小飼弾'); // 5bCP6aO85by-
-		var u = new Url();
-		console.log(u.toString());
-	</script>
 	<script src="https://cdn.jsdelivr.net/alasql/latest/alasql.min.js" charset="utf-8"></script>
 	<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 

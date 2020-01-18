@@ -25,6 +25,7 @@ var tabToolBottom = document.getElementById('tabToolBottom');
 var title_preview;
 var overlay = document.querySelectorAll('.overlay');
 var directLoadByAid = false;
+var homeDataLoad=getConfig("homeDataLoad");
 var UID = {
     _current: 0,
     getNew: function() {
@@ -139,67 +140,91 @@ function loadHTML(url, fun, storage, param, authorID) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             //if(xhr.status == 200)
-            {
-                addOverlay();
-                var articleFullView = document.createElement('div');
-                articleFullView.setAttribute("class", "articleFullView");
-                articleFullView.setAttribute("id", articleId_current_opened_full_view);
-                if (!chechTabToolItemExistOrNot(articleId_current_opened_full_view) && !directLoadByAid) {
-                    addToolTab_ctrl();
-                }
-                if (!isArtcileFullViewLoadedOrNot(articleId_current_opened_full_view)) {
-                    openedArticles.push(articleId_current_opened_full_view);
-                    //  console.log("exxxxx"+articleId_current_opened_full_view);
-                    articleFullView.innerHTML = getBody(xhr.responseText);
-                    storage.insertBefore(articleFullView, storage.firstChild);
-                    fun(storage, param);
-                    //  loadColoring();
-                    var codeBlocks_array = document.getElementsByClassName("codeBlock"); // codeBlocks.getAttribute('data').split(",");
-                    for (j = 0; j < codeBlocks_array.length; j++) {
-                        var cbID = "codeBlock_" + j;
-                        var settings_obj = codeBlocks_array[j]; // document.getElementById(codeBlocks_array[j]);
-                        settings_obj.setAttribute("id", cbID);
-                        var owner = settings_obj.getAttribute('owner');
-                        var repo = settings_obj.getAttribute('repo');
-                        var ref = settings_obj.getAttribute('ref');
-                        var embeded = settings_obj.getAttribute('embeded');
-                        var array_embeded = embeded.split(",");
-                        var array_embeded_obj = new Array();
-                        for (i = 0; i < array_embeded.length; i++) {
-                            array_embeded_obj[i] = JSON.parse(array_embeded[i]);
-                        }
-                        githubEmbed('#' + cbID + '', {
-                            "owner": owner,
-                            "repo": repo,
-                            "ref": ref,
-                            "embed": array_embeded_obj
-                        }); // end of github-embedded
-                    } // for loop end for code blocks
-                    lazyLoadImages();
-                } // after this
-                articleWindow = true;
-                //var url_array = url.split('/');
-                // var color_code = url_array[1];
-                hideLoadedArticles_but_view_current_by_article_ID(articleId_current_opened_full_view);
-                //  article_title_obj = document.querySelector("#"+articleId_current_opened_full_view+" .title--full");
-                //if(!fromTab) {
-                if (!getElementById("authorDivID" + articleId_current_opened_full_view)) {
-                    if (getConfig('displayAuthorInfo')) {
-                        displayAuthorData();
-                        loadAuthorsInfo(authorID, authorsFolder);
-                    }
-                }
-                addBrowserLook();
-                fromTab = false;
-                console.log("openedArticles");
-                console.log(openedArticles);
-                //  console.log(articleId_current_opened_full_view+"tripcore");
-                //storage.innerHTML=getBody(xhr.responseText);
+            if(this.status == 200 ){
+            loadHTML_ctrl(xhr.responseText, fun, storage, param, authorID);
+          } else if(this.status == 404 ){
+
+            loadFileNotFoundError(fun, storage, param);
+          }
             }
-        }
     };
     xhr.open("GET", url, true);
     xhr.send(null);
+}
+
+function loadFileNotFoundError(fun, storage, param)
+{
+  addOverlay();
+  var articleFullView = document.createElement('div');
+  articleFullView.setAttribute("class", "articleFullView");
+  articleFullView.setAttribute("id", articleId_current_opened_full_view);
+
+  var errorMsg='<figure class="JSiteBlock"><img class="lazy" src="https://res.cloudinary.com/jsite/image/upload/e_blur:829/v1579275577/Jsitescreens/articelTitle_ln9kaa.png" data-src="https://res.cloudinary.com/jsite/image/upload/v1579275577/Jsitescreens/articelTitle_ln9kaa.png" /><Jcaption>Article Main Title Sample</Jcaption></figure>';
+  articleFullView.innerHTML =errorMsg;
+  storage.insertBefore(articleFullView, storage.firstChild);
+  fun(storage, param);
+}
+
+function loadHTML_ctrl(responseText, fun, storage, param, authorID){
+
+  {
+      addOverlay();
+      var articleFullView = document.createElement('div');
+      articleFullView.setAttribute("class", "articleFullView");
+      articleFullView.setAttribute("id", articleId_current_opened_full_view);
+      if (!chechTabToolItemExistOrNot(articleId_current_opened_full_view) && !directLoadByAid) {
+          addToolTab_ctrl();
+      }
+      if (!isArtcileFullViewLoadedOrNot(articleId_current_opened_full_view)) {
+          openedArticles.push(articleId_current_opened_full_view);
+          //  console.log("exxxxx"+articleId_current_opened_full_view);
+          articleFullView.innerHTML = getBody(responseText);
+          storage.insertBefore(articleFullView, storage.firstChild);
+          fun(storage, param);
+          //  loadColoring();
+          var codeBlocks_array = document.getElementsByClassName("codeBlock"); // codeBlocks.getAttribute('data').split(",");
+          for (j = 0; j < codeBlocks_array.length; j++) {
+              var cbID = "codeBlock_" + j;
+              var settings_obj = codeBlocks_array[j]; // document.getElementById(codeBlocks_array[j]);
+              settings_obj.setAttribute("id", cbID);
+              var owner = settings_obj.getAttribute('owner');
+              var repo = settings_obj.getAttribute('repo');
+              var ref = settings_obj.getAttribute('ref');
+              var embeded = settings_obj.getAttribute('embeded');
+              var array_embeded = embeded.split(",");
+              var array_embeded_obj = new Array();
+              for (i = 0; i < array_embeded.length; i++) {
+                  array_embeded_obj[i] = JSON.parse(array_embeded[i]);
+              }
+              githubEmbed('#' + cbID + '', {
+                  "owner": owner,
+                  "repo": repo,
+                  "ref": ref,
+                  "embed": array_embeded_obj
+              }); // end of github-embedded
+          } // for loop end for code blocks
+          lazyLoadImages();
+      } // after this
+      articleWindow = true;
+      //var url_array = url.split('/');
+      // var color_code = url_array[1];
+      hideLoadedArticles_but_view_current_by_article_ID(articleId_current_opened_full_view);
+      //  article_title_obj = document.querySelector("#"+articleId_current_opened_full_view+" .title--full");
+      //if(!fromTab) {
+      if (!getElementById("authorDivID" + articleId_current_opened_full_view)) {
+          if (getConfig('displayAuthorInfo')) {
+              displayAuthorData();
+              loadAuthorsInfo(authorID, authorsFolder);
+          }
+      }
+      addBrowserLook();
+      fromTab = false;
+      console.log("openedArticles");
+      console.log(openedArticles);
+      //  console.log(articleId_current_opened_full_view+"tripcore");
+      //storage.innerHTML=getBody(xhr.responseText);
+  }
+
 }
 /**
     Callback
@@ -510,7 +535,7 @@ function loadArticlesByTechName(techName) {
     } else {
         mainColor = getConfig('mainColor');
         setPageTitle("Home");
-        loadJSON('content/data.json', loadArticleGrids);
+        loadJSON('content/'+homeDataLoad+'/data.json', loadArticleGrids);
     }
     menuChanges(menuItem);
     document.body.scrollTop = 0; // For Safari
@@ -559,7 +584,7 @@ function hideLoadedArticles_but_view_current_by_article_ID(idValue) {
     var mic = get_Menu_Item_and_Color_code_from_articleID(idValue);
   //  mainColor = ;
     mainColor = (getConfig('multiColor')) ? mic['menuColor'] : mainColor;
-    
+
     loadColoring();
 
     //  console.log("jaya"+mic['menuItem']);
@@ -672,7 +697,7 @@ function init() {
 
          menuChanges(menuItem);
 
-            loadJSON('content/data.json', loadArticleGrids);
+            loadJSON('content/'+homeDataLoad+'/data.json', loadArticleGrids);
         }
     }
 }
