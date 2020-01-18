@@ -678,7 +678,7 @@ function loadToolTips(){
 
   // Initialize
      var Tooltips = document.querySelectorAll('cb');
-     var toolTipsSourse="content/"+ds[0]+"shorts.json";
+     var toolTipsSourse="content/"+ds[0]+"/shorts.json";
      // Track all tooltips trigger
      for (var i = 0; i < Tooltips.length; i++) {
 
@@ -689,7 +689,7 @@ function loadToolTips(){
 var tag=this;
 var tagData=(tag.innerHTML.charAt(0)=='@') ? tag.innerHTML.slice(1) : tag.innerHTML;
 //// console.log(ta);
-         alasql(['SELECT '+tagData+' as tagData   FROM JSON("content/spring/shorts.json")']).then(function(res) {
+         alasql(['SELECT '+tagData+' as tagData   FROM JSON("'+toolTipsSourse+'")']).then(function(res) {
 var r=res[0];
 var tagDesc=r[0].tagData;
 if(tagDesc){
