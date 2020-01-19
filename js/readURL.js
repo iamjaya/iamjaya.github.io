@@ -25,8 +25,9 @@ var tabToolBottom = document.getElementById('tabToolBottom');
 var title_preview;
 var overlay = document.querySelectorAll('.overlay');
 var directLoadByAid = false;
-var homeDataLoad=getConfig("homeDataLoad");
+var homeDataLoad = getConfig("homeDataLoad");
 var ds; // for stroing descripted catname | status | and url
+var shorts_el = getElementById("shorts");
 var UID = {
     _current: 0,
     getNew: function() {
@@ -141,99 +142,91 @@ function loadHTML(url, fun, storage, param, authorID) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             //if(xhr.status == 200)
-            if(this.status == 200 ){
-            loadHTML_ctrl(xhr.responseText, fun, storage, param, authorID);
-          } else if(this.status == 404 ){
-
-            loadFileNotFoundError(fun, storage, param);
-          }
+            if (this.status == 200) {
+                loadHTML_ctrl(xhr.responseText, fun, storage, param, authorID);
+            } else if (this.status == 404) {
+                loadFileNotFoundError(fun, storage, param);
             }
+        }
     };
     xhr.open("GET", url, true);
     xhr.send(null);
 }
-
-function loadFileNotFoundError(fun, storage, param)
-{
-  addOverlay();
-  var articleFullView = document.createElement('div');
-  articleFullView.setAttribute("class", "articleFullView");
-  articleFullView.setAttribute("id", articleId_current_opened_full_view);
-
-  var errorMsg='<figure class="JSiteBlock"><img class="lazy" src="https://res.cloudinary.com/jsite/image/upload/e_blur:829/v1579275577/Jsitescreens/articelTitle_ln9kaa.png" data-src="https://res.cloudinary.com/jsite/image/upload/v1579275577/Jsitescreens/articelTitle_ln9kaa.png" /><Jcaption>Article Main Title Sample</Jcaption></figure>';
-  articleFullView.innerHTML =errorMsg;
-  storage.insertBefore(articleFullView, storage.firstChild);
-  fun(storage, param);
+function loadFileNotFoundError(fun, storage, param) {
+    addOverlay();
+    var articleFullView = document.createElement('div');
+    articleFullView.setAttribute("class", "articleFullView");
+    articleFullView.setAttribute("id", articleId_current_opened_full_view);
+    var errorMsg = '<figure class="JSiteBlock"><img class="lazy" src="https://res.cloudinary.com/jsite/image/upload/e_blur:829/v1579275577/Jsitescreens/articelTitle_ln9kaa.png" data-src="https://res.cloudinary.com/jsite/image/upload/v1579275577/Jsitescreens/articelTitle_ln9kaa.png" /><Jcaption>Article Main Title Sample</Jcaption></figure>';
+    articleFullView.innerHTML = errorMsg;
+    storage.insertBefore(articleFullView, storage.firstChild);
+    fun(storage, param);
 }
-
-function loadHTML_ctrl(responseText, fun, storage, param, authorID){
-
-  {
-      addOverlay();
-      var articleFullView = document.createElement('div');
-      articleFullView.setAttribute("class", "articleFullView");
-      articleFullView.setAttribute("id", articleId_current_opened_full_view);
-      if (!chechTabToolItemExistOrNot(articleId_current_opened_full_view) && !directLoadByAid) {
-          addToolTab_ctrl();
-      }
-      if (!isArtcileFullViewLoadedOrNot(articleId_current_opened_full_view)) {
-          openedArticles.push(articleId_current_opened_full_view);
-          //  // console.log("exxxxx"+articleId_current_opened_full_view);
-          articleFullView.innerHTML = getBody(responseText);
-          storage.insertBefore(articleFullView, storage.firstChild);
-          fun(storage, param);
-          //  loadColoring();
-          var codeBlocks_array = document.getElementsByClassName("codeBlock"); // codeBlocks.getAttribute('data').split(",");
-          for (j = 0; j < codeBlocks_array.length; j++) {
-              var cbID = "codeBlock_" + j;
-              var settings_obj = codeBlocks_array[j]; // document.getElementById(codeBlocks_array[j]);
-              settings_obj.setAttribute("id", cbID);
-              var owner = settings_obj.getAttribute('owner');
-              var repo = settings_obj.getAttribute('repo');
-              var ref = settings_obj.getAttribute('ref');
-              var embeded = settings_obj.getAttribute('embeded');
-              var array_embeded = embeded.split(",");
-              var array_embeded_obj = new Array();
-              for (i = 0; i < array_embeded.length; i++) {
-                  array_embeded_obj[i] = JSON.parse(array_embeded[i]);
-              }
-              githubEmbed('#' + cbID + '', {
-                  "owner": owner,
-                  "repo": repo,
-                  "ref": ref,
-                  "embed": array_embeded_obj
-              }); // end of github-embedded
-          } // for loop end for code blocks
-          lazyLoadImages();
-      } // after this
-      articleWindow = true;
-      //var url_array = url.split('/');
-      // var color_code = url_array[1];
-      hideLoadedArticles_but_view_current_by_article_ID(articleId_current_opened_full_view);
-      //  article_title_obj = document.querySelector("#"+articleId_current_opened_full_view+" .title--full");
-      //if(!fromTab) {
-      if (!getElementById("authorDivID" + articleId_current_opened_full_view)) {
-          if (getConfig('displayAuthorInfo')) {
-              displayAuthorData();
-              loadAuthorsInfo(authorID, authorsFolder);
-          }
-      }
-      addBrowserLook();
-      fromTab = false;
-      // console.log("openedArticles");
-      // console.log(openedArticles);
-      //  // console.log(articleId_current_opened_full_view+"tripcore");
-      //storage.innerHTML=getBody(xhr.responseText);
-  }
-
+function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
+    {
+        addOverlay();
+        var articleFullView = document.createElement('div');
+        articleFullView.setAttribute("class", "articleFullView");
+        articleFullView.setAttribute("id", articleId_current_opened_full_view);
+        if (!chechTabToolItemExistOrNot(articleId_current_opened_full_view) && !directLoadByAid) {
+            addToolTab_ctrl();
+        }
+        if (!isArtcileFullViewLoadedOrNot(articleId_current_opened_full_view)) {
+            openedArticles.push(articleId_current_opened_full_view);
+            //  // console.log("exxxxx"+articleId_current_opened_full_view);
+            articleFullView.innerHTML = getBody(responseText);
+            storage.insertBefore(articleFullView, storage.firstChild);
+            fun(storage, param);
+            //  loadColoring();
+            var codeBlocks_array = document.getElementsByClassName("codeBlock"); // codeBlocks.getAttribute('data').split(",");
+            for (j = 0; j < codeBlocks_array.length; j++) {
+                var cbID = "codeBlock_" + j;
+                var settings_obj = codeBlocks_array[j]; // document.getElementById(codeBlocks_array[j]);
+                settings_obj.setAttribute("id", cbID);
+                var owner = settings_obj.getAttribute('owner');
+                var repo = settings_obj.getAttribute('repo');
+                var ref = settings_obj.getAttribute('ref');
+                var embeded = settings_obj.getAttribute('embeded');
+                var array_embeded = embeded.split(",");
+                var array_embeded_obj = new Array();
+                for (i = 0; i < array_embeded.length; i++) {
+                    array_embeded_obj[i] = JSON.parse(array_embeded[i]);
+                }
+                githubEmbed('#' + cbID + '', {
+                    "owner": owner,
+                    "repo": repo,
+                    "ref": ref,
+                    "embed": array_embeded_obj
+                }); // end of github-embedded
+            } // for loop end for code blocks
+            lazyLoadImages();
+        } // after this
+        articleWindow = true;
+        //var url_array = url.split('/');
+        // var color_code = url_array[1];
+        hideLoadedArticles_but_view_current_by_article_ID(articleId_current_opened_full_view);
+        //  article_title_obj = document.querySelector("#"+articleId_current_opened_full_view+" .title--full");
+        //if(!fromTab) {
+        if (!getElementById("authorDivID" + articleId_current_opened_full_view)) {
+            if (getConfig('displayAuthorInfo')) {
+                displayAuthorData();
+                loadAuthorsInfo(authorID, authorsFolder);
+            }
+        }
+        addBrowserLook();
+        fromTab = false;
+        // console.log("openedArticles");
+        // console.log(openedArticles);
+        //  // console.log(articleId_current_opened_full_view+"tripcore");
+        //storage.innerHTML=getBody(xhr.responseText);
+    }
 }
 /**
     Callback
     Assign directly a tag
 */
 function threeDBoxStyle_activate() {
-    if (getConfig('threeDboxStyle')) {
-    }
+    if (getConfig('threeDboxStyle')) {}
 }
 function matching_b_bo_ctrl(mainColor_final) {
     var matching_b_bo = document.querySelectorAll('.matching_b_bo > p');
@@ -265,8 +258,7 @@ function styleQuotes(mainColor_final) {
     }
 }
 function contentCB(mainColor_final) {
-loadToolTips();
-
+    loadToolTips();
     var cb = document.getElementsByTagName('cb');
     var cb1;
     for (cb1 = 0; cb1 < cb.length; cb1++) {
@@ -512,7 +504,7 @@ function searchArticleCtrl(category_name, menuItem) {
     }
 }
 function menuChanges(menuItem) {
-  // console.log(mainColor+"mainColor");
+    // console.log(mainColor+"mainColor");
     var menu = document.getElementsByClassName('menuItem');
     var i;
     for (i = 0; i < menu.length; i++) {
@@ -531,14 +523,13 @@ function setPageTitle(ptitle) {
 function loadArticlesByTechName(techName) {
     var menuItem = getElementById(techName);
     mainColor = (getConfig('multiColor')) ? getMenuColor(techName) : mainColor;
-
     if (techName != "home") {
         setPageTitle(menuItem.innerHTML);
         loadJSON('content/' + techName + '/data.json', loadArticleGrids);
     } else {
         mainColor = getConfig('mainColor');
         setPageTitle("Home");
-        loadJSON('content/'+homeDataLoad+'/data.json', loadArticleGrids);
+        loadJSON('content/' + homeDataLoad + '/data.json', loadArticleGrids);
     }
     menuChanges(menuItem);
     document.body.scrollTop = 0; // For Safari
@@ -555,8 +546,7 @@ function addJSiteMainName() {
         }
     }
 }
-function getCatFromURL() {
-}
+function getCatFromURL() {}
 function getDefinedOrNot(em) {
     if (typeof em != "undefined") {
         return true;
@@ -585,11 +575,9 @@ function get_Menu_Item_and_Color_code_from_articleID(aaid) {
 function hideLoadedArticles_but_view_current_by_article_ID(idValue) {
     var c = document.querySelectorAll('.articleFullView');
     var mic = get_Menu_Item_and_Color_code_from_articleID(idValue);
-  //  mainColor = ;
+    //  mainColor = ;
     mainColor = (getConfig('multiColor')) ? mic['menuColor'] : mainColor;
-
     loadColoring();
-
     //  // console.log("jaya"+mic['menuItem']);
     menuChanges(getElementById(mic['menuItem']));
     //  // console.log(mainColor);
@@ -662,8 +650,7 @@ function innerLoadArticleByAID(article_id, source) {
     var t_i = getAid_cat_authorID_from_Decode_String(decodedArticleID);
     cat_t = t_i[0];
     mainColor = (getConfig('multiColor')) ? getMenuColor(cat_t) : mainColor;
-
-  //  mainColor = getMenuColor(cat_t);
+    //  mainColor = getMenuColor(cat_t);
     ar_id = t_i[1];
     au_id = t_i[2];
     var item = document.createElement('div');
@@ -674,50 +661,67 @@ function innerLoadArticleByAID(article_id, source) {
     //  mainCtrl=new main();
     mainCtrl.loadArticleByID(item);
 }
-
-
-function loadToolTips(){
-
-  // Initialize
-     var Tooltips = document.querySelectorAll('cb');
-     var toolTipsSourse="content/"+ds[0]+"/shorts.json";
-     // Track all tooltips trigger
-     for (var i = 0; i < Tooltips.length; i++) {
-
-       // Event Handler
-       Tooltips[i].addEventListener("mouseenter", function(ev) {
-         ev.preventDefault();
-         this.style.position = "relative";
-var tag=this;
-var tagData=(tag.innerHTML.charAt(0)=='@') ? tag.innerHTML.slice(1) : tag.innerHTML;
-//// console.log(ta);
-         alasql(['SELECT '+tagData+' as tagData   FROM JSON("'+toolTipsSourse+'")']).then(function(res) {
-var r=res[0];
-var tagDesc=r[0].tagData;
-if(tagDesc){
-
-//// console.log(r[0].tagData);
-var theSidebar_width=document.getElementById("theSidebar").offsetWidth;
-// console.log("theSidebar_width"+theSidebar_width);
-var leftSide_tag=tag.offsetLeft;
-// console.log("leftSide_tag"+leftSide_tag);
-var rect = tag.getBoundingClientRect();
-// console.log(rect.top, rect.right, rect.bottom, rect.left);
-//var rightSide_tag=rect.right
-var posi= (leftSide_tag<100) ? "OnRight" : "OnTop";
-// console.log(posi);
-           tag.innerHTML =tag.innerHTML + "<div class='Tooltips'><p class='"+posi+"'>" + tagDesc+ "</p></div>"; }
-
-         });
-       });
-       Tooltips[i].addEventListener("mouseleave", function(ev) {
-          ev.preventDefault();
-        //  this.removeAttribute("style");
-          this.innerHTML = this.innerHTML.replace(/<div[^]*?<\/div>/, '');;
+function addTOShorts_Div(el, tagData) {
+    var elm = document.createElement("div");
+    elm.setAttribute("id", "short_" + tagData);
+    elm.innerHTML = el;
+    shorts_el.appendChild(elm);
+    console.log(getElementById("short_" + tagData).innerHTML);
+}
+function displayTagFrom_shorts_div(tagDesc, shortDesitionation, posi) {
+    //  console.log(short_from_shortsDiv);
+    shortDesitionation.innerHTML = shortDesitionation.innerHTML + "<div class='Tooltips'><p class='" + posi + "'>" + tagDesc + "</p></div>";
+}
+function loadToolTips() {
+    // Initialize
+    var Tooltips = document.querySelectorAll('cb');
+    var toolTipsSourse = "content/" + ds[0] + "/shorts.json";
+    // Track all tooltips trigger
+    for (var i = 0; i < Tooltips.length; i++) {
+        // Event Handler
+        Tooltips[i].addEventListener("mouseenter", function(ev) {
+            ev.preventDefault();
+            this.style.position = "relative";
+            var tag = this;
+            if (!tag.hasAttribute("short_added")) {
+                var tagData = (tag.innerHTML.charAt(0) == '@') ? tag.innerHTML.slice(1) : tag.innerHTML;
+                //// console.log(r[0].tagData);
+                var theSidebar_width = document.getElementById("theSidebar").offsetWidth;
+                // console.log("theSidebar_width"+theSidebar_width);
+                var leftSide_tag = tag.offsetLeft;
+                // console.log("leftSide_tag"+leftSide_tag);
+                var rect = tag.getBoundingClientRect();
+                // console.log(rect.top, rect.right, rect.bottom, rect.left);
+                //var rightSide_tag=rect.right
+                var posi = (leftSide_tag < 100) ? "OnRight" : "OnTop";
+                var short_from_shortsDiv = getElementById("short_" + tagData);
+                tag.setAttribute("short_added", "yes");
+                if (short_from_shortsDiv) {
+                    displayTagFrom_shorts_div(short_from_shortsDiv.innerHTML, tag, posi);
+                } else {
+                    //// console.log(ta);
+                    alasql(['SELECT ' + tagData + ' as tagData   FROM JSON("' + toolTipsSourse + '")']).then(function(res) {
+                        console.log("ajax activated");
+                        var r = res[0];
+                        var tagDesc = r[0].tagData;
+                        if (tagDesc) {
+                            // console.log(posi);
+                            var el = "<div class='Tooltips'><p class='" + posi + "'>" + tagDesc + "</p></div>";
+                            //
+                            tag.innerHTML = tag.innerHTML + el;
+                            addTOShorts_Div(tagDesc, tagData);
+                        }
+                    });
+                }
+            } else { //console.log("short_added"+tag.innerHTML);
+            }
         });
-
-     }
-
+        Tooltips[i].addEventListener("mouseleave", function(ev) {
+            ev.preventDefault();
+            //  this.removeAttribute("style");
+            // this.innerHTML = this.innerHTML.replace(/<div[^]*?<\/div>/, '');;
+        });
+    }
 }
 function init() {
     var referrer = location.origin; // document.referrer;
@@ -741,13 +745,11 @@ function init() {
         if (getDefinedOrNot(cat_from_url)) {
             loadArticlesByTechName(cat_from_url);
         } else {
-          mainColor = getConfig('mainColor');
-          // console.log(mainColor+"mmmm");
-          var menuItem = getElementById("home");
-
-         menuChanges(menuItem);
-
-            loadJSON('content/'+homeDataLoad+'/data.json', loadArticleGrids);
+            mainColor = getConfig('mainColor');
+            // console.log(mainColor+"mmmm");
+            var menuItem = getElementById("home");
+            menuChanges(menuItem);
+            loadJSON('content/' + homeDataLoad + '/data.json', loadArticleGrids);
         }
     }
 }
