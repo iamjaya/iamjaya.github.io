@@ -36,6 +36,7 @@ var UID = {
     }
 };
 var menu = getConfig('menu');
+var searchCatQueue = [];
 HTMLElement.prototype.pseudoStyle = function(element, prop, value) {
     var _this = this;
     var _sheetId = "pseudoStyles";
@@ -65,6 +66,7 @@ function createMainMenu_ctrl() {
             menuID_ctrl = menuD[0];
         if (menuStatus == 'true') {
             menus = menus + '   <a class="menuItem" id="' + menuID_ctrl + '"href="javascript:void(0);" onclick="loadArticlesByTechName(\'' + menuID_ctrl + '\')">' + menu_displayLabel + '</a>';
+            searchCatQueue.push(menuID_ctrl);
         }
     }
     document.getElementById('mainMenuID').innerHTML = menus;
@@ -72,10 +74,16 @@ function createMainMenu_ctrl() {
 }
 function searchArticle(queryString, callback) {
     // console.log(menu);
-    getSearchQuery(menu);
-    alasql(['SELECT * , ROWNUM() as rn FROM JSON("content/spring/data.json") WHERE article_title LIKE "%' + queryString + '%"',
-        'SELECT * , ROWNUM() as rn FROM JSON("content/atom/data.json")'
-    ]).then(function(res) {
+    //    getSearchQuery(menu);
+    //  console.log(searchCatQueue);
+    var q = [];
+    var query_s = searchCatQueue;
+    for (var i = 0; i < query_s.length; i++) {
+        q.push('SELECT * FROM JSON("content/' + query_s[i] + '/data.json") WHERE article_title LIKE "%' + queryString + '%"')
+    }
+    //alasql(['SELECT * FROM JSON("content/spring/data.json") WHERE article_title LIKE "%'+ queryString+ '%"',
+    //  'SELECT * , ROWNUM() as rn FROM JSON("content/atom/data.json")'
+    alasql(q).then(function(res) {
         article_Itmes = "";
         callback(res);
         // console.log(res);
