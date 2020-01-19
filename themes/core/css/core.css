@@ -567,7 +567,7 @@ button:focus {
     font-size: 0.85em;
 }
 .content__item p {
-    max-width: 1200px;
+  /*  max-width: 1200px; */
     margin: 1em auto;
     text-align: justify;
 }
