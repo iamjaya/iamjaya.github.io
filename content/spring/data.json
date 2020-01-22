@@ -14,6 +14,14 @@
       "icon": "spring",
       "authorID":"jai"
     },
+    {
+        "article_title": "Initiating Spring Container by using <ht>AnnotationConfigApplicationContext</ht>",
+        "article_cat": "Basic Coding",
+        "article_start_date": "17-Dec-2019",
+        "article_loadURL": "content/spring/initiating_spring_container_with_ApplicationContext.html",
+        "icon": "spring",
+        "authorID":"jai"
+      },
   {
     "article_title": "<ht>@Bean</ht> annotation in Spring Framework",
     "article_cat": "Basic Coding",
@@ -55,5 +63,14 @@
     "article_loadURL": "content/spring/injecting_values_into_bean_properties.html",
     "icon": "spring",
     "authorID":"jai"
+  },
+  {
+    "article_title": "@ConfigurationProperties injecting values to classes in Spring",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/spring/configurationProperties.html",
+    "icon": "spring",
+    "authorID":"jai"
   }
+
 ]

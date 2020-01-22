@@ -1,0 +1,10 @@
+<h1 class="title title--full" id="article_title">Initiating Spring container with AnnotationConfigApplicationContext</h1>
+<p>We can configure spring application by a class which annotated with <cb>@Configuration</cb>. Then Spring container should be initiated with the configured class created. Here we can see the one of the way to initiate the Spring Container.</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="java | Spring"><code>public static void main(String[] args) {
+    ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+    FooService fooService = ctx.getBean(FooService.class);
+    fooService.doStuff();
+}</code></pre>
+  <Jcaption> Initiating Spring Container with AnnotationConfigApplicationContext class.</Jcaption>
+</figure>

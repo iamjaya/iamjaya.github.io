@@ -1938,5 +1938,26 @@ font-weight: normal;
   margin-top: -8px;
   left: -8px;
 }
+.toc{
+
+    align-content: center;
+    border: 1px solid #80808066;
+    align-items: center;
+    display: block;
+    width: 50%;
+    border-radius: 4px;
+    padding: 10px 10px 10px 60px;
+    margin: 0px auto;
+}
+.toc::before {
+  content: 'Table Of Contents';
+    /* writing-mode: vertical-lr; */
+    text-align: center;
+    /* text-transform: uppercase; */
+    /* font: bold 90% Open Sans, sans-serif; */
+    /* background: #8bc34b; */
+    color: black;
+    display: block;
+  }
 
 /*# sourceMappingURL=style1.css.map */

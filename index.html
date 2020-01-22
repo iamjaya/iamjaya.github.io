@@ -6,6 +6,7 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<script type="text/javascript">
 		document.write('<title>' + getConfig("titleTag") + '</title>');
 	</script>
@@ -104,13 +105,33 @@
 		<ul class="tabTool-group" id="tabToolBottom">
 			<!-- dont remove -->
 	</div>
-	<div id="shorts">
+	<div id="shorts" style="display:none;">
 		<!-- dont remone -->
 	</div>
+	<!--
+<script type="text/javascript">
+	function scriptLoader(url) {
+		var s = document.createElement('script');
+		s.type = 'text/javascript';
+		s.async = true;
+		s.src = url;
+		var x = document.getElementsByTagName('body')[0];
+		x.appendChild(s);
+	}
+</script>
+	<script>
+		scriptLoader('plugins/base64/script.js');
+		scriptLoader('plugins/url/script.js');
+		scriptLoader('https://cdn.jsdelivr.net/alasql/latest/alasql.min.js');
+		scriptLoader('https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js');
+		scriptLoader('js/classie.js');
+		scriptLoader('js/main.js');
+		scriptLoader('js/readURL.js');
+	</script> -->
 	<script src="plugins/base64/script.js" charset="utf-8">
 	</script>
 	<script src="plugins/url/script.js" charset="utf-8"></script>
-
+	<script src="plugins/toc/toc.js"></script>
 	<script src="https://cdn.jsdelivr.net/alasql/latest/alasql.min.js" charset="utf-8"></script>
 	<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 

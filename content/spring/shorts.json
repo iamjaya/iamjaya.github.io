@@ -1,6 +1,6 @@
 [{
     "Bean": "Bean is a class in a Spring contaienr",
-    "article_cat": "Basic Coding",
+    "Configuration": "We can bootstrap a @Configuration class directly using AnnotationConfigApplicationContext. @Configuration classes are typically bootstrapped using either AnnotationConfigApplicationContext or its web-capable variant, AnnotationConfigWebApplicationContext.",
     "article_start_date": "17-Dec-2019",
     "article_loadURL": "content/atom/snippets.html",
     "icon": "atom",
