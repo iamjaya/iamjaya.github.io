@@ -48,9 +48,14 @@
         return function(src, target, index) {
             var content = src.textContent;
             var pre = prefix + '-' + index;
+            //var flagSrc = document.createElement('spam');
+
             target.textContent = src.textContent;
             var id = overwrite ? pre : (src.id || pre);
             id = encodeURIComponent(id);
+          //  flagSrc.setAttribute("id",id);
+          //  src.before(flagSrc, src);
+
             src.id = id;
             target.href = '#' + id;
         }
@@ -79,7 +84,7 @@
         var defaultOpts = {
             selector: 'h1, h2, h3, h4, h5, h6',
             scope: 'body',
-            overwrite: false,
+            overwrite: true,
             prefix: 'toc'
         };
         options = extendObj(defaultOpts, options);
@@ -87,9 +92,9 @@
         if (typeof selector !== 'string') {
             throw new TypeError('selector must be a string');
         }
-        // if (!selector.match(/^(?:h[1-6],?\s*)*$/g)) {
-        //     throw new TypeError('selector must contains only h1-6')
-        // }
+         if (!selector.match(/^(?:h[1-6],?\s*)*$/g)) {
+             throw new TypeError('selector must contains only h1-6')
+         }
          var currentHash = location.hash;
         if (currentHash) {
             // fix hash

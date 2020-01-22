@@ -996,6 +996,14 @@ button:focus {
 .article h2 + figure + p {
     text-indent: 1em;
 }
+.article h2::before{
+
+  display: block;
+    content: " ";
+    margin-top: -40px;
+    height: 40px;
+    visibility: hidden;
+}
 /*
 .article p:first-of-type:first-line {
   font-weight: 700;

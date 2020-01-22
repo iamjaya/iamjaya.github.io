@@ -216,8 +216,8 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
             } // for loop end for code blocks
             lazyLoadImages();
             // console.log(articleId_current_opened_full_view);
-
-            toc(  document.getElementById(articleId_current_opened_full_view));
+if(getConfig('toc')){
+            toc(  document.getElementById(articleId_current_opened_full_view)); }
         } // after this
         articleWindow = true;
         //var url_array = url.split('/');

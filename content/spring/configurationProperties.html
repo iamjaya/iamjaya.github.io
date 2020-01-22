@@ -2,5 +2,131 @@
 <h1 class="title title--full" id="article_title">Injecting values into class/(Component and Bean) by using @ConfigurationProperties</h1>
 <h2 class="topic_title">What is @ConfigurationProperties annotation</h2>
 <p>
-  <cb>@ConfigurationProperties</cb> annotation used to inject values into properties/variables of a class(ie a Component class or into a Bean)
+  <cb>@ConfigurationProperties</cb> annotation used to inject values into properties/variables of a class(ie a Component class or into a Bean). To get values from .properties file and to bind with the bean or component we can use <cb>
+    @ConfigurationProperties</cb>.
 </p>
+<h2 class="topic_title">How to use ConfigurationProperties</h2>
+<p>Create a class annotated with <cb>@Component</cb> and <cb>@ConfigurationProperties</cb>. Each and every variable or property of a class must have getter and setter methods.</p>
+<p>Property file must be specified in a <cb>@Configuration</cb> class with <cb>@ProeprtySoruce</cb> annotation.</p>
+<p>If a component class has a vairable studentName then this variable will be binded with the key studentName or student-name or student_name from a properties file.</p>
+<div class="quotes">
+  <p>Create .proeprties file in the <b>resources</b> folder of spring boot project
+    <span class="topic">.proeprties file</span>
+  </p>
+</div>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="java - Spring">
+  <code>
+  @Component
+  @ConfigurationProperties
+  public class Student{
+
+    String studentName;
+    String studentAge;
+    // you must create getter and setter methods here for the above variables
+
+  }
+  </code></pre>
+  <Jcaption> Component class with @ConfigurationProperties annotation</Jcaption>
+</figure>
+<p>We must import .properties file into Spring Container with configuration class by using <cb>@PropertySource</cb> annotation</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="Java - Spring"><code>
+  @Configuration
+  @PeopertySource("classpath:student.properties")
+  public class AppConfig{
+// here you can add your additional metadata about configuration
+
+  }</code></pre>
+  <Jcaption>Importing .proepties file into spring container with Configuration class</Jcaption>
+</figure>
+
+<p>Now we will write starting point for executing this application ie based on @ConfigurationProperties</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="java - spring"><code>
+    ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+    Student s=ctx.getBean(Student.class);
+    </code></pre>
+  <Jcaption>Initating SpringContainer by using ApplicationConfigApplicationContext annotation</Jcaption>
+</figure>
+<h2 class="topic_title">Optional elements of @ConfigurationProperties annotattion</h2>
+<div class="orderList mediumSizeNumber">
+  <h3>Optional Elements</h3>
+  <ol>
+    <li>
+      <p class="text">ignoreInvalidFields</p>
+    </li>
+    <li>
+      <p class="text">ignoreUnknownFields</p>
+    </li>
+    <li>
+      <p class="text">prefix</p>
+    </li>
+    <li>
+      <p class="text">value</p>
+    </li>
+  </ol>
+</div>
+
+<h2 class="topic_title">Using @ConfigurationProperties with bean / @Bean in Configuration classe</h2>
+<p>We can bind peoperties file to the bean too</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="java - spring"><code>
+    @Configuration
+    @PropertySource ({"classpath:student.properties", "classpath:teacher.properties"})
+
+    public class AppConfig{
+
+    @Bean
+    @ConfigurationProperties
+    public Student getStudent()
+    {
+      return new Student();
+
+    }
+
+    }
+  </code></pre>
+  <Jcaption> Using @ConfigurationProperties with a @Bean</Jcaption>
+</figure>
+<h2 class="topic_title">Using prefix with @configurationProperties</h2>
+<p>We can use prefix option with <cb>@ConfigurationProperties</cb> to access the proeprty value with a specific purpose. For example if we are working with two databases then to specify DB url then we need to specify url for each database separate.
+  Inthis type of cases prefix option will be useful</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="Java - Spring"><code>
+      @component
+      @ConfigurationProperties(prefix="cse")
+      public class Student{
+            // variables and getter-setter methods here studentName, studentAge
+
+      }
+    </code></pre>
+  <Jcaption> Using prefix option</Jcaption>
+</figure>
+
+<p>propeties in a propeties file must be like this</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="java - spring"><code>
+  cse.studentName="Ganguly"
+  cse.studentAge=35</code></pre>
+  <Jcaption>pfeix based properties in .properties file</Jcaption>
+</figure>
+<h2 class="topic_title">Object: Binding Object to proeprties file with @ConfigurationProperties</h2>
+<p>In some cases we need to bing the full class object to the .properties file. For example let us consider College object is binding with the .properties file and college object is a variable in a Student class</p>
+
+<div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master"
+  embeded='{"path": "springBoot/ConfigureProperties/college.proeprties" },{"path":"springBoot/ConfigureProperties/College.java"},{"path":"springBoot/ConfigureProperties/Student.java"},{"path":"springBoot/ConfigureProperties/Run.java"},{"path":"springBoot/ConfigureProperties/OUTPUT"}'
+  style="height:400px;"></div>
+<h2 class="topic_title">List: Binding List properties</h2>
+<p>We can bind list elements/properties of .proeprties file with <cb>@ConfigurationProperties</cb>
+</p>
+
+<div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master"
+  embeded='{"path": "springBoot/ConfigureProperties/list/faculty.properties" },{"path":"springBoot/ConfigureProperties/list/Faculty.java"},{"path":"springBoot/ConfigureProperties/list/Student.java"},{"path":"springBoot/ConfigureProperties/list/OUTPUT.java"}'
+  style="height:400px;"></div>
+<h2 class="topic_title">Map: Binding Map properties to a Map variable in class/componenet</h2>
+<p>We can bind a Map type properties to Map variable of a class or component class.</p>
+<p>Rememeber we have to keep Map variable name and Map identifier in .properties file must be same. For example in this case <cb>subject</cb>.</p>
+
+<div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master"
+  embeded='{"path": "springBoot/ConfigureProperties/map/subjects.properties" },{"path":"springBoot/ConfigureProperties/map/Student.java"},{"path":"springBoot/ConfigureProperties/map/OUTPUT.java"}' style="height:400px;"></div>
