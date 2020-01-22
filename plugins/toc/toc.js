@@ -12,7 +12,9 @@
         var ret = [];
 
         var target = document.querySelectorAll(scope);
+
         Array.prototype.forEach.call(target, function(elem) {
+
 // console.log(elem.innerHTML);
             var elems = elem.querySelectorAll(selector);
             ret = ret.concat(Array.prototype.slice.call(elems))
@@ -30,8 +32,10 @@
         while (count--) {
             var ol = document.createElement('ol');
             ol.setAttribute('class',"toc");
+
             wrapper.appendChild(ol);
             wrapper = ol;
+
         }
         return wrapper;
     };
@@ -65,8 +69,10 @@
         var scope = options.scope;
         var ret = document.createElement('ol');
         ret.setAttribute("class","toc");
-        ret.setAttribute("id","toc")
+        ret.setAttribute("id","toc");
+
         var wrapper = ret;
+
         var _setAttrs = setAttrs(options.overwrite, options.prefix);
         getHeaders(selector, scope).reduce(function(prev, cur, index) {
             var currentLevel = getLevel(cur.tagName);
