@@ -273,6 +273,14 @@ function main() {
         });
     }
     function hideContent() {
+
+//
+//       if(history.pushState) {
+//     history.pushState(null, null, null);
+// }
+// else {
+//     location.hash = 'http://127.0.0.1:3000/';
+// }
         removeOverlay();
         openedArticles.splice(openedArticles.indexOf(articleId_current_opened_full_view), 1);
         //  console.log("Enterinto HIde Method");

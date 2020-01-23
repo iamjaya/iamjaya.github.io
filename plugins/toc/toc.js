@@ -61,7 +61,8 @@
           //  src.before(flagSrc, src);
 
             src.id = id;
-            target.href = '#' + id;
+            target.href = '#' + id;  // uncomment for normal execution
+            target.setAttribute("onclick",'jump(\''+id+'\')');
         }
     };
     var buildTOC = function(options) {

@@ -1341,7 +1341,7 @@ pre.ch {
     grid-template-columns: min-content 1fr;
     padding: 0 1em 0 0;
 }
-pre.ch code {
+pre.ch code, pre.ch xmp {
 
   padding: 20px 40px;
 }

@@ -91,10 +91,11 @@
 
 					</article>
 				</div>
-
-				<a class="toc-link close-button--show" title="Table Of Contents" href="#toc"><img src="images/icons/toc.png" /></a>
-
-
+				<script>
+					if (getConfig("toc")) {
+						document.write('<a class="toc-link close-button--show" title="Table Of Contents" href="#toc" onClick="jump(\'toc\')"><img src="images/icons/toc.png" /></a>');
+					}
+				</script>
 				<button class="min-button" onclick="mimimize_Ctrl(this)" title="minimize"><img src="images/icons/minTab.png" /></button>
 				<button class="max-button" onclick="maximizeCtrl()" title="mamimize screen"><img src="images/icons/max.png" /></button>
 				<button class="close-button" onclick="closeBtnCtrl()" title="close"><img src="images/icons/close.png" /></button>
@@ -137,7 +138,6 @@
 	<script src="plugins/toc/toc.js"></script>
 	<script src="https://cdn.jsdelivr.net/alasql/latest/alasql.min.js" charset="utf-8"></script>
 	<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-
 	<script src="js/classie.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/readURL.js"></script>

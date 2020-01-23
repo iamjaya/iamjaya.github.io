@@ -3,7 +3,7 @@
 .article h1 {
     margin: 0em;
     font-weight: 100;
-    text-transform: uppercase;
+    text-transform: none;
   /*  color: #00caa6; */
   color:#cd8f7f;
     font-style: italic;

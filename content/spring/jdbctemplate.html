@@ -1,0 +1,107 @@
+<h1 class="title title--full" id="article_title">Database operations with JDBC by using JDBCTemplate in Spring</h1>
+<h2 class="topic_title">What is JDBCTemplate in Spring</h2>
+<p>
+  <cb>JDBCTemplate</cb> is configuring with <cb>DataSource</cb> by providing all necessary details to connect with database engine.
+</p>
+<p>By using JDBCTemplate we can execute SQl queries and we can get back the result of the sql query execution.</p>
+<p>In a SpringBoot JDBCTemplate will be auto configured by taking connection properties from application.properties file where prefix for the JDBC is <cb>spring.datasource</cb>
+</p>
+<p>Following snippet is the .properties data for JDBC configuration in SpringBoot</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="JAVA - Spring"><code>
+  spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+  spring.datasource.url=jdbc:mysql://localhost:3306/databaseName
+  spring.datasource.username=root
+  spring.datasource.password=</code></pre>
+  <Jcaption>application.properties with JDBC configuration by using prefix spring.datasource</Jcaption>
+</figure>
+
+<h2 class="topic_title">How to use JDBCTemplate</h2>
+<p>Once <cb>JDBCTemplate</cb> is configured then we can inject by autowiring JDBCTemplate into the DAO class to perform JDBC operations.
+</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="java - springBoot"><code>
+@Transactional
+@Repository
+public class StudentDAO {
+
+@Autowired
+private JDBCTemplate jt;
+
+// add the remaining code of DAO here
+
+}</code></pre>
+  <Jcaption>Using or injecting JDBCTemplate with @Autowired in a DAO class.</Jcaption>
+</figure>
+<p>We can inject <cb>JDBCTemplate</cb> with DAO constructor too</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="java - springBoot">
+@Transactional
+@Repository
+public class StudentDAO
+{
+private final JDBCTemplate jt;
+@Autowired
+public StudentDAO(JDBCTemplate jt){
+
+  this.jt=jt;
+}
+
+}</pre>
+  <Jcaption>Injecting JDBCTemplate by using constructor level autowiring</Jcaption>
+</figure>
+<h2 class="topic_title">Maven dependencies to work with JDBC</h2>
+<p>We can use either <cb>spring-boot-starter-jdbc</cb> or <cb>spring-boot-starter-data-jpa</cb>
+</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="POM.xml"><xmp>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+    </xmp></pre>
+  <Jcaption>dependency to work with database by using JDBCTemplate</Jcaption>
+</figure>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="POM.xml"><xmp>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency></xmp></pre>
+  <Jcaption>Dependency to work with JDBCTemplate by using data-jpa starter</Jcaption>
+</figure>
+<h2 class="topic_title">JDBCTemplate methods to run SQL queries DDL and DML</h2>
+<p>
+  <cb>JDBCTemplate</cb> provides the following methods to execute sql queries
+</p>
+<div class="curveList noFirstOfType matching_b_bo">
+  <h3>methods to execute SQL queries</h3>
+  <p>
+    <cb>query()</cb> method to execute static queries.
+  </p>
+  <p>
+    <cb>queryForObject()</cb> method to execute dynamic queries which takes parameters as an input
+  </p>
+  <p>
+    <cb>update()</cb> to execute insert, update and delete sql queries
+  </p>
+</div>
+<div class="quotes">
+  <p>To run <b>query()</b> and <b>queryForObject()</b> methods we need a <cb>RowMapper</cb> implemented class.
+    <span class="topic">RowMapper</span>
+  </p>
+</div>
+<h2 class="topic_title">RowMapper and BeanPropertyRowMapper</h2>
+<p>
+  <cb>RowMapper</cb> is useful to map SQL query search result with Bean object. <cb>query</cb> and <cb>queryForObject</cb> methods return bean object as a search result by using RowMapper interface.
+</p>
+<p>We must implement a <cb>RowMapper</cb> class by overriding <cb>mapRow()</cb> method.</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch" lang="JAVA - Spring"><xmp>
+      public interface RowMapper<T> {
+          T mapRow(ResultSet rs, int rowNum)  throws SQLException;
+          }
+          // Where T is the Bean Class which is representing DB table
+</xmp></pre>
+  <Jcaption> RowMapper interface</Jcaption>
+</figure>

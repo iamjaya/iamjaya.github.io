@@ -755,6 +755,31 @@ function loadToolTips() {
         });
     }
 }
+
+ function jump(h){
+setTimeout(function(){ removeHash(h); }, 5);
+ }
+function removeHash(h){
+  console.log("hash removed"+h);
+		history.replaceState('', document.title, window.location.origin + window.location.pathname + window.location.search);
+	}
+//
+// function getPosition(element){
+//         var e = document.getElementById(element);
+//         var left = 0;
+//         var top = 0;
+//
+//         do{
+//             left += e.offsetLeft;
+//             top += e.offsetTop;
+//         }while(e = e.offsetParent);
+// console.log(top+"top");
+//         return [left, top];
+//     }
+//
+//     function jump(id){
+//         document.getElementById(id).scrollTo(getPosition(id));
+//     }
 function init() {
     var referrer = location.origin; // document.referrer;
     //// // console.log("jklmn"+referrer);
