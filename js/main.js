@@ -295,12 +295,22 @@ function main() {
         document.getElementById('theSidebar').style.pointerEvents = "unset";
     //    document.getElementById('shorcuts').style.display = "none";
         var flag = "aid_";
+        var scrollHeight=0;
         var cuttentCloseClassFrom = "fromGrid";
+        var gridItem = getElementById(flag + articleId_current_opened_full_view); // gridItems[current],
+
         if (classie.has(closeCtrl, 'fromTabTool')) {
             flag = "tabTool_aid_";
             cuttentCloseClassFrom = "fromTabTool";
+             gridItem = getElementById(flag + articleId_current_opened_full_view); // gridItems[current],
+
+             scrollHeight = (Math.max(
+  document.body.scrollHeight, document.documentElement.scrollHeight,
+  document.body.offsetHeight, document.documentElement.offsetHeight,
+  document.body.clientHeight, document.documentElement.clientHeight
+)-gridItem.offsetHeight);
+            console.log(flag+scrollHeight);
         }
-        var gridItem = getElementById(flag + articleId_current_opened_full_view); // gridItems[current],
         console.log(flag + articleId_current_opened_full_view + "asdfasdf");
         console.log(gridItem.getAttribute("id"));
         contentItem = getElementById(articleId_current_opened_full_view); //contentItems[0];
@@ -317,9 +327,22 @@ function main() {
         classie.remove(bodyEl, 'view-single');
         setTimeout(function() {
             var dummy = gridItemsContainer.querySelector('.placeholder');
+        //    dummy.style.border="1px solid red";
             classie.removeClass(bodyEl, 'noscroll');
-            dummy.style.WebkitTransform = 'translate3d(' + gridItem.offsetLeft + 'px, ' + gridItem.offsetTop + 'px, 0px) scale3d(' + gridItem.offsetWidth / gridItemsContainer.offsetWidth + ',' + gridItem.offsetHeight / getViewport('y') + ',1)';
-            dummy.style.transform = 'translate3d(' + gridItem.offsetLeft + 'px, ' + gridItem.offsetTop + 'px, 0px) scale3d(' + gridItem.offsetWidth / gridItemsContainer.offsetWidth + ',' + gridItem.offsetHeight / getViewport('y') + ',1)';
+
+if(flag=="tabTool_aid_"){
+
+  var windowToolbar=document.querySelector(".windowToolbar");
+            dummy.style.WebkitTransform = 'translate3d(' + gridItem.offsetLeft + 'px, ' + (gridItem.offsetTop+scrollHeight) + 'px, 0px) scale3d(' + gridItem.offsetWidth / windowToolbar.offsetWidth + ',' + gridItem.offsetHeight / getViewport('y') + ',1)';
+            dummy.style.transform = 'translate3d(' + gridItem.offsetLeft + 'px, ' + (gridItem.offsetTop+scrollHeight) + 'px, 0px) scale3d(' + gridItem.offsetWidth / windowToolbar.offsetWidth + ',' + gridItem.offsetHeight / getViewport('y') + ',1)';
+} else {
+
+  dummy.style.WebkitTransform = 'translate3d(' + gridItem.offsetLeft + 'px, ' + (gridItem.offsetTop) + 'px, 0px) scale3d(' + gridItem.offsetWidth / gridItemsContainer.offsetWidth + ',' + gridItem.offsetHeight / getViewport('y') + ',1)';
+  dummy.style.transform = 'translate3d(' + gridItem.offsetLeft + 'px, ' + (gridItem.offsetTop) + 'px, 0px) scale3d(' + gridItem.offsetWidth / gridItemsContainer.offsetWidth + ',' + gridItem.offsetHeight / getViewport('y') + ',1)';
+
+}
+            console.log("dummy.style.WebkitTransform"+dummy.style.WebkitTransform);
+console.log("dummy.style.transform"+dummy.style.transform);
             onEndTransition(dummy, function() {
                 // reset content scroll..
                 contentItem.parentNode.scrollTop = 0;
