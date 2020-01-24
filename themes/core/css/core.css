@@ -986,6 +986,59 @@ button:focus {
     padding: 1em;
     counter-reset: figures videos codeinline;
 }
+body {
+counter-reset : h2;
+	}
+
+h2 {
+counter-reset : h3;
+	}
+
+h3 {
+counter-reset : h4;
+	}
+
+h4 {
+counter-reset : h5;
+	}
+
+h5 {
+counter-reset : h6;
+	}
+
+
+
+article h2:before {
+content : counter(h2,decimal) ". ";
+counter-increment : h2;
+	}
+
+article h3:before {
+content : counter(h2,decimal) "." counter(h3,decimal) ". ";
+counter-increment : h3;
+	}
+
+article h4:before {
+content : counter(h2,decimal) "." counter(h3,decimal) "." counter(h4,decimal) ". ";
+counter-increment : h4;
+	}
+
+article h5:before {
+content : counter(h2,decimal) "." counter(h3,decimal) "." counter(h4,decimal) "." counter(h5,decimal) ". ";
+counter-increment : h5;
+	}
+
+article h6:before {
+content : counter(h2,decimal) "." counter(h3,decimal) "." counter(h4,decimal) "." counter(h5,decimal) "." counter(h6,decimal) ". ";
+counter-increment : h6;
+	}
+
+h2.nocount:before, h3.nocount:before, h4.nocount:before, h5.nocount:before, h6.nocount:before {
+content : "";
+counter-increment : none;
+	}
+
+
 .article p {
     margin-bottom: 1em;
     font-size: 1.1em;
@@ -997,12 +1050,12 @@ button:focus {
     text-indent: 1em;
 }
 .article h2::before{
-
-   display: block;
+/*
+    display: block;
     content: " ";
     margin-top: -40px;
     height: 40px;
-    visibility: hidden;
+     visibility: hidden;  */
 }
 
 .article h2:target {

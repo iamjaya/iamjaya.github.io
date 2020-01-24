@@ -105,3 +105,14 @@ public StudentDAO(JDBCTemplate jt){
 </xmp></pre>
   <Jcaption> RowMapper interface</Jcaption>
 </figure>
+<h3>Implementing RowMapper or Creating RowMapper for our Bean</h3>
+<p>In this example we are going to create RoWMapper for Student bean to map Studnet database table rows.</p>
+<cbd class="JSiteBlock code_inline">
+  <div class="codeBlock" owner="jai43" repo="spring-example-snippets" ref="master" embeded='{"path": "springBoot/jdbctemplate/Student.java" },{"path":"springBoot/jdbctemplate/StudentRowMapper.java"}' style="height:300px;"></div>
+  <Jcaption> Student Bean and StudentRowMapper</Jcaption>
+</cbd>
+<div class="quotes">
+  <p>We can use <cb>RowMapper</cb> with <cb>query</cb> and <cb>queryForObject</cb> methods of <cb>JDBCTemplate</cb>
+    <span class="topic">StudentRowMapper</span>
+  </p>
+</div>

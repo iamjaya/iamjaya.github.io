@@ -311,8 +311,8 @@ function main() {
 )-gridItem.offsetHeight);
             console.log(flag+scrollHeight);
         }
-        console.log(flag + articleId_current_opened_full_view + "asdfasdf");
-        console.log(gridItem.getAttribute("id"));
+    //    console.log(flag + articleId_current_opened_full_view + "asdfasdf");
+      //  console.log(gridItem.getAttribute("id"));
         contentItem = getElementById(articleId_current_opened_full_view); //contentItems[0];
         contentItem.style.display = "none";
         //console.log(current+"current");
