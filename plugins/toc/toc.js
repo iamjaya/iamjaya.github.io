@@ -70,7 +70,7 @@
         var scope = options.scope;
         var ret = document.createElement('ol');
         ret.setAttribute("class","toc");
-        ret.setAttribute("id",options.prefix+"-toc");
+        ret.setAttribute("id","toc");
 
         var wrapper = ret;
 

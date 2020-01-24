@@ -28,6 +28,7 @@ var directLoadByAid = false;
 var homeDataLoad = getConfig("homeDataLoad");
 var ds; // for stroing descripted catname | status | and url
 var shorts_el = getElementById("shorts");
+var temp_toc;
 var UID = {
     _current: 0,
     getNew: function() {
@@ -178,10 +179,9 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
         var articleFullView = document.createElement('div');
         articleFullView.setAttribute("class", "articleFullView");
         articleFullView.setAttribute("id", articleId_current_opened_full_view);
-        var temp=articleId_current_opened_full_view.replace(/=/g, "a");
-        // console.log(temp);
-        classie.add(articleFullView,temp+"jsite");
-      //  articleFullView,temp+"jsite".setAttribute("class", temp+"jsite");
+
+        // console.log(temp_toc);
+         //   articleFullView.setAttribute("class", temp_toc+"jsite");
 
         if (!chechTabToolItemExistOrNot(articleId_current_opened_full_view) && !directLoadByAid) {
             addToolTab_ctrl();
@@ -189,6 +189,9 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
         if (!isArtcileFullViewLoadedOrNot(articleId_current_opened_full_view)) {
             openedArticles.push(articleId_current_opened_full_view);
             //  // // console.log("exxxxx"+articleId_current_opened_full_view);
+            temp_toc=articleId_current_opened_full_view.replace(/=/g, "a");
+            classie.add(articleFullView,temp_toc+"jsite");
+         
             articleFullView.innerHTML = getBody(responseText);
             storage.insertBefore(articleFullView, storage.firstChild);
             fun(storage, param);
@@ -217,6 +220,8 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
             lazyLoadImages();
             // console.log(articleId_current_opened_full_view);
 if(getConfig('toc')){
+
+
   document.querySelector(".toc-link").setAttribute("href","#"+articleId_current_opened_full_view+"-toc");
             toc(  document.getElementById(articleId_current_opened_full_view)); }
         } // after this
@@ -264,6 +269,13 @@ function articleTitleStyle(mainColor_final) {
     for (i1 = 0; i1 < topic_title.length; i1++) {
         topic_title[i1].style.color = mainColor_final;
         topic_title[i1].style.borderBottom = "2px solid " + mainColor_final;
+        // classList.add(color_code);
+    }
+
+    var h33=document.querySelectorAll('h3');
+    for (i1 = 0; i1 < h33.length; i1++) {
+        h33[i1].style.color = mainColor_final;
+        h33[i1].style.borderBottom = "1px solid " + mainColor_final;
         // classList.add(color_code);
     }
 }
@@ -404,8 +416,8 @@ function mimimize_Ctrl(em) {
 
 
 function toc(articleID){
-  var temp=articleId_current_opened_full_view.replace(/=/g, "a")+"jsite";
-// console.log(temp+"scope toc");
+  var temp=temp_toc+"jsite";
+console.log(temp+"scope toc");
   //var aid = articleID.get(articleId);
   var tocBlock=articleID.querySelector('p');
         var tocresult = initTOC({
