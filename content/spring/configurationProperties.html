@@ -15,8 +15,7 @@
   </p>
 </div>
 <figure class="JSiteBlock code_inline">
-  <pre class="ch" lang="java - Spring">
-  <code>
+  <pre class="ch prettyprint linenums" lang="java - Spring"><code>
   @Component
   @ConfigurationProperties
   public class Student{
@@ -31,7 +30,7 @@
 </figure>
 <p>We must import .properties file into Spring Container with configuration class by using <cb>@PropertySource</cb> annotation</p>
 <figure class="JSiteBlock code_inline">
-  <pre class="ch" lang="Java - Spring"><code>
+  <pre class="ch prettyprint linenums" lang="Java - Spring"><code>
   @Configuration
   @PeopertySource("classpath:student.properties")
   public class AppConfig{
@@ -43,7 +42,7 @@
 
 <p>Now we will write starting point for executing this application ie based on @ConfigurationProperties</p>
 <figure class="JSiteBlock code_inline">
-  <pre class="ch" lang="java - spring"><code>
+  <pre class="ch prettyprint linenums" lang="java - spring"><code>
     ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
     Student s=ctx.getBean(Student.class);
     </code></pre>
@@ -71,7 +70,7 @@
 <h2 class="topic_title">Using @ConfigurationProperties with bean / @Bean in Configuration classe</h2>
 <p>We can bind peoperties file to the bean too</p>
 <figure class="JSiteBlock code_inline">
-  <pre class="ch" lang="java - spring"><code>
+  <pre class="ch prettyprint linenums" lang="java - spring"><code>
     @Configuration
     @PropertySource ({"classpath:student.properties", "classpath:teacher.properties"})
 
@@ -93,7 +92,7 @@
 <p>We can use prefix option with <cb>@ConfigurationProperties</cb> to access the proeprty value with a specific purpose. For example if we are working with two databases then to specify DB url then we need to specify url for each database separate.
   Inthis type of cases prefix option will be useful</p>
 <figure class="JSiteBlock code_inline">
-  <pre class="ch" lang="Java - Spring"><code>
+  <pre class="ch prettyprint linenums" lang="Java - Spring"><code>
       @component
       @ConfigurationProperties(prefix="cse")
       public class Student{
@@ -106,7 +105,7 @@
 
 <p>propeties in a propeties file must be like this</p>
 <figure class="JSiteBlock code_inline">
-  <pre class="ch" lang="java - spring"><code>
+  <pre class="ch prettyprint linenums" lang="java - spring"><code>
   cse.studentName="Ganguly"
   cse.studentAge=35</code></pre>
   <Jcaption>pfeix based properties in .properties file</Jcaption>

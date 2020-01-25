@@ -1,0 +1,142 @@
+# Your snippets
+#
+# Atom snippets allow you to enter a simple prefix in the editor and hit tab to
+# expand the prefix into a larger code block with templated values.
+#
+# You can create a new snippet in this file by typing "snip" and then hitting
+# tab.
+#
+# An example CoffeeScript snippet to expand log to console.log:
+#
+# '.source.coffee':
+#   'Console log':
+#     'prefix': 'log'
+#     'body': 'console.log $1'
+#
+# Each scope (e.g. '.source.coffee' above) can only be declared once.
+#
+# This file uses CoffeeScript Object Notation (CSON).
+# If you are unfamiliar with CSON, you can read more about it in the
+# Atom Flight Manual:
+# http://flight-manual.atom.io/using-atom/sections/basic-customization/#_cson
+    '.html.text':
+      # snippet 1
+      'Code BLock Division':
+        'prefix': 'cbd'
+        'body': """<cbd class="JSiteBlock code_inline"><div class="codeBlock"
+         owner="jai43"
+         repo="${1:spring-example-snippets}"
+         ref="master"
+         embeded='{"path": "springBoot/pom.xml" },{"path":"springFramework/pom.xml"}'
+         style="height:400px;"></div><Jcaption>Add Caption Here</Jcaption></cbd>"""
+      # snippet 2
+      'Content Highlitheg block':
+        'prefix': 'cb'
+        'body': '<cb>$1</cb>'
+      # Snippet 3
+      'Topic Title':
+        'prefix': 'tt'
+        'body': """
+        <h2 class="topic_title">$1</h2>
+        """
+     # snippet 4
+      'figure with lazy load':
+        'prefix': 'fl'
+        'body': """
+        <figure class="JSiteBlock">
+         <img class="lazy" src="images/image-pre-loader.gif" data-src="${1:imageurl}" />
+         <Jcaption>${2:Caption of the image}</Jcaption>
+       </figure>
+       """
+     # snippet 5
+      'embed video':
+        'prefix': 'ev'
+        'body': """
+
+        <figure class="JSiteBlock JSite_video">
+          <div class="videoWrapper">
+            <iframe width="560" height="349" src="${1:Video URL}" frameborder="0" allowfullscreen=""></iframe>
+          </div>
+          <Jcaption>${2:Add Video Caption Here }</Jcaption>
+        </figure>
+        """
+     # snippet 6
+      'Quotes of Jsite':
+        'prefix': 'quotes'
+        'body': """
+          <div class="quotes">
+          <p>${1:Add descprtion here}
+           <span class="topic">${2:Add topic name here}</span>
+          </p>
+        </div>
+        """
+     # snippet 7
+      'Order List BigNumber':
+        'prefix': 'olb'
+        'body': """
+        <div class="orderList bigNumber">
+          <h3>${1:List Title or caption here}</h3>
+          <ol>
+            <li>
+              <p class="text">${2:info1}</p>
+            </li>
+            <li>
+              <p class="text">${3:info2}</p>
+            </li>
+            <li><p class="text">${4:info3}</p>
+            </li>
+          </ol>
+          </div>
+        """
+    # snippet 8
+      'Order List mediumSizeNumber':
+        'prefix': 'olm'
+        'body': """
+      <div class="orderList mediumSizeNumber">
+        <h3>${1:List Title or caption here}</h3>
+        <ol>
+         <li>
+         <p class="text">${2:info1}</p>
+         </li>
+         <li>
+         <p class="text">${3:info2}</p>
+         </li>
+         <li><p class="text">${4:info3}</p>
+         </li>
+        </ol>
+      </div>
+   """
+   # snippet 9
+      'Curve List':
+        'prefix': "curveList"
+        'body': """
+      <div class="curveList noFirstOfType matching_b_bo">
+      <h3>${1:List Title Here}</h3>
+        <p>${2:add info}</p>
+        <p>${3:add info}</p>
+        <p>${4:add info}</p>
+        <p>${5:add info}</p>
+        <p>${6:add info}</p>
+      </div>
+      """
+  # snippet 10
+      'Code Snippet Inline':
+        'prefix': "csi"
+        'body': """
+        <figure class="JSiteBlock code_inline">
+          <pre class="ch prettyprint linenums" lang="${1:Language Name}"><code>${2: Add your code here}</code></pre>
+          <Jcaption>${3: Add your code snippet short descprtion or caption}</Jcaption>
+        </figure>
+        """
+  # snippet 11
+      'Article Title':
+        'prefix':"at"
+        'body':"""
+        <h1 class="title title--full" id="article_title">${1:Add Articel Title here}</h1>
+        """
+  # snippet 12
+      'Special Notes':
+        'prefix':"sn"
+        'body':"""
+        <div class="special_notes">${1:write your special notes here}</div>
+        """

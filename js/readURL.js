@@ -175,6 +175,7 @@ function loadFileNotFoundError(fun, storage, param) {
 }
 function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
     {
+
         addOverlay();
         var articleFullView = document.createElement('div');
         articleFullView.setAttribute("class", "articleFullView");
@@ -191,7 +192,7 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
             //  // // console.log("exxxxx"+articleId_current_opened_full_view);
             temp_toc=articleId_current_opened_full_view.replace(/=/g, "a");
             classie.add(articleFullView,temp_toc+"jsite");
-         
+
             articleFullView.innerHTML = getBody(responseText);
             storage.insertBefore(articleFullView, storage.firstChild);
             fun(storage, param);
@@ -244,6 +245,8 @@ if(getConfig('toc')){
         //  // // console.log(articleId_current_opened_full_view+"tripcore");
         //storage.innerHTML=getBody(xhr.responseText);
     }
+// Code pretty pringitng invocation
+PR.prettyPrint();
 }
 /**
     Callback
