@@ -169,6 +169,7 @@ public StudentDAO(JDBCTemplate jt){
 <h3>BatchPreparedStatementSetter</h3>
 <p>In spring we can do batch processing in multiple ways. One of the most popular way to implement batch update processing is using <cb>BatchPreparedStatementSetter</cb> where all queries are executing in a single batch.
 </p>
+<div class="special_notes">batchUpdate() returns an array of number of rows affected by each sql statement executed by updateBatch() method.</div>
 <figure class="JSiteBlock code_inline">
   <pre class="ch prettyprint linenums" lang="JAVA"><code>int[] updatedCount=jdbctemplate.batchUpdate(sqlquery,BatchPreparedStatementSetter object);</code></pre>
   <Jcaption>BatchPreparedStatementSetter syntax</Jcaption>
@@ -212,3 +213,14 @@ public StudentDAO(JDBCTemplate jt){
 </figure>
 
 <div class="special_notes">Try to use the above example code in a DAO implementaion class and invoke a method where ever you want to execute.</div>
+<h3>Executing batch update with multiple small batches</h3>
+<p>If we want to execute large amount of queries by spliting a batch update into multiple batches we can use <cb>ParameterizedPreparedStatementSetter</cb>
+</p>
+<p>
+  <cb>ParameterizedPreparedStatementSetter</cb> returns two dimentional integer arrays <mark>int[][]</mark> where first dimension holds the batch number and second dimenstion holds the number of queries executed in coresponding batch.
+</p>
+<p>We have to pass number of queries to be executed for each small batch</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="JAVA"><code>int[][] updatedResults=jdbctemplate.batchUpdate(sql_query, Collection<T> batchParameters), int batchSize, ParameterizedPreparedStatementSetter obj);</code></pre>
+  <Jcaption>Syntax: ParameterizedPreparedStatementSetter</Jcaption>
+</figure>
