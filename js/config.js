@@ -14,7 +14,7 @@ var config = {
   toc:true, // this is automatic table of contents
   //menu:['menuID|Menu Label|categoryColor|Status','menuID2|Menu Label2|categoryColor2|Status2',]
 //  menu: ['python','spring','java','atom','nodejs','jmeter']
-  menu: ['python|Python|false','spring|Spring|true','java|Java|false','atom|Atom IDE|true','nodejs|Node.js|false','jmeter|JMeter|false','quarkus|Quarkus|true','vertx|Vert.x|true'],
+  menu: ['python|Python|false','spring|Spring|true','java|Java|false','atom|Atom IDE|true','nodejs|Node.js|false','jmeter|JMeter|false','quarkus|Quarkus|true','vertx|Vert.x|true','maven|Maven|true'],
 //default one is home
   homeDataLoad:"spring"
 
@@ -30,7 +30,8 @@ atom:'#dda131',
 nodejs:'#8fc84f',
 jmeter:'#d22128',
 quarkus:'skyblue',
-vertx:'#782b90'
+vertx:'#782b90',
+maven:'gray'
 
 
 }
