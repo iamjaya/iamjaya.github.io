@@ -227,7 +227,7 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
             }
             // console.log(articleId_current_opened_full_view);
             if (getConfig('toc')) {
-                document.querySelector(".toc-link").setAttribute("href", "#" + articleId_current_opened_full_view + "-toc");
+                document.querySelector(".toc-link").setAttribute("href", "#" + temp_toc + "-toc");
                 toc(document.getElementById(articleId_current_opened_full_view));
             } // end of TOC
             PR.prettyPrint();
@@ -435,7 +435,7 @@ function toc(articleID) {
     var tocresult = initTOC({
         selector: 'h2',
         scope: '.' + temp,
-        prefix: articleId_current_opened_full_view
+        prefix: temp
     });
     // console.log(tocresult.innerHTML);
     tocBlock.after(tocresult);
