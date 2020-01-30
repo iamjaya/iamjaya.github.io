@@ -207,7 +207,7 @@ flex-wrap: wrap;    margin-left: 2em;
     display: block;
     width: 25px;
     height: 25px;
-    top: 14px;
+    top: 4px;
     left: 14px;
     cursor: pointer;
     background: none;
@@ -2046,6 +2046,10 @@ font-weight: normal;
 }
 /* small screen changes for sidebar (it becomes an off-canvas menu) */
 @media screen and (max-width: 599px) {
+  .article h2{
+    font-size: 20px;
+  }
+
   .toc{
     width: 100%;
   }

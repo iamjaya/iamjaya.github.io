@@ -27,3 +27,15 @@ font-size: 1em;
   font-family: unset;
 
 }
+@media screen and (max-width: 599px) {
+  .article h2{
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .article h1{
+    font-size: 2em;
+    line-height: 40px;
+    text-shadow: unset;
+  }
+}

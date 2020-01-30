@@ -38,6 +38,7 @@ var UID = {
 };
 var menu = getConfig('menu');
 var searchCatQueue = [];
+var ismobile_flag=isMobile();
 HTMLElement.prototype.pseudoStyle = function(element, prop, value) {
     var _this = this;
     var _sheetId = "pseudoStyles";
@@ -220,7 +221,7 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
             //if(!fromTab) {
             article_title_obj = document.getElementById(articleId_current_opened_full_view).querySelector(".title--full");
             if (!getElementById("authorDivID" + articleId_current_opened_full_view)) {
-                if (getConfig('displayAuthorInfo')) {
+                if (getConfig('displayAuthorInfo') && !ismobile_flag) {
                     displayAuthorData();
                     loadAuthorsInfo(authorID, authorsFolder);
                 }
