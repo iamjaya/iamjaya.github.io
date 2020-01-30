@@ -1405,6 +1405,7 @@ width: 100% !important;
     display: grid;
     grid-template-columns: min-content 1fr;
     padding: 1px 1em 1px 0 !important;
+    overflow-x: scroll;
 }
 pre.ch code, pre.ch xmp {
 
