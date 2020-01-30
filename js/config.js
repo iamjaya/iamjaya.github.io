@@ -45,6 +45,13 @@ var getMenuColor = function(propertyName) {
 };
 
 
+var isMobile=function(){
+
+  var isMobileFlag = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+		if(isMobileFlag){ console.log("Mobile yes");return true;}else{ console.log("NO mobile");return false;}
+}
+
 var getConfig = function(propertyName) {
   return config[propertyName];
 };

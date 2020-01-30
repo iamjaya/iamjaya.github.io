@@ -232,12 +232,15 @@ function loadHTML_ctrl(responseText, fun, storage, param, authorID) {
             } // end of TOC
             PR.prettyPrint();
             readingTimeDiv(article_title_obj);
-            ReadingTime(270, 'Reading time:', 'min', 'words', 'Less than a minute');
+            ReadingTime(170, 'Reading time:', 'min', 'words', 'Less than a minute');
             //
         } // after this
         articleWindow = true;
         hideLoadedArticles_but_view_current_by_article_ID(articleId_current_opened_full_view);
+      //  if(!isMobile()){
+        //  console.log("");
         addBrowserLook(article_title_obj);
+      // }
         fromTab = false;
         // // console.log("openedArticles");
         // // console.log(openedArticles);
@@ -359,7 +362,9 @@ function addBrowserLook() {
         } else {
             browserStyle = getElementById('title_article_browser_look');
         }
+        if(!isMobile()){
         scroller.addEventListener("scroll", changeBrowserWindowTitle);
+      }
     }
 }
 function changeBrowserWindowTitle() {
