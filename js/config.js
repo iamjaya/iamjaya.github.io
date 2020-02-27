@@ -14,7 +14,7 @@ var config = {
   toc:true, // this is automatic table of contents
   //menu:['menuID|Menu Label|categoryColor|Status','menuID2|Menu Label2|categoryColor2|Status2',]
 //  menu: ['python','spring','java','atom','nodejs','jmeter']
-  menu: ['python|Python|false','spring|Spring|true','java|Java|false','atom|Atom IDE|true','nodejs|Node.js|false','jmeter|JMeter|false','quarkus|Quarkus|true','vertx|Vert.x|true','maven|Maven|true'],
+  menu: ['python|Python|false','spring|Spring|true','java|Java|true','atom|Atom IDE|true','nodejs|Node.js|false','jmeter|JMeter|false','quarkus|Quarkus|true','vertx|Vert.x|true','maven|Maven|true'],
 //default one is home
   homeDataLoad:"spring"
 

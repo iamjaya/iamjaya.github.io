@@ -1,0 +1,71 @@
+<h1 class="title title--full" id="article_title">Sorting objects with Comparator in java-8</h1>
+<h2 class="topic_title">What is Comparator?</h2>
+<p>To compare two objects in java we can use <cb>Comparator</cb>. We can make an order of objects by comparing values of variables of objects.</p>
+<p>We can pass Comparators to Collections.sort(list,comparator) method to make sorting of List of objects.</p>
+<h2 class="topic_title">Creating Comparator</h2>
+<p>We can create Comparator by using comparing() method and compareTo() method</p>
+
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="Java"><xmp>Comparator<className> comparatorName= Comparator.comparing(Classname::getmethodName)</xmp></pre>
+  <Jcaption>Syntax to create Comparator which is useful for sorting objects by using sort key( whichi will be a variable of an object)</Jcaption>
+</figure>
+<h2 class="topic_title">Sorting of List by single sort key</h2>
+<p>Here we will see an example for sorting list of Employee objects based on FirstName( that is we are trying to sort by single sort key, here in our example FirstName is a sort key.)</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="java"><xmp>public class Employee{
+String fname;
+String sname;
+int id;
+
+// getter and setter methods goes here
+
+  }</xmp></pre>
+  <Jcaption>Employee.java</Jcaption>
+</figure>
+
+<p>Now we are going to create Comparator for sorting Employee list based on fname(FirstName) which is a sort key.</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="java"><xmp>Comparator<Employee> empComparator_by_fname=Comparator.comparing(Employee::getFname)</xmp></pre>
+  <Jcaption>Comparator with fname as a sort key</Jcaption>
+</figure>
+
+<p>Now we will write a program with clreating List of employees and using the above comparator for sorting employees based on FirstName</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="Java"><xmp>public class SortEmployeesTest{
+
+    public static void main(String args[]){
+
+// we are going to create Employee list with double brackets feautre
+
+List<Employee> empList= new ArrayList<Employee>(){{
+
+  add(new Employee(1,"jai","kumar"));
+  add(new Employee(2,"jaya","raj"));
+  add(new Employee(3,"anand","cofee"));
+}};
+
+// we are going to create Comparator with fname as sort key
+// here we are using :: for getting fname from Employee class were getFname is the getter method to get First name
+      Comparator<Employee> comparator_emp_by_fname= Comparator.comparing(Employee::getFname);
+
+// here we are using Collections.sort() method to sort employees
+Collections.sort(empList, comparator_emp_by_fname);
+
+// we can use the list object too
+
+empList.sort(comparator_emp_by_fname);
+
+// we are displaying first name of sorted empList
+empList.forEach(emp -> System.out.println(emp.fname));
+
+    }
+  }</xmp></pre>
+  <Jcaption>SortEmployeesTest.java</Jcaption>
+</figure>
+<h2 class="topic_title">Sorting list of objects by multiple sort keyes with themComparing() method of Comparator</h2>
+<p>In some situations of application development we need to sort list of objects based on two sort keys, for example sort Employees by empId and fname. Now we will write an example for this situation.</p>
+
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="Java"><xmp>Comparator<Employee> comparator_emp_by_id_and_fname=Comparator.comparing(Employee::getId).thenComparing(Employee::getFname); </xmp></pre>
+  <Jcaption>thenComparing() to get multiple sort keys</Jcaption>
+</figure>

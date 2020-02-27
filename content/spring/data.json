@@ -71,11 +71,29 @@
     "article_loadURL": "content/spring/configurationProperties.html",
     "icon": "spring",
     "authorID":"jai"
-  },{
+  },
+  {
     "article_title": "Database operations using JDBC with <ht>JDBCTemplate</ht>",
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
     "article_loadURL": "content/spring/jdbctemplate.html",
+    "icon": "spring",
+    "authorID":"jai"
+  },
+  {
+    "article_title": "API documentation with <ht>Swagger</ht> in Spring Boot Application",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/spring/swagger-spring.html",
+    "icon": "spring",
+    "authorID":"jai"
+  },
+
+  {
+    "article_title": "Conditional bean configuration in spring",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/spring/conditional-bean-spring.html",
     "icon": "spring",
     "authorID":"jai"
   }

@@ -1,24 +1,24 @@
 [{
-    "article_title": "Spring Boot Introduction",
+    "article_title": "Sorting objects with <ht>Comparator</ht> in java-8 ",
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
-    "article_loadURL": "content/spring/1.html",
+    "article_loadURL": "content/java/comparator.html",
+    "icon": "java",
+    "authorID":"jai"
+  },
+  {
+    "article_title": "<ht>forEach</ht> with <ht>Consumer</ht> action in java-8",
+    "article_cat": "Basic Coding",
+    "article_start_date": "04-Jan-2020",
+    "article_loadURL": "content/java/forEach-in-java-8.html",
     "icon": "java",
 "authorID":"jai"
   },
   {
-    "article_title": "<ht>@Bean</ht> annotation in Spring Framework",
+    "article_title": "<ht>Streams</ht> in java-8",
     "article_cat": "Basic Coding",
     "article_start_date": "04-Jan-2020",
-    "article_loadURL": "content/spring/@bean.html",
-    "icon": "java",
-"authorID":"jai"
-  },
-  {
-    "article_title": "Shut down IOC container with <ht>registerShutdownHook()</ht> method",
-    "article_cat": "Basic Coding",
-    "article_start_date": "04-Jan-2020",
-    "article_loadURL": "content/spring/registerShutdownHook.html",
+    "article_loadURL": "content/java/streams-java8.html",
     "icon": "java",
     "authorID":"jai"
   },

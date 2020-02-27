@@ -1410,6 +1410,7 @@ width: 100% !important;
 pre.ch code, pre.ch xmp {
 
   /*padding: 20px 40px; */
+  margin: 0px !important;
 }
 pre.ch:before{
   grid-column: 1;

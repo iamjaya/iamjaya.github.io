@@ -1,0 +1,56 @@
+<h1 class="title title--full" id="article_title">Using or integrating swagger-ui in spring application to document REST API</h1>
+<h2 class="topic_title">What is Swagger</h2>
+<p>Swagger is a poplular tool to do API document. In this article we will see how to add Swagger-UI into Spring application</p>
+<h2 class="topic_title">How to add Swagger-UI into SPring application context</h2>
+<p>Here we are using Maven building tool, so we have to add the following dependencies into application by adding the following code in <mark>POM.xml</mark></p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="XML-POM"><xmp><dependency>
+   <groupId>io.springfox</groupId>
+   <artifactId>springfox-swagger2</artifactId>
+   <version>2.7.0</version>
+</dependency>
+<dependency>
+   <groupId>io.springfox</groupId>
+   <artifactId>springfox-swagger-ui</artifactId>
+   <version>2.7.0</version>
+</dependency></xmp></pre>
+  <Jcaption>Dependencies in POM.xml file to add Swagger-UI to application</Jcaption>
+</figure>
+<p>After adding the above dependencies we need to annotate Configuration Class with <cb>EnableSwagger2</cb> the following is the sample one</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="Java-SPring"><code>@Configuration
+  @EnableSwagger2
+  public class AppConfig_swagger{
+
+  }</code></pre>
+  <Jcaption>Swagger enabling in configuration class</Jcaption>
+</figure>
+<h2 class="topic_title">How to open Swagger-UI</h2>
+<p>Following is the url to access Swagger-UI for your application, if your application context is <mark>college-app</mark> then </p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="Url"><xmp>http://localhost:8080/college-app/swagger-ui.html</xmp></pre>
+  <Jcaption>swagger-ui URL</Jcaption>
+</figure>
+<h2 class="topic_title">How to get as JSON output for API</h2>
+<p>How to access JSON output for your REST API ( where application context is <mark>college-app</mark> )</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="Url"><xmp>http://localhost:8080/college-app/v2/api-docs</xmp></pre>
+  <Jcaption>JSON output URL of swagger</Jcaption>
+</figure>
+<h2 class="topic_title">Custom configuration of Swagger-UI</h2>
+<p>If we want to do custom implementation of swagger-ui then we need to intiate <cb>Docket</cb> bean un swagger-configuration class.</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="java-springfox"><xmp>@Configuration
+  @EnableSwagger2
+public class AppConfig_swagger{
+  @Bean
+  public Docket getDocketForSwagger(){
+    return new Docket(DocumentationType.SWAGGER_2)
+              .select()
+              .apis(RequestHandlerSelectors.basePackage("com.example"))
+          	  .paths(PathSelectors.any())
+          	  .build();
+            }
+}</xmp></pre>
+  <Jcaption>Swagger_2 custom implementation</Jcaption>
+</figure>

@@ -124,7 +124,7 @@
         'prefix': "csi"
         'body': """
         <figure class="JSiteBlock code_inline">
-          <pre class="ch prettyprint linenums" lang="${1:Language Name}"><code>${2: Add your code here}</code></pre>
+          <pre class="ch prettyprint linenums" lang="${1:Language Name}"><xmp>${2: Add your code here}</xmp></pre>
           <Jcaption>${3: Add your code snippet short descprtion or caption}</Jcaption>
         </figure>
         """

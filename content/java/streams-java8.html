@@ -1,0 +1,31 @@
+<h1 class="title title--full" id="article_title">Streams in java-8</h1>
+<h2 class="topic_title">What is streaming</h2>
+<p>Streaming is the process of processing a data, for example loading video from server is an example for streaming.</p>
+<div class="special_notes">Remmember Streams never stores the data in memory like data structors </div>
+<h2 class="topic_title">What is stream pipeline</h2>
+<p>Stream pipeline is a sequence of operations applying on Streams, where streams has methods to operate on data sources like Collections and Arrays</p>
+<div class="special_notes">Steam pipeline is a aggregation of operations which returns again stream only.</div>
+<p>Stream pipeline can be done with intermediate operations and terminal operations</p>
+<div class="curveList noFirstOfType matching_b_bo">
+  <h3>components of pipeline</h3>
+  <p><b>Data Source</b> : on which stream operations are being applied after converting into stream</p>
+  <p><b>Intermediate methods</b>: these are the methods wchich will be performed on the stream and returns updated stream as a result. we can apply sequence of methods too</p>
+  <p><b>Terminal methods</b>: these are the methods which will be applied on final stream after applying intermediate operations. for example forEach()</p>
+</div>
+<h2 class="topic_title">How to create Streams</h2>
+<p>There are different ways to create streams in java</p>
+<h3>by using Stream.of(var1,var2,var3...) with variables</h3>
+<p>We can create a Stream with Stream.of(var1,var2,var3...) by passing values. See the following example for better understanding</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="java8"><xmp>Stream<Integer> s= Stream.of(1,2,3,4);</xmp></pre>
+  <Jcaption> Creating Stream by passing values directly as parameters to of() method.</Jcaption>
+</figure>
+<h3>by passing Array as an argument to Stream.of() method</h3>
+<div class="special_notes">Only non premitive Arrays can be converted to Stream</div>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="java8"><xmp>Stream<String> names= Stream.of(new String[]{"arjun","arun","bhanu","arya"});</xmp></pre>
+  <Jcaption>creating Stream from Array</Jcaption>
+</figure>
+<h2 class="topic_title">List of intermediate methods of Stream</h2>
+<p>Stream has powerful intermediate methods to perform operations on stream and returns stream as a result.</p>
+<p>Here we are listing most useful intermediate methods on stream</p>
