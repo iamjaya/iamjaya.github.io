@@ -2097,7 +2097,8 @@ mark{
 /*# sourceMappingURL=style1.css.map */
 
 
-[data-theme="dark"] .main{
+[data-theme="dark"] .main,
+[data-theme="dark"] .article h1{
     background-color: #111 !important;
     color: #c1c1c1;
 }
