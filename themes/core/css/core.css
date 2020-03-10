@@ -2095,3 +2095,54 @@ mark{
     padding: 0px 10px;
  }
 /*# sourceMappingURL=style1.css.map */
+
+
+[data-theme="dark"] .main{
+    background-color: #111 !important;
+    color: white;
+}
+
+[data-theme="dark"] a:hover, [data-theme="dark"] .github-embed-nav-link, [data-theme="dark"] .hljs{
+
+  color:gainsboro;
+}
+
+[data-theme="dark"] a, [data-theme="dark"] li {
+
+  color:cyan;
+}
+[data-theme="dark"] .toc{
+
+
+  border-color: aqua;
+}
+
+[data-theme="dark"] .Tooltips p{color:black;}
+
+
+[data-theme="dark"] .grid__item:hover .no3dbox {
+    border-color: #86cf89;
+}
+
+[data-theme="dark"] .grid__item,
+[data-theme="dark"]  .content,
+[data-theme="dark"] .page-meta,
+[data-theme="dark"] .JSiteBlock, [data-theme="dark"] .grid{
+
+  background-color: black;
+}
+[data-theme="dark"] .bg-light {
+    background-color: #333 !important;
+}
+[data-theme="dark"] .bg-white {
+    background-color: #000 !important;
+}
+[data-theme="dark"] .bg-black {
+    background-color: #eee !important;
+}
+
+[data-theme="dark"] .JSiteBlock jcaption.noBorderJcaption {
+
+    background-color: black !important;
+    color: white !important;
+}
