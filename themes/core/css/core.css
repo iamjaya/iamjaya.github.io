@@ -2099,7 +2099,7 @@ mark{
 
 [data-theme="dark"] .main{
     background-color: #111 !important;
-    color: white;
+    color: #c1c1c1;
 }
 
 [data-theme="dark"] a:hover, [data-theme="dark"] .github-embed-nav-link, [data-theme="dark"] .hljs{
