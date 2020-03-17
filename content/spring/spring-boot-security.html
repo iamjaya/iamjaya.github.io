@@ -1,0 +1,79 @@
+<h1 class="title title--full" id="article_title">Spring Boot Security Examples</h1>
+<h2 class="topic_title">What is the need of Security enabling and implementation in Spring Boot Application</h2>
+<p>Security is placing key role to access application by users of the application. There are different types of users of application who can be categorized as per roles. For example some actions need to be performed after login only and some actions
+  can
+  be allowed by some types of users only that means users can be alloted with roles( like admin, user etc...).</p>
+<p>Admin can perfom some actions and normal users can perfom some actions, in our application we must write the code or logic to identify whether user logged in or not and whether the logged in user has rights to perform the desired ation or not.</p>
+<h2 class="topic_title">What is authentication?</h2>
+<p>Authentication is the process to identify whether the user has rights to access application. Simply authentication happens with login in majority cases of applications</p>
+<h2 class="topic_title">What is authorization?</h2>
+<p>Autherization is the process to allow the authenticated user to perform a pertical action ( or accessing perticular endpoint in case of REST services). Authorization can be managed with roles alloted for an authenticated user. </p>
+<h2 class="topic_title">inMemory user details based authentication and authorization</h2>
+<p>For better understanding of enabiling security in Spring Boot application we are starting with inMemory based authentication and authorization example. In this example we can focus on basic steps todo to implement security in spring boot
+  application.</p>
+<h3>Dependency to add in POM.xml file to work with Spring Boot security</h3>
+<p>We need to add <cb>spring-boot-starter-security</cb> dependency in POM.xml file to add security feature for our spring boot application.</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="XML"><xmp>  <dependency>
+    <groupId>org.springFramework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+  </dependency></xmp></pre>
+  <Jcaption> Spring Boot security starter</Jcaption>
+</figure>
+<h3>Create a class which extends WebSecurityConfigurerAdaptor</h3>
+<p>To enable security in spring boot we need to develop a configure class which annotated with <cb>@Configuration</cb> , <cb>@EnableWebSecurity</cb> and <cb>@EnableGlobalMethodSecurity</cb> and extends <cb>WebSecurityConfigurerAdapter</cb> class.</p>
+<h3>@Autowired at method level to inject AuthenticationManagerBuilder</h3>
+<p>We need to inject a AuthenticationManagerBuilder which holds username and encrypted password, at this point we are using inmemory user concept where we do hard coding of login user name and password.</p>
+
+<div class="special_notes"><b>{noop}</b> as a prefix to the password value is mandatory to work with encripted based password.</div>
+<p>In the following snippet of the code we have added <b>inMemoryAuthentication</b> technique to load user into Spring Security Container</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="Java spring"><xmp>
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Autowired
+		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+			auth.inMemoryAuthentication()
+				.withUser("user").password("{noop}password").roles("USER");
+		}
+...
+
+}</xmp></pre>
+  <Jcaption> Spring Secuirty Config class extends WebSecurityConfigurereAdapter and injected AuthenticationManagerBuilder</Jcaption>
+</figure>
+<h3>Override -- protected void configure(HttpSecurity http) throws Exception</h3>
+<p>Override configure(HttpSecurity http) method to let the servlet container to execute endpoints based on the roles and restrictions mentioned.</p>
+<p>Add the bellow code to Spring Security Config class which is in snippet-2 ( in the above )</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="java"><xmp> @Override
+    protected void configure(HttpSecurity http) throws Exception {
+    	http.authorizeRequests().antMatchers("/engstu/**").permitAll()
+    	.anyRequest().authenticated()
+        .and()
+    .formLogin()
+        .permitAll()
+        .and()
+    .logout()
+        .permitAll().and()
+        .csrf().disable();
+      //   super.configure(http);
+     //   http.authorizeRequests().antMatchers("/engstu/**").permitAll();
+     //  http.logout().logoutSuccessUrl("/students.html").invalidateHttpSession(true);
+    //  http.csrf().disable();
+    //  http.headers().frameOptions().sameOrigin();
+    }
+</xmp></pre>
+  <Jcaption> HttpSecurity url mattchers</Jcaption>
+</figure>
+<p>authorizeRequests() is the method to allow restricted access stettings with antMatthers()</p>
+<h3>Redirecting login page output</h3>
+<p>if we are trying to access students.html page with the url http://localhost:9090/jkl/students.html without login it will be redirected to login page ( which is default login page with the above example)</p>
+
+<figure class="JSiteBlock">
+  <img class="lazy" src="https://res.cloudinary.com/jsite/image/upload/e_blur:830/v1584445985/Jsitescreens/spring%20boot%20security%20examples/login_page_p4imhs.png"
+    data-src="https://res.cloudinary.com/jsite/image/upload/v1584445985/Jsitescreens/spring%20boot%20security%20examples/login_page_p4imhs.png" />
+  <Jcaption>Default login page provided by spring boot security container when we did not set login page</Jcaption>
+</figure>
+<p>Following is the screen shot for wrong login credentials with the url ... login?error</p>

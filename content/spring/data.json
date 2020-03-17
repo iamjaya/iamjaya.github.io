@@ -96,6 +96,15 @@
     "article_loadURL": "content/spring/conditional-bean-spring.html",
     "icon": "spring",
     "authorID":"jai"
+  },
+
+  {
+    "article_title": "Spring Boot Security Examples",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/spring/spring-boot-security.html",
+    "icon": "spring",
+    "authorID":"jai"
   }
 
 
