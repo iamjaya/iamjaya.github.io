@@ -24,10 +24,10 @@
   },
 
   {
-    "article_title": "Spring: First Web Application",
+    "article_title": "orElseThrow in java",
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
-    "article_loadURL": "content/spring/2.html",
+    "article_loadURL": "content/java/orElseThrow.html",
     "icon": "java",
     "authorID":"jai"
   },
