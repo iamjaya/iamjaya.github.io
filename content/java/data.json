@@ -22,8 +22,7 @@
     "icon": "java",
     "authorID":"jai"
   },
-
-  {
+{
     "article_title": "orElseThrow in java",
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
@@ -31,8 +30,7 @@
     "icon": "java",
     "authorID":"jai"
   },
-
-  {
+{
     "article_title": "Difference Between map() and flatMap()",
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
@@ -40,12 +38,19 @@
     "icon": "java",
     "authorID":"jai"
   },
-
-  {
-    "article_title": "Spring: First Web Application",
+{
+    "article_title": "Lambda funtion in funtion from java8",
     "article_cat": "Basic Coding",
     "article_start_date": "17-Dec-2019",
-    "article_loadURL": "content/spring/1.html",
+    "article_loadURL": "content/java/lambda_in_java8.html",
+    "icon": "java",
+    "authorID":"jai"
+  },
+{
+    "article_title": "map() vs forEach() in java8",
+    "article_cat": "Basic Coding",
+    "article_start_date": "17-Dec-2019",
+    "article_loadURL": "content/java/map_vs_forEach.html",
     "icon": "java",
     "authorID":"jai"
   }

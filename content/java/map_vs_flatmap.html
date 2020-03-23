@@ -8,20 +8,56 @@ map() and flatMap() funtional methods are avaialble with <cb>Optional</cb>, <cb>
 <div class="special_notes"> map() takes one input  and returns single output </div>
 <p>map() functions can take stream as input and return stream as an output, map() cam be used to convert type of stream into another type of stream.</p>
 <p>we can pass function to map() , where passed fuction can be executed on indivedual element of stream and finaly map() returns new stream as a result.</p>
-<h2 class="topic_title">map() on Oprtional instance</h2>
+<h2 class="topic_title">map() on Optional instance</h2>
 <p>As we know Optional object contains a value or empty, if we apply map() on Optional map() will process the applying mapping funtion and returns optional as a result.</p>
 <h3>using get() method to get the value of optional</h3>
 
 <p>we can use get() after applying mapping function on optional to get the value of result optional.</p>
 <figure class="JSiteBlock code_inline">
   <pre class="ch prettyprint linenums" lang="java"><xmp>
-  Optional<String> name= Optional.of("Sourav Ganguly");
-  
-  Optional<String> uppaerName=  name.map(s -> s.toUpperCase()).get();
-		
-		</xmp></pre>
+  Optional<String> name= Optional.of("Sourav Ganguluy");
+	System.out.println("value of Optinal instance name before map() "+ name.get());
+	
+	Optional<String> uName= name.map(s -> s.toUpperCase() );//.get();
+	System.out.println("value of Optinal instance name after map() "+ uName.get());
+	
+	// output 
+	
+	value of Optinal instance name before map() Sourav Ganguluy
+	value of Optinal instance name after map() SOURAV GANGULUY
+	
+  </xmp></pre>
   <Jcaption>using map() on Oprtional to get new Optional instance</Jcaption>
 </figure>
 
+<p>In the abpve example we can see that map() is applies to convert String into UpperCase String. Here you have to understand that map() applies mapping function( converting string into uppercaer) and then returns Optional as a result. Here map() takes one input and returns one element as a result.</p>
 
+
+<h2 class="topic_title">flatMap() on Optional instance</h2>
+<p>Here in this section we will see an example with flatMap on Oprtiona instance( where optiona instance is a nested instances which holed string valued optional as an element.</p>
+<p>As we stated that flatMap() applies mapping funtion and flatting function on the restult so that cancatinated result can be returned.</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="java"><xmp>
+	Optional<String> name= Optional.of("Sourav Ganguluy");
+	Optional<Optional<String>> op=Optional.of(name);
+	System.out.println("Original Optional value:   "+op);
+	System.out.println("Element stored in op:  "+op.get());
+	System.out.println("applying map on op which is a nested Optional instance:  "+op.map(o -> o.map(l -> l.toLowerCase())));
+	System.out.println("applying flatMap on op which is a nested Optional instance:  "+op.flatMap(o -> o.map(l -> l.toLowerCase())));
+	
+	// output
+	Original Optional value:   Optional[Optional[Sourav Ganguluy]]
+	Element stored in op:  Optional[Sourav Ganguluy]
+	applying map on op which is a nested Optional instance:  Optional[Optional[sourav ganguluy]]
+	applying flatMap on op which is a nested Optional instance:  Optional[sourav ganguluy]
+
+  </xmp></pre>
+  <Jcaption>flatMap() on nested optional instnace</Jcaption>
+</figure>
+
+<p>In the above output you can notice there is a difference between map() and flatMap() results. flatMap() returns cancatinated Optional value</p>
+
+<div class="special_notes">If we want to cancatinate all nested list items into a single list then we can use flatMap() mapping function. flatMap() returns a stream of values in case we we use with streams </div>
+
+<h2 class="topic_title">using map() with streams</h2>
 <p><b>References:</b>  https://www.techiedelight.com/difference-map-flatmap-java/ </p>

@@ -1,0 +1,34 @@
+<h1 class="title title--full" id="article_title">Lambda functions in java8</h1>
+<h2 class="topic_title">Where map() and flatMap() are available?</h2>
+<p>
+map() and flatMap() funtional methods are avaialble with <cb>Optional</cb>, <cb>Streams</cb> and <cb>CompletableFuture</cb> classes/features from java8.</p>
+<p>We can use map() and flatMap() along with other agreagate methods of Streams and Optional in java8.</p>
+<div class="special_notes"> Both map() and flatMap() returns same type of data. </div>
+<div class="special_notes"> flatMap() returns stream of streams </div>
+<div class="special_notes"> map() takes one input  and returns single output </div>
+<p>map() functions can take stream as input and return stream as an output, map() cam be used to convert type of stream into another type of stream.</p>
+<p>we can pass function to map() , where passed fuction can be executed on indivedual element of stream and finaly map() returns new stream as a result.</p>
+<h2 class="topic_title">map() on Oprtional instance</h2>
+<p>As we know Optional object contains a value or empty, if we apply map() on Optional map() will process the applying mapping funtion and returns optional as a result.</p>
+<h3>using get() method to get the value of optional</h3>
+
+<p>we can use get() after applying mapping function on optional to get the value of result optional.</p>
+<figure class="JSiteBlock code_inline">
+  <pre class="ch prettyprint linenums" lang="java"><xmp>
+  Optional<String> name= Optional.of("Sourav Ganguluy");
+	System.out.println("value of Optinal instance name before map() "+ name.get());
+	
+	Optional<String> uName= name.map(s -> s.toUpperCase() );//.get();
+	System.out.println("value of Optinal instance name after map() "+ uName.get());
+	
+	// output 
+	
+	value of Optinal instance name before map() Sourav Ganguluy
+	value of Optinal instance name after map() SOURAV GANGULUY
+	
+  </xmp></pre>
+  <Jcaption>using map() on Oprtional to get new Optional instance</Jcaption>
+</figure>
+
+
+<p><b>References:</b>  https://www.techiedelight.com/difference-map-flatmap-java/ </p>
