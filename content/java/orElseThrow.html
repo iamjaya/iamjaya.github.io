@@ -1,121 +1,22 @@
-<h1 class="title title--full" id="article_title">forEach in java-8</h1>
-<h2 class="topic_title">What is forEach() method</h2>
+<h1 class="title title--full" id="article_title">orElseThrow in java</h1>
+<h2 class="topic_title">When we can use orElseThrow?</h2>
 <p>
-  <cb>forEach</cb>() method available from <cb>Iterable</cb> interface, to iterate Collections and Streams. forEach() method is avaialable from java-8 version.
-</p>
+If we want to throw a custom exception when an Optional instance is empty then we can use <cb>orElseThrow</cb></p>
 <p>forEach() method required action object of Consumer class</p>
 <div class="special_notes">forEach() method is a <mark>terminal</mark> operation method, that means which will be invoked as a last method always.</div>
-<p>We can create action object of Consumer calss in two different ways. one is creating a class which implements Consumer<T> interface by overriding action() method, and second way is by using Lambda funtions.</p>
-<div class="special_notes">We can call/invoke forEach() on collection object or stream object by passing action object as a parameter or directly by passing lambda funtion as an action</div>
 <h2 class="topic_title">Creating action object of Consumer</h2>
 <p>As said earlier there are two ways to create action of Cunsumer</p>
 <h3>Create action by overrinding action method of Consumer interface</h3>
 
 <p>We will create a sepearte class which implements Consumer interface by overriding action() </p>
 <figure class="JSiteBlock code_inline">
-  <pre class="ch prettyprint linenums" lang="java"><xmp>public class EmployeeConsumer_Display_Action implements Consumer<Employee>{
+  <pre class="ch prettyprint linenums" lang="java"><xmp>
+Optional<User> user = userRepository.findByUserName(userName);
 
-@Overriding
+        user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + userName));
 
-public void action(Employee emp){
-
-      System.out.println("Employee Id: "+emp.empId);
-			System.out.println("Employee First Name: "+emp.fname);
-			System.out.println("Employee Second Name: "+emp.sname);
-			System.out.println("********************");
-
-}
-
-  }</xmp></pre>
-  <Jcaption>Consumer action implementation </Jcaption>
-</figure>
-<h3>Creating Consumer action with lambda funtion</h3>
-
-<p>We can create Consumer action whenever we required wiht lambda funtion</p>
-
-<figure class="JSiteBlock code_inline">
-  <pre class="ch prettyprint linenums" lang="Java"><xmp>Consumer<Employee> emp_display_action=emp->{
-
-      System.out.println("Employee Id: "+emp.empId);
-			System.out.println("Employee First Name: "+emp.fname);
-			System.out.println("Employee Second Name: "+emp.sname);
-			System.out.println("********************");
-
-  };</xmp></pre>
-  <Jcaption>Consumer action implementation with lamda funtion</Jcaption>
-</figure>
-<h2 class="topic_title">using forEach() to iterate List of Employees</h2>
-<p>Here we will see an example to iterate List of employees by using Consumer action</p>
-<figure class="JSiteBlock code_inline">
-  <pre class="ch prettyprint linenums" lang="Java"><xmp>public class ForEachExample{
-public static void main(String args[]){
-// getting List of employees
-
-List<Employee> empList= Employee.getEmpList();
-  // get Consumer action from Consumer implementation class  EmployeeConsumer_Display_Action
-  EmployeeConsumer_Display_Action action=new EmployeeConsumer_Display_Action();
-
-  // using forEach on empList
-
-  empList.forEach(action);
-
-}
-
-  }</xmp></pre>
-  <Jcaption>ForEach with Consumer implemented class as an action</Jcaption>
-</figure>
-
-<h3>forEach() with lambda function based Consumer action</h3>
-<figure class="JSiteBlock code_inline">
-  <pre class="ch prettyprint linenums" lang="Java"><xmp>public class ForEachExample{
-public static void main(String args[]){
-// getting List of employees
-
-List<Employee> empList= Employee.getEmpList();
-// creating Consumer action with lambda funtction
-
-Consumer<Employee> action= emp->{
-
-        System.out.println("Employee Id: "+emp.empId);
-  			System.out.println("Employee First Name: "+emp.fname);
-  			System.out.println("Employee Second Name: "+emp.sname);
-  			System.out.println("********************");
-
-
-};
-
-  // using forEach on empList
-
-  empList.forEach(action);
-
-}
-
-  }</xmp></pre>
-  <Jcaption>ForEach with Consumer action by creating with Lambda funtion</Jcaption>
-</figure>
-
-<h3>forEach() with lambda function as action argument</h3>
-
-<figure class="JSiteBlock code_inline">
-  <pre class="ch prettyprint linenums" lang="Java"><xmp>public class ForEachExample{
-public static void main(String args[]){
-// getting List of employees
-
-List<Employee> empList= Employee.getEmpList();
-  // using forEach on empList where lambda function as action argument
-
-  empList.forEach(emp->{
-
-          System.out.println("Employee Id: "+emp.empId);
-    			System.out.println("Employee First Name: "+emp.fname);
-    			System.out.println("Employee Second Name: "+emp.sname);
-    			System.out.println("********************");
-
-
-  });
-
-}
-
-  }</xmp></pre>
-  <Jcaption>forEach with lambda function as action argument</Jcaption>
+        return user.map(MyUserDetails::new).get();
+		
+		</xmp></pre>
+  <Jcaption>Optional instance holding User object or no-value</Jcaption>
 </figure>

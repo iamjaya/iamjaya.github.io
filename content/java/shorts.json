@@ -1,0 +1,5 @@
+[{
+    "Streams": "Stream is a collection of Objects, which is not storing a data but get the data from data sources like arrays and collections.",
+    "Optional": "Optional instances can hold the value or empty",
+  }
+]
