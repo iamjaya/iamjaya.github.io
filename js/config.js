@@ -2,7 +2,7 @@ var config = {
 
   siteTitle:'J@i',
   titleTag:'J@i : Coding, Speach and Write',
-  theme:'moon',
+  theme:'logo',
   browserwindow: true,
   displayAuthorInfo: true,
   mainColor: "#2fad06",
