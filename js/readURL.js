@@ -763,11 +763,12 @@ function loadToolTips() {
                 if (short_from_shortsDiv) {
                     displayTagFrom_shorts_div(short_from_shortsDiv.innerHTML, tag, posi);
                 } else {
-                    //// // console.log(ta);
+                   console.log("entered into else bloack for "+tagData);
                     alasql(['SELECT ' + tagData + ' as tagData   FROM JSON("' + toolTipsSourse + '")']).then(function(res) {
                         // console.log("ajax activated");
                         var r = res[0];
                         var tagDesc = r[0].tagData;
+                         console.log("get tag desc for "+ tagData+ "----"+ tagDesc);
                         if (tagDesc) {
                             // // console.log(posi);
                             var el = "<div class='Tooltips'><p class='" + posi + "'>" + tagDesc + "</p></div>";
